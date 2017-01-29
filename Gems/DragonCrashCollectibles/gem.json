@@ -1,0 +1,11 @@
+{
+    "GemFormatVersion": 3,
+    "Uuid": "2c15f8d9046b4d6ea9724aba01fe892a",
+    "Name": "DragonCrashCollectibles",
+    "DisplayName": "DragonCrashCollectibles",
+    "Version": "0.1.0",
+    "LinkType": "Dynamic",
+    "Summary": "A short description of my Gem.",
+    "Tags": ["Untagged"],
+    "IconPath": "preview.png"
+}

@@ -9,8 +9,8 @@
  * #TODO
  * These defines should be replaced with appropriate name for your game project.
  */
-#define GAME_NAME           "EMPTYTEMPLATE"
-#define GAME_LONGNAME       "LUMBERYARD EMPTY TEMPLATE"
+#define GAME_NAME           "DragonCrash"
+#define GAME_LONGNAME       "DragonCrash-Core-Release"
 
 struct IGameFramework;
 

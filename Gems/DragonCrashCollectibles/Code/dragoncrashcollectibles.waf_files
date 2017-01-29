@@ -1,0 +1,18 @@
+{
+    "none": {
+        "Source": [
+            "Source/StdAfx.cpp",
+            "Source/StdAfx.h"
+        ]
+    },
+    "auto": {
+        "Include": [
+            "Include/DragonCrashCollectibles/DragonCrashCollectiblesBus.h"
+        ],
+        "Source": [
+            "Source/DragonCrashCollectiblesModule.cpp",
+            "Source/DragonCrashCollectiblesSystemComponent.cpp",
+            "Source/DragonCrashCollectiblesSystemComponent.h"
+        ]
+    }
+}

@@ -20,6 +20,12 @@
             "_comment": "AssetImporterConfig"
         },
         {
+            "Path": "Gems/DragonCrashCollectibles",
+            "Uuid": "2c15f8d9046b4d6ea9724aba01fe892a",
+            "Version": "0.1.0",
+            "_comment": "DragonCrashCollectibles"
+        },
+        {
             "Path": "Gems/StaticData",
             "Uuid": "4a4bf593603c4f329c76c2a10779311b",
             "Version": "1.0.0",
@@ -90,11 +96,6 @@
             "Uuid": "99ea531451fc4f64a5a9fe8f385e8a76",
             "Version": "0.1.0",
             "_comment": "PhysicsEntities"
-        },
-        {
-            "Path": "Gems/Env_Tile",
-            "Uuid": "a290d1afec6044d5a35898a12dcd7859",
-            "Version": "0.1.0"
         },
         {
             "Path": "Gems/Environment_Tile_System_v2",

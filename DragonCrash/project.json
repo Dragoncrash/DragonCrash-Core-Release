@@ -1,13 +1,13 @@
 {
-    "project_name": "Test",
+    "project_name": "DragonCrash",
     "product_name": "Empty Template",
     "executable_name": "TestLauncher",
-    "code_folder": "Code/Test",
-    "modules" : ["Test"],
+    "code_folder": "Code/DragonCrash",
+    "modules" : ["DragonCrash"],
 
     "durango_settings" : {
         "app_id"            : "Test.app",
-        "package_name"      : "Test",
+        "package_name"      : "DragonCrash",
         "display_name"      : "Lumberyard Test",
         "publisher"         : "Amazon, Inc",
         "description"       : "LUMBERYARD",
