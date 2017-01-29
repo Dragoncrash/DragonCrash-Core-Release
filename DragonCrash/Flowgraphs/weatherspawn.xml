@@ -1,0 +1,221 @@
+<Graph Description="" Group="gen_test" enabled="1" MultiPlayer="ServerOnly">
+ <Nodes>
+  <Node Id="2" Class="Entity:SpawnArchetype" pos="430,-190,0" flags="0">
+   <Inputs Archetype="" Name="" Pos="0,0,0" Rot="0,0,0" Scale="1,1,1"/>
+  </Node>
+  <Node Id="3" Class="String:SetString" pos="-150,-230,0" flags="0">
+   <Inputs In="Level.Weather.Rain"/>
+  </Node>
+  <Node Id="6" Class="String:Concat" pos="-110,-90,0" flags="0">
+   <Inputs String1="RainTile_" String2=""/>
+  </Node>
+  <Node Id="9" Class="Mission:GameTokenGet" pos="-590,10,0" flags="0">
+   <Inputs gametoken_Token="count"/>
+  </Node>
+  <Node Id="10" Class="Logic:Any" pos="-860,-10,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="11" Class="ComponentEntity:Generator:GeneratorParams" pos="-600,130,0" flags="0" GraphEntity="0">
+   <Inputs />
+  </Node>
+  <Node Id="12" Class="Math:Mul" pos="40,140,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="14" Class="Math:Mod" pos="-190,110,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="19" Class="Math:Div" pos="40,210,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="20" Class="Vec3:ToVec3" pos="230,170,0" flags="1">
+   <Inputs x="0" y="0" z="64000"/>
+  </Node>
+  <Node Id="22" Class="Debug:Log" pos="800,-40,0" flags="0">
+   <Inputs message=""/>
+  </Node>
+  <Node Id="23" Class="String:Concat" pos="450,-40,0" flags="0">
+   <Inputs String1="Spawned " String2=""/>
+  </Node>
+  <Node Id="29" Class="Time:Timer" pos="-1700,100,0" flags="0">
+   <Inputs period="0.2" min="1" max="0" paused="0"/>
+  </Node>
+  <Node Id="32" Class="Mission:GameTokenGet" pos="-1510,120,0" flags="0">
+   <Inputs gametoken_Token="count"/>
+  </Node>
+  <Node Id="33" Class="Logic:SelectCondition" pos="-1250,220,0" flags="0">
+   <Inputs Condition="0"/>
+  </Node>
+  <Node Id="34" Class="ComponentEntity:Generator:GeneratorParams" pos="-1560,200,0" flags="0" GraphEntity="0">
+   <Inputs />
+  </Node>
+  <Node Id="38" Class="Math:Less" pos="-1090,130,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="40" Class="Debug:DisplayMessage" pos="800,80,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="50" posY="50" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="41" Class="String:SetString" pos="-300,0,0" flags="0">
+   <Inputs In=""/>
+  </Node>
+  <Node Id="44" Class="Mission:GameTokenModify" pos="1360,-150,0" flags="0">
+   <Inputs gametoken_Token="count" Operation="0" TokenType="1" OtherValue="1"/>
+  </Node>
+  <Node Id="45" Class="Mission:GameTokenGet" pos="1000,-150,0" flags="0">
+   <Inputs gametoken_Token="count"/>
+  </Node>
+  <Node Id="46" Class="Math:Add" pos="1210,-150,0" flags="0">
+   <Inputs A="0" B="1"/>
+  </Node>
+  <Node Id="48" Class="Logic:Any" pos="-1920,150,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="49" Class="Game:Start" pos="-2580,190,0" flags="0">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+  <Node Id="50" Class="Mission:GameTokenModify" pos="-2370,150,0" flags="0">
+   <Inputs gametoken_Token="count" Operation="0" TokenType="1" OtherValue="0"/>
+  </Node>
+  <Node Id="51" Class="Math:Equal" pos="-2180,130,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="52" Class="Logic:NOT" pos="-2030,150,0" flags="0">
+   <Inputs In="0"/>
+  </Node>
+  <Node Id="53" Class="String:Concat" pos="-110,0,0" flags="0">
+   <Inputs String1="SnowTile_" String2=""/>
+  </Node>
+  <Node Id="54" Class="String:SetString" pos="-160,-170,0" flags="0">
+   <Inputs In="Level.Weather.Snow"/>
+  </Node>
+  <Node Id="55" Class="String:Concat" pos="450,40,0" flags="0">
+   <Inputs String1="Spawned " String2=""/>
+  </Node>
+  <Node Id="56" Class="Entity:SpawnArchetype" pos="800,-170,0" flags="0">
+   <Inputs Archetype="" Name="" Pos="0,0,0" Rot="0,0,0" Scale="1,1,1"/>
+  </Node>
+  <Node Id="57" Class="Logic:Any" pos="680,-170,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="58" Class="Debug:Log" pos="1000,-20,0" flags="0">
+   <Inputs message=""/>
+  </Node>
+  <Node Id="59" Class="Debug:DisplayMessage" pos="1080,80,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="50" posY="50" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="60" Class="Time:Timer" pos="-2580,380,0" flags="0">
+   <Inputs period="0.2" min="1" max="0" paused="0"/>
+  </Node>
+  <Node Id="61" Class="Time:TimeOfDay" pos="-2410,360,0" flags="0">
+   <Inputs Time="0" ForceUpdate="0" Speed="1"/>
+  </Node>
+  <Node Id="62" Class="Debug:DisplayMessage" pos="-1820,330,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="50" posY="50" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="63" Class="String:Concat" pos="-2150,380,0" flags="0">
+   <Inputs String1="Current Time of Day: " String2=""/>
+  </Node>
+  <Node Id="64" Class="String:Concat" pos="-2150,520,0" flags="0">
+   <Inputs String1="Time Update Speed: " String2=""/>
+  </Node>
+  <Node Id="65" Class="Debug:DisplayMessage" pos="-1820,510,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="50" posY="75" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="67" Class="Debug:DisplayMessage" pos="-1520,760,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="50" posY="100" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="68" Class="String:Concat" pos="-1800,780,0" flags="0">
+   <Inputs String1="" String2=" has Triggered!"/>
+  </Node>
+  <Node Id="69" Class="Time:TimeOfDay" pos="-2830,360,0" flags="0">
+   <Inputs Time="8" ForceUpdate="0" Speed="0.01"/>
+  </Node>
+  <Node Id="70" Class="Game:Start" pos="-3060,390,0" flags="0">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="22" nodeOut="2" portIn="input" portOut="Succeeded" enabled="1"/>
+  <Edge nodeIn="40" nodeOut="2" portIn="Show" portOut="Failed" enabled="1"/>
+  <Edge nodeIn="57" nodeOut="2" portIn="In1" portOut="Failed" enabled="1"/>
+  <Edge nodeIn="57" nodeOut="2" portIn="In0" portOut="Succeeded" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="3" portIn="Archetype" portOut="Out" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="6" portIn="Name" portOut="Out" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="6" portIn="Spawn" portOut="Out" enabled="1"/>
+  <Edge nodeIn="23" nodeOut="6" portIn="Set" portOut="Out" enabled="1"/>
+  <Edge nodeIn="23" nodeOut="6" portIn="String2" portOut="Out" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="9" portIn="A" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="9" portIn="Activate" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="9" portIn="A" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="9" portIn="Activate" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="41" nodeOut="9" portIn="In" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="41" nodeOut="9" portIn="Set" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="3" nodeOut="10" portIn="Set" portOut="Out" enabled="1"/>
+  <Edge nodeIn="9" nodeOut="10" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="11" nodeOut="10" portIn="Get" portOut="Out" enabled="1"/>
+  <Edge nodeIn="54" nodeOut="10" portIn="Set" portOut="Out" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="11" portIn="B" portOut="xOffset" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="11" portIn="B" portOut="Row Length" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="11" portIn="B" portOut="yOffset" enabled="1"/>
+  <Edge nodeIn="20" nodeOut="12" portIn="x" portOut="Out" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="14" portIn="A" portOut="Result" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="14" portIn="Activate" portOut="Result" enabled="1"/>
+  <Edge nodeIn="20" nodeOut="19" portIn="y" portOut="Out" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="20" portIn="Pos" portOut="Result" enabled="1"/>
+  <Edge nodeIn="56" nodeOut="20" portIn="Pos" portOut="Result" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="23" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="40" nodeOut="23" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="29" portIn="Activate" portOut="out" enabled="1"/>
+  <Edge nodeIn="34" nodeOut="29" portIn="Get" portOut="out" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="32" portIn="A" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="32" portIn="Activate" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="33" portIn="B" portOut="Out" enabled="1"/>
+  <Edge nodeIn="33" nodeOut="34" portIn="InTrue" portOut="Max Instances" enabled="1"/>
+  <Edge nodeIn="33" nodeOut="34" portIn="Activate" portOut="Repetition" enabled="1"/>
+  <Edge nodeIn="33" nodeOut="34" portIn="Condition" portOut="Repetition" enabled="1"/>
+  <Edge nodeIn="33" nodeOut="34" portIn="InFalse" portOut="Slice Count" enabled="1"/>
+  <Edge nodeIn="10" nodeOut="38" portIn="In1" portOut="OnTrue" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="41" portIn="Set" portOut="Out" enabled="1"/>
+  <Edge nodeIn="6" nodeOut="41" portIn="String2" portOut="Out" enabled="1"/>
+  <Edge nodeIn="53" nodeOut="41" portIn="Set" portOut="Out" enabled="1"/>
+  <Edge nodeIn="53" nodeOut="41" portIn="String2" portOut="Out" enabled="1"/>
+  <Edge nodeIn="46" nodeOut="45" portIn="A" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="46" nodeOut="45" portIn="Activate" portOut="OutValue" enabled="1"/>
+  <Edge nodeIn="44" nodeOut="46" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="44" nodeOut="46" portIn="OtherValue" portOut="Out" enabled="1"/>
+  <Edge nodeIn="29" nodeOut="48" portIn="paused" portOut="Out" enabled="1"/>
+  <Edge nodeIn="48" nodeOut="49" portIn="In1" portOut="output" enabled="1"/>
+  <Edge nodeIn="50" nodeOut="49" portIn="Activate" portOut="output" enabled="1"/>
+  <Edge nodeIn="51" nodeOut="50" portIn="A" portOut="Result" enabled="1"/>
+  <Edge nodeIn="51" nodeOut="50" portIn="Activate" portOut="Result" enabled="1"/>
+  <Edge nodeIn="52" nodeOut="51" portIn="In" portOut="Out" enabled="1"/>
+  <Edge nodeIn="48" nodeOut="52" portIn="In0" portOut="Out" enabled="1"/>
+  <Edge nodeIn="55" nodeOut="53" portIn="Set" portOut="Out" enabled="1"/>
+  <Edge nodeIn="55" nodeOut="53" portIn="String2" portOut="Out" enabled="1"/>
+  <Edge nodeIn="56" nodeOut="53" portIn="Name" portOut="Out" enabled="1"/>
+  <Edge nodeIn="56" nodeOut="54" portIn="Archetype" portOut="Out" enabled="1"/>
+  <Edge nodeIn="58" nodeOut="55" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="59" nodeOut="55" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="45" nodeOut="56" portIn="Activate" portOut="Succeeded" enabled="1"/>
+  <Edge nodeIn="58" nodeOut="56" portIn="input" portOut="Succeeded" enabled="1"/>
+  <Edge nodeIn="59" nodeOut="56" portIn="Show" portOut="Failed" enabled="1"/>
+  <Edge nodeIn="56" nodeOut="57" portIn="Spawn" portOut="Out" enabled="1"/>
+  <Edge nodeIn="61" nodeOut="60" portIn="Get" portOut="out" enabled="1"/>
+  <Edge nodeIn="61" nodeOut="60" portIn="GetSpeed" portOut="out" enabled="1"/>
+  <Edge nodeIn="63" nodeOut="61" portIn="Set" portOut="CurTime" enabled="1"/>
+  <Edge nodeIn="63" nodeOut="61" portIn="String2" portOut="CurTime" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="61" portIn="Set" portOut="CurSpeed" enabled="1"/>
+  <Edge nodeIn="64" nodeOut="61" portIn="String2" portOut="CurSpeed" enabled="1"/>
+  <Edge nodeIn="62" nodeOut="63" portIn="Show" portOut="Out" enabled="1"/>
+  <Edge nodeIn="62" nodeOut="63" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="65" nodeOut="64" portIn="Show" portOut="Out" enabled="1"/>
+  <Edge nodeIn="65" nodeOut="64" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="67" nodeOut="68" portIn="Show" portOut="Out" enabled="1"/>
+  <Edge nodeIn="67" nodeOut="68" portIn="message" portOut="Out" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="70" portIn="Set" portOut="output" enabled="1"/>
+  <Edge nodeIn="69" nodeOut="70" portIn="SetSpeed" portOut="output" enabled="1"/>
+ </Edges>
+ <HyperGraphId Id="{39F0F44C-33D0-4A04-A038-91DD3589C08D}"/>
+ <GraphTokens>
+  <Token Name="count" Type="1"/>
+ </GraphTokens>
+</Graph>

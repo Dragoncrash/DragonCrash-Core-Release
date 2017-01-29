@@ -1,0 +1,102 @@
+<Graph Description="" Group="PlayerCamTest" enabled="1" MultiPlayer="ServerOnly">
+ <Nodes>
+  <Node Id="37" Class="Game:Start" pos="-1290,1210,0" flags="0">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+  <Node Id="93" Class="Input:ActionHandler" pos="-1070,1110,0" flags="0">
+   <Inputs ActionMapName="player" ActionName="rotateyaw"/>
+  </Node>
+  <Node Id="94" Class="Input:ActionHandler" pos="-1070,1270,0" flags="0">
+   <Inputs ActionMapName="player" ActionName="rotatepitch"/>
+  </Node>
+  <Node Id="95" Class="Math:Abs" pos="-702.20026,1109.6227,0" flags="0">
+   <Inputs A="0"/>
+  </Node>
+  <Node Id="96" Class="Math:Equal" pos="-472.20026,1109.6227,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="97" Class="Math:Abs" pos="-700,1340,0" flags="0">
+   <Inputs A="0"/>
+  </Node>
+  <Node Id="98" Class="Math:Equal" pos="-510,1450,0" flags="0">
+   <Inputs A="0" B="0"/>
+  </Node>
+  <Node Id="100" Class="ComponentEntity:TransformComponent:AddEntityRotation" pos="240,1170,0" flags="0" GraphEntity="0">
+   <Inputs Rotation="0,0,0" CoordSystem="1"/>
+  </Node>
+  <Node Id="101" Class="Vec3:ToVec3" pos="60,1230,0" flags="0">
+   <Inputs x="0" y="0" z="0"/>
+  </Node>
+  <Node Id="102" Class="Debug:DisplayMessage" pos="710,1140,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="50" posY="50" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="103" Class="Math:Mul" pos="-700,1170,0" flags="0">
+   <Inputs A="0" B="-1"/>
+  </Node>
+  <Node Id="104" Class="Math:Mul" pos="-590,1270,0" flags="0">
+   <Inputs A="0" B="-1"/>
+  </Node>
+  <Node Id="105" Class="ComponentEntity:TransformComponent:GetEntityRotation" pos="-310,1370,0" flags="0" GraphEntity="0">
+   <Inputs CoordSystem="1"/>
+  </Node>
+  <Node Id="107" Class="Debug:DisplayMessage" pos="290,1290,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="500" posY="50" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="123" Class="ComponentEntity:TransformComponent:AddEntityRotation" pos="590,1490,0" flags="0" GraphEntity="0">
+   <Inputs Rotation="0,0,0" CoordSystem="1"/>
+  </Node>
+  <Node Id="124" Class="Vec3:ScaleVec3" pos="80,1490,0" flags="0">
+   <Inputs vector="0,0,0" scale="-1"/>
+  </Node>
+  <Node Id="125" Class="Logic:SelectCondition" pos="360,1480,0" flags="0">
+   <Inputs Condition="0"/>
+  </Node>
+  <Node Id="127" Class="Vec3:SetVec3" pos="230,1560,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="136" Class="Debug:DisplayMessage" pos="1340,1160,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="500" posY="100" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="137" Class="ComponentEntity:TransformComponent:GetEntityPosition" pos="930,1160,0" flags="0" GraphEntity="0">
+   <Inputs CoordSystem="1"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="93" nodeOut="37" portIn="Enable" portOut="output" enabled="1"/>
+  <Edge nodeIn="94" nodeOut="37" portIn="Enable" portOut="output" enabled="1"/>
+  <Edge nodeIn="95" nodeOut="93" portIn="A" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="95" nodeOut="93" portIn="Activate" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="103" nodeOut="93" portIn="A" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="103" nodeOut="93" portIn="Activate" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="97" nodeOut="94" portIn="A" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="97" nodeOut="94" portIn="Activate" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="104" nodeOut="94" portIn="A" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="104" nodeOut="94" portIn="Activate" portOut="ActionInvoked" enabled="1"/>
+  <Edge nodeIn="96" nodeOut="95" portIn="A" portOut="Out" enabled="1"/>
+  <Edge nodeIn="96" nodeOut="95" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="100" nodeOut="96" portIn="Activate" portOut="OnFalse" enabled="1"/>
+  <Edge nodeIn="98" nodeOut="97" portIn="A" portOut="Out" enabled="1"/>
+  <Edge nodeIn="98" nodeOut="97" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="125" nodeOut="97" portIn="Condition" portOut="Out" enabled="1"/>
+  <Edge nodeIn="105" nodeOut="98" portIn="Activate" portOut="OnFalse" enabled="1"/>
+  <Edge nodeIn="102" nodeOut="100" portIn="Show" portOut="Resulting Rotation" enabled="1"/>
+  <Edge nodeIn="102" nodeOut="100" portIn="message" portOut="Resulting Rotation" enabled="1"/>
+  <Edge nodeIn="100" nodeOut="101" portIn="Rotation" portOut="Result" enabled="1"/>
+  <Edge nodeIn="137" nodeOut="102" portIn="Activate" portOut="Show" enabled="1"/>
+  <Edge nodeIn="101" nodeOut="103" portIn="z" portOut="Out" enabled="1"/>
+  <Edge nodeIn="124" nodeOut="104" portIn="scale" portOut="Out" enabled="1"/>
+  <Edge nodeIn="107" nodeOut="105" portIn="Show" portOut="Right" enabled="1"/>
+  <Edge nodeIn="107" nodeOut="105" portIn="message" portOut="Right" enabled="1"/>
+  <Edge nodeIn="124" nodeOut="105" portIn="vector" portOut="Right" enabled="1"/>
+  <Edge nodeIn="125" nodeOut="124" portIn="Activate" portOut="out" enabled="1"/>
+  <Edge nodeIn="125" nodeOut="124" portIn="InTrue" portOut="out" enabled="1"/>
+  <Edge nodeIn="127" nodeOut="124" portIn="Set" portOut="out" enabled="1"/>
+  <Edge nodeIn="123" nodeOut="125" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="123" nodeOut="125" portIn="Rotation" portOut="Out" enabled="1"/>
+  <Edge nodeIn="125" nodeOut="127" portIn="InFalse" portOut="Out" enabled="1"/>
+  <Edge nodeIn="136" nodeOut="137" portIn="Show" portOut="CurrentPosition" enabled="1"/>
+  <Edge nodeIn="136" nodeOut="137" portIn="message" portOut="CurrentPosition" enabled="1"/>
+ </Edges>
+ <HyperGraphId Id="{2D97E746-9CB5-470F-A918-18AFBCC9EB5F}"/>
+ <GraphTokens />
+</Graph>

@@ -1,0 +1,7 @@
+{
+    "auto": {
+        "Tests": [
+            "Tests/Environment_Tile_System_v2Test.cpp"
+        ]
+    }
+}

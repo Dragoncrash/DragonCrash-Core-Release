@@ -1,0 +1,18 @@
+{
+    "none": {
+        "Source": [
+            "Source/StdAfx.cpp",
+            "Source/StdAfx.h"
+        ]
+    },
+    "auto": {
+        "Include": [
+            "Include/Environment_Tile_System_v2/EnvTileBus.h"
+        ],
+        "Source": [
+            "Source/EnvTileModule.cpp",
+            "Source/EnvTile.cpp",
+            "Source/EnvTile.h"
+        ]
+    }
+}

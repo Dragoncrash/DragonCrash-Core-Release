@@ -1,0 +1,30 @@
+<Material MtlFlags="524544" vertModifType="0">
+	<SubMaterials>
+		<Material Name="PhysicsNoDraw" MtlFlags="525440" Shader="Nodraw" GenMask="0" SurfaceType="" Diffuse="1,1,1" Specular="0,0,0" Opacity="1" Shininess="10" vertModifType="0" LayerAct="1">
+			<Textures/>
+		</Material>
+		<Material Name="leaf24png" MtlFlags="524418" Shader="Vegetation" GenMask="2400C00000" StringGenMask="%LEAVES%NORMAL_MAP%TEMP_VEGETATION" SurfaceType="mat_vegetation" Diffuse="0.45641103,0.45641103,0.45641103" Specular="0,0,0" Opacity="1" Shininess="10" AlphaTest="0.5" vertModifType="0" LayerAct="1">
+			<Textures>
+				<Texture Map="Diffuse" File="textures/custom/texturefiles/tif/leaf24.dds"/>
+				<Texture Map="Bumpmap" File="textures/custom/texturefiles/tif/leaf24_ddn.dds"/>
+			</Textures>
+			<PublicParams bendDetailLeafAmplitude="0.2" bendDetailFrequency="10" bendDetailBranchAmplitude="-0.5" BlendTerrainCol="0" VertexAlphaBlendFactor="1" NormalViewDependency="0.5" TransmittanceColor="1,1,0.60000002" CapOpacityFalloff="1" BackDiffuseMultiplier="1" BlendTerrainColDist="0.5" IndirectColor="0.25,0.25,0.25"/>
+		</Material>
+		<Material Name="wood02png" MtlFlags="524416" Shader="Illum" GenMask="2040400000" StringGenMask="%NORMAL_MAP%SUBSURFACE_SCATTERING" SurfaceType="mat_wood" Diffuse="1,1,1" Specular="0,0,0" Opacity="1" Shininess="10" vertModifType="0" LayerAct="1">
+			<Textures>
+				<Texture Map="Diffuse" File="textures/custom/texturefiles/tif/wood02.dds"/>
+				<Texture Map="Bumpmap" File="textures/custom/texturefiles/tif/wood02_ddn.dds"/>
+			</Textures>
+			<PublicParams EmittanceMapGamma="1" SSSIndex="0" IndirectColor="0.25,0.25,0.25"/>
+		</Material>
+		<Material Name="cross08png" MtlFlags="524418" Shader="Vegetation" GenMask="2400C00000" StringGenMask="%LEAVES%NORMAL_MAP%TEMP_VEGETATION" SurfaceType="mat_vegetation" Diffuse="1,1,1" Specular="0,0,0" Opacity="1" Shininess="10" AlphaTest="0.5" vertModifType="0" LayerAct="1">
+			<Textures>
+				<Texture Map="Diffuse" File="textures/custom/texturefiles/tif/cross08.dds"/>
+				<Texture Map="Bumpmap" File="textures/custom/texturefiles/tif/cross08_ddn.dds"/>
+			</Textures>
+			<PublicParams bendDetailLeafAmplitude="1" bendDetailFrequency="1" bendDetailBranchAmplitude="-1" BlendTerrainCol="0" VertexAlphaBlendFactor="1" NormalViewDependency="0.5" TransmittanceColor="1,1,0.60000002" CapOpacityFalloff="1" BackDiffuseMultiplier="1" BlendTerrainColDist="0.5" IndirectColor="0.25,0.25,0.25"/>
+		</Material>
+	</SubMaterials>
+	<PublicParams EmittanceMapGamma="1" SSSIndex="0" IndirectColor="0.25,0.25,0.25"/>
+</Material>
+

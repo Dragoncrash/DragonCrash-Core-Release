@@ -1,0 +1,176 @@
+<Graph Description="" Group="CamParent" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="1" Class="Input:ActionHandler" pos="425,376,0" flags="0">
+   <Inputs ActionMapName="player" ActionName="moveforward"/>
+  </Node>
+  <Node Id="2" Class="Input:ActionHandler" pos="415,516,0" flags="0">
+   <Inputs ActionMapName="player" ActionName="moveright"/>
+  </Node>
+  <Node Id="3" Class="Input:ActionHandler" pos="415,706,0" flags="0">
+   <Inputs ActionMapName="player" ActionName="moveback"/>
+  </Node>
+  <Node Id="4" Class="Input:ActionHandler" pos="425,846,0" flags="0">
+   <Inputs ActionMapName="player" ActionName="moveleft"/>
+  </Node>
+  <Node Id="5" Class="Game:Start" pos="15,506,0" flags="0">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+  <Node Id="8" Class="Vec3:SetVec3" pos="1175,366,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="9" Class="Vec3:SetVec3" pos="1175,426,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="10" Class="Logic:Any" pos="1405,376,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="11" Class="Vec3:AddVec3" pos="1595,416,0" flags="0">
+   <Inputs A="0,0,0" B="0,0,0"/>
+  </Node>
+  <Node Id="13" Class="ComponentEntity:TransformComponent:GetEntityRotation" pos="770,350,0" flags="0" GraphEntity="0">
+   <Inputs CoordSystem="1"/>
+  </Node>
+  <Node Id="14" Class="ComponentEntity:TransformComponent:GetEntityRotation" pos="755,466,0" flags="0">
+   <Inputs CoordSystem="1"/>
+  </Node>
+  <Node Id="15" Class="Vec3:SetVec3" pos="1155,516,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="16" Class="Vec3:SetVec3" pos="1145,576,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="17" Class="Logic:Any" pos="1345,526,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="18" Class="Logic:Any" pos="1465,436,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="19" Class="Vec3:SetVec3" pos="1335,746,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="20" Class="Vec3:SetVec3" pos="1335,806,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="21" Class="Logic:Any" pos="1505,766,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="22" Class="Vec3:AddVec3" pos="1755,796,0" flags="0">
+   <Inputs A="0,0,0" B="0,0,0"/>
+  </Node>
+  <Node Id="23" Class="ComponentEntity:TransformComponent:GetEntityRotation" pos="755,716,0" flags="0">
+   <Inputs CoordSystem="1"/>
+  </Node>
+  <Node Id="24" Class="ComponentEntity:TransformComponent:GetEntityRotation" pos="735,866,0" flags="0">
+   <Inputs CoordSystem="1"/>
+  </Node>
+  <Node Id="25" Class="Vec3:SetVec3" pos="1315,896,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="26" Class="Vec3:SetVec3" pos="1305,956,0" flags="0">
+   <Inputs In="0,0,0"/>
+  </Node>
+  <Node Id="27" Class="Logic:Any" pos="1505,906,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="28" Class="Logic:Any" pos="1625,816,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="29" Class="Vec3:ScaleVec3" pos="1175,766,0" flags="0">
+   <Inputs vector="0,0,0" scale="-10"/>
+  </Node>
+  <Node Id="30" Class="Vec3:ScaleVec3" pos="1163.5588,908.05988,0" flags="0">
+   <Inputs vector="0,0,0" scale="-10"/>
+  </Node>
+  <Node Id="31" Class="Logic:Any" pos="1770.0475,511.95795,0" flags="0" InHideMask="1023" OutHideMask="1">
+   <Inputs />
+  </Node>
+  <Node Id="32" Class="Vec3:AddVec3" pos="1910,500,0" flags="0">
+   <Inputs A="0,0,0" B="0,0,0"/>
+  </Node>
+  <Node Id="33" Class="ComponentEntity:TransformComponent:SetEntityPosition" pos="2605,496,0" flags="0" GraphEntity="0">
+   <Inputs NewPosition="0,0,0" CoordSystem="1"/>
+  </Node>
+  <Node Id="34" Class="Vec3:AddVec3" pos="2445,516,0" flags="0">
+   <Inputs A="0,0,0" B="0,0,0"/>
+  </Node>
+  <Node Id="35" Class="ComponentEntity:TransformComponent:GetEntityPosition" pos="2045,576,0" flags="0" GraphEntity="0">
+   <Inputs CoordSystem="1"/>
+  </Node>
+  <Node Id="36" Name="Movement" Class="_commentbox" pos="410,90,0" flags="0">
+   <Inputs TextSize="1" Color="0.27451,0.352941,0.705882" DisplayFilled="1" DisplayBox="1" SortPriority="16"/>
+   <ResizeBorder X="0" Y="0" Width="2540" Height="920"/>
+   <NodeSize Width="2540" Height="920"/>
+  </Node>
+  <Node Id="135" Class="Vec3:ScaleVec3" pos="1295,286,0" flags="0">
+   <Inputs vector="0,0,0" scale="10"/>
+  </Node>
+  <Node Id="137" Class="Entity:EntityId" pos="470,270,0" flags="0" ComponentEntityId="E8A1A6B757C0FF36">
+   <Inputs />
+  </Node>
+  <Node Id="138" Class="Vec3:ScaleVec3" pos="1292,626,0" flags="0">
+   <Inputs vector="0,0,0" scale="10"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="9" nodeOut="1" portIn="Set" portOut="ActionReleased" enabled="1"/>
+  <Edge nodeIn="13" nodeOut="1" portIn="Activate" portOut="ActionHeld" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="2" portIn="Activate" portOut="ActionHeld" enabled="1"/>
+  <Edge nodeIn="16" nodeOut="2" portIn="Set" portOut="ActionReleased" enabled="1"/>
+  <Edge nodeIn="20" nodeOut="3" portIn="Set" portOut="ActionReleased" enabled="1"/>
+  <Edge nodeIn="23" nodeOut="3" portIn="Activate" portOut="ActionHeld" enabled="1"/>
+  <Edge nodeIn="24" nodeOut="4" portIn="Activate" portOut="ActionHeld" enabled="1"/>
+  <Edge nodeIn="26" nodeOut="4" portIn="Set" portOut="ActionReleased" enabled="1"/>
+  <Edge nodeIn="1" nodeOut="5" portIn="Enable" portOut="output" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="5" portIn="Enable" portOut="output" enabled="1"/>
+  <Edge nodeIn="3" nodeOut="5" portIn="Enable" portOut="output" enabled="1"/>
+  <Edge nodeIn="4" nodeOut="5" portIn="Enable" portOut="output" enabled="1"/>
+  <Edge nodeIn="137" nodeOut="5" portIn="Activate" portOut="output" enabled="1"/>
+  <Edge nodeIn="135" nodeOut="8" portIn="vector" portOut="Out" enabled="1"/>
+  <Edge nodeIn="10" nodeOut="9" portIn="In1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="11" nodeOut="10" portIn="A" portOut="Out" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="10" portIn="In0" portOut="Out" enabled="1"/>
+  <Edge nodeIn="31" nodeOut="11" portIn="In0" portOut="Out" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="11" portIn="A" portOut="Out" enabled="1"/>
+  <Edge nodeIn="8" nodeOut="13" portIn="In" portOut="Forward" enabled="1"/>
+  <Edge nodeIn="8" nodeOut="13" portIn="Set" portOut="Forward" enabled="1"/>
+  <Edge nodeIn="15" nodeOut="14" portIn="In" portOut="Right" enabled="1"/>
+  <Edge nodeIn="15" nodeOut="14" portIn="Set" portOut="Right" enabled="1"/>
+  <Edge nodeIn="138" nodeOut="15" portIn="vector" portOut="Out" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="16" portIn="In1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="11" nodeOut="17" portIn="B" portOut="Out" enabled="1"/>
+  <Edge nodeIn="18" nodeOut="17" portIn="In1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="11" nodeOut="18" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="21" nodeOut="19" portIn="In0" portOut="Out" enabled="1"/>
+  <Edge nodeIn="21" nodeOut="20" portIn="In1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="21" portIn="A" portOut="Out" enabled="1"/>
+  <Edge nodeIn="28" nodeOut="21" portIn="In0" portOut="Out" enabled="1"/>
+  <Edge nodeIn="31" nodeOut="22" portIn="In1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="22" portIn="B" portOut="Out" enabled="1"/>
+  <Edge nodeIn="29" nodeOut="23" portIn="vector" portOut="Forward" enabled="1"/>
+  <Edge nodeIn="30" nodeOut="24" portIn="vector" portOut="Right" enabled="1"/>
+  <Edge nodeIn="27" nodeOut="25" portIn="In0" portOut="Out" enabled="1"/>
+  <Edge nodeIn="27" nodeOut="26" portIn="In1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="27" portIn="B" portOut="Out" enabled="1"/>
+  <Edge nodeIn="28" nodeOut="27" portIn="In1" portOut="Out" enabled="1"/>
+  <Edge nodeIn="22" nodeOut="28" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="29" portIn="In" portOut="out" enabled="1"/>
+  <Edge nodeIn="19" nodeOut="29" portIn="Set" portOut="out" enabled="1"/>
+  <Edge nodeIn="25" nodeOut="30" portIn="In" portOut="out" enabled="1"/>
+  <Edge nodeIn="25" nodeOut="30" portIn="Set" portOut="out" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="31" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="34" nodeOut="32" portIn="A" portOut="Out" enabled="1"/>
+  <Edge nodeIn="34" nodeOut="32" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="35" nodeOut="32" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="33" nodeOut="34" portIn="Activate" portOut="Out" enabled="1"/>
+  <Edge nodeIn="33" nodeOut="34" portIn="NewPosition" portOut="Out" enabled="1"/>
+  <Edge nodeIn="34" nodeOut="35" portIn="B" portOut="CurrentPosition" enabled="1"/>
+  <Edge nodeIn="10" nodeOut="135" portIn="In0" portOut="out" enabled="1"/>
+  <Edge nodeIn="13" nodeOut="137" portIn="entityId" portOut="Id" enabled="1"/>
+  <Edge nodeIn="14" nodeOut="137" portIn="entityId" portOut="Id" enabled="1"/>
+  <Edge nodeIn="23" nodeOut="137" portIn="entityId" portOut="Id" enabled="1"/>
+  <Edge nodeIn="24" nodeOut="137" portIn="entityId" portOut="Id" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="138" portIn="In0" portOut="out" enabled="1"/>
+ </Edges>
+ <HyperGraphId Id="{78C4D23C-7127-431B-8338-935EF06A2DD6}"/>
+ <GraphTokens />
+</Graph>

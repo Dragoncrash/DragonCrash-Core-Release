@@ -1,0 +1,11 @@
+{
+    "GemFormatVersion": 3,
+    "Uuid": "af4435841bcf4e6f8c84b7188a870b6e",
+    "Name": "Environment_Tile_System_v2",
+    "DisplayName": "Environment_Tile_System_v2",
+    "Version": "0.1.0",
+    "LinkType": "Dynamic",
+    "Summary": "A short description of my Gem.",
+    "Tags": ["Untagged"],
+    "IconPath": "preview.png"
+}
