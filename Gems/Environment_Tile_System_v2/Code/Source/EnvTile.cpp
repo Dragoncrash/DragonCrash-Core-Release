@@ -87,139 +87,146 @@ namespace EnvTile
 				->Field("Snow TOD Low Limit", &Env_TileGenerator::snow_TOD_Range_Start)
 				->Field("Snow TOD High Limit", &Env_TileGenerator::snow_TOD_Range_Stop)
 
-				//Floating Islands
+				//Decorative Layer
 				->Field("Floating Islands Slice List", &Env_TileGenerator::decoLayer)
+
+				//Crystals
+				->Field("Spawn Crystals", &Env_TileGenerator::spawnCrystals)
+				->Field("Crystal Slices", &Env_TileGenerator::crystalModels)
+				->Field("Maximum Crystals", &Env_TileGenerator::maxCrystals)
+				->Field("Multi-Crystal Placement", &Env_TileGenerator::multipleCrystalsPerTile)
 				;
 
 			if (AZ::EditContext* ec = serialize->GetEditContext())
 			{
 				ec->Class<Env_TileGenerator>("Env_Generator v2", "Generates environment tiles as dynamic slices")
 					->ClassElement(AZ::Edit::ClassElements::EditorData, "")
-					->Attribute(AZ::Edit::Attributes::Category, "Environment Tile System")
-					->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("Game"))
-					->Attribute(AZ::Edit::Attributes::AutoExpand, true)
-					->Attribute(AZ::Edit::Attributes::Icon, "Editor/Icons/Components/StaticMesh")
-					->Attribute(AZ::Edit::Attributes::ViewportIcon, "Editor/Icons/Components/Viewport/StaticMesh.png")
+						->Attribute(AZ::Edit::Attributes::Category, "Environment Tile System")
+						->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("Game"))
+						->Attribute(AZ::Edit::Attributes::AutoExpand, true)
+						->Attribute(AZ::Edit::Attributes::Icon, "Editor/Icons/Components/StaticMesh")
+						->Attribute(AZ::Edit::Attributes::ViewportIcon, "Editor/Icons/Components/Viewport/StaticMesh.png")
 
 					->ClassElement(GRP, "Generator PCG")
-					->Attribute(AZ::Edit::Attributes::AutoExpand, true)
+						->Attribute(AZ::Edit::Attributes::AutoExpand, true)
 
-					->DataElement(UI_SP, &Env_TileGenerator::maxRowSize, "Max Row Length", "Maximum row length before starting a new row. Ignored for Manual mode.")
-					->Attribute("Min", 1)
-					->Attribute("Max", 20)//Subject to change. Dimension of 20 seems small...
-					->Attribute("Step", 1)
+						->DataElement(UI_SP, &Env_TileGenerator::maxRowSize, "Max Row Length", "Maximum row length before starting a new row. Ignored for Manual mode.")
+							->Attribute("Min", 1)
+							->Attribute("Max", 20)//Subject to change. Dimension of 20 seems small...
+							->Attribute("Step", 1)
+						->DataElement(UI_SP, &Env_TileGenerator::maxTiles, "Max Tiles", "Maximum number of Tiles to generate. Ignored if not using Spawn Repetition.")
+							->Attribute("Min", 1)
 
-					->DataElement(UI_SP, &Env_TileGenerator::maxTiles, "Max Tiles", "Maximum number of Tiles to generate. Ignored if not using Spawn Repetition.")
-					->Attribute("Min", 1)
+						//Spawn Method and Repetition Selection
+						->DataElement(UI_CB, &Env_TileGenerator::sp_Method, "Spawning Method", "Choose how to spawn slices.")
+							->EnumAttribute(Env_TileGenerator::spawnMethod::Randomized, "Randomized")
+							->EnumAttribute(Env_TileGenerator::spawnMethod::Ordered, "Ordered")
+							->EnumAttribute(Env_TileGenerator::spawnMethod::Manual, "Manual")
 
-					//Spawn Method and Repetition Selection
-					->DataElement(UI_CB, &Env_TileGenerator::sp_Method, "Spawning Method", "Choose how to spawn slices.")
-					->EnumAttribute(Env_TileGenerator::spawnMethod::Randomized, "Randomized")
-					->EnumAttribute(Env_TileGenerator::spawnMethod::Ordered, "Ordered")
-					->EnumAttribute(Env_TileGenerator::spawnMethod::Manual, "Manual")
-
-					->DataElement(UI_CB, &Env_TileGenerator::sp_Type, "Spawn Repetition", "Choose whether or not to spawn slices repeatedly.")
-					->EnumAttribute(Env_TileGenerator::spawnType::Once, "Once")
-					->EnumAttribute(Env_TileGenerator::spawnType::Repeat, "Repeat")
+						->DataElement(UI_CB, &Env_TileGenerator::sp_Type, "Spawn Repetition", "Choose whether or not to spawn slices repeatedly.")
+							->EnumAttribute(Env_TileGenerator::spawnType::Once, "Once")
+							->EnumAttribute(Env_TileGenerator::spawnType::Repeat, "Repeat")
 
 					//Constant Transform Offset
 					->ClassElement(GRP, "Constant Offset")
-
-					->DataElement(UI_SL, &Env_TileGenerator::xOffset, "Grid X Offset", "Offset amount to accumulate on the global X axis for each consecutive slice.")
-					->DataElement(UI_SL, &Env_TileGenerator::yOffset, "Grid Y Offset", "Offset amount to accumulate on the global Y axis for each consecutive slice.")
+						->DataElement(UI_SL, &Env_TileGenerator::xOffset, "Grid X Offset", "Offset amount to accumulate on the global X axis for each consecutive slice.")
+						->DataElement(UI_SL, &Env_TileGenerator::yOffset, "Grid Y Offset", "Offset amount to accumulate on the global Y axis for each consecutive slice.")
 
 					//Per Instance Local Transform Offset
 					->ClassElement(GRP, "Local Transform Offset")
+						->DataElement(UI_SP, &Env_TileGenerator::listIndex, "Tile Index", "Tile which is to have its properties modified. [Manual Mode only]")
+							->Attribute("Min", 0)
+							->Attribute("Max", &Env_TileGenerator::listSize)
+							->Attribute(CN, &Env_TileGenerator::onListIndexChanged)
 
-					->DataElement(UI_SP, &Env_TileGenerator::listIndex, "Tile Index", "Tile which is to have its properties modified. [Manual Mode only]")
-					->Attribute("Min", 0)
-					->Attribute("Max", &Env_TileGenerator::listSize)
-					->Attribute(CN, &Env_TileGenerator::onListIndexChanged)
-
-					->DataElement(UI_D, &Env_TileGenerator::offloc, "Location Offset", "Amount to adjust tile location from grid spawn location.")
-					->Attribute(CN, &Env_TileGenerator::onLocalTransformChanged)
-					->DataElement(UI_D, &Env_TileGenerator::offrot, "Rotation Offset", "Amount to adjust tile rotation.")
-					->Attribute(CN, &Env_TileGenerator::onLocalTransformChanged)
-					->DataElement(UI_D, &Env_TileGenerator::offscale, "Additional Scaling", "Amount to adjust tile scale.")
-					->Attribute(CN, &Env_TileGenerator::onLocalTransformChanged)
+						->DataElement(UI_D, &Env_TileGenerator::offloc, "Location Offset", "Amount to adjust tile location from grid spawn location.")
+							->Attribute(CN, &Env_TileGenerator::onLocalTransformChanged)
+						->DataElement(UI_D, &Env_TileGenerator::offrot, "Rotation Offset", "Amount to adjust tile rotation.")
+							->Attribute(CN, &Env_TileGenerator::onLocalTransformChanged)
+						->DataElement(UI_D, &Env_TileGenerator::offscale, "Additional Scaling", "Amount to adjust tile scale.")
+							->Attribute(CN, &Env_TileGenerator::onLocalTransformChanged)
 
 					//Need to have 2D list of compatible slices [TODO]
 
 
 					//Simple Weather Section
 					->ClassElement(GRP, "Simple Weather")
-					->Attribute(AZ::Edit::Attributes::AutoExpand, false)
-
-					//Cloudy
-					->DataElement(UI_D, &Env_TileGenerator::Cloudy, "Cloudy", "Allows simple, cloudy weather if checked.")
-					//Windy
-					->DataElement(UI_D, &Env_TileGenerator::Windy, "Windy", "Allows simple, windy weather if checked.")
+						->Attribute(AZ::Edit::Attributes::AutoExpand, false)
+						//Cloudy
+						->DataElement(UI_D, &Env_TileGenerator::Cloudy, "Cloudy", "Allows simple, cloudy weather if checked.")
+						//Windy
+						->DataElement(UI_D, &Env_TileGenerator::Windy, "Windy", "Allows simple, windy weather if checked.")
 
 					//Rain Section
 					->ClassElement(GRP, "Complex: Rain")
-					->Attribute(AZ::Edit::Attributes::AutoExpand, false)
-					//Intensity
-					->DataElement(UI_D, &Env_TileGenerator::rain_strength_light, "Light Showers", "Allows tile to generate light rain showers.")
-					->Attribute(CN, &Env_TileGenerator::checkRainEnabled)
+							->Attribute(AZ::Edit::Attributes::AutoExpand, false)
+						//Intensity
+						->DataElement(UI_D, &Env_TileGenerator::rain_strength_light, "Light Showers", "Allows tile to generate light rain showers.")
+							->Attribute(CN, &Env_TileGenerator::checkRainEnabled)
 
-					->DataElement(UI_D, &Env_TileGenerator::rain_strength_medium, "Regular Showers", "Allows tile to generate regular rain showers.")
-					->Attribute(CN, &Env_TileGenerator::checkRainEnabled)
+						->DataElement(UI_D, &Env_TileGenerator::rain_strength_medium, "Regular Showers", "Allows tile to generate regular rain showers.")
+							->Attribute(CN, &Env_TileGenerator::checkRainEnabled)
 
-					->DataElement(UI_D, &Env_TileGenerator::rain_strength_heavy, "Heavy Storm Showers", "Allows tile to generate heavy storm rain.")
-					->Attribute(CN, &Env_TileGenerator::checkRainEnabled)
+						->DataElement(UI_D, &Env_TileGenerator::rain_strength_heavy, "Heavy Storm Showers", "Allows tile to generate heavy storm rain.")
+							->Attribute(CN, &Env_TileGenerator::checkRainEnabled)
 
-					//Extras
-					->DataElement(UI_D, &Env_TileGenerator::rain_extra_Thunder, "Thunder", "Allows thunder when rain is enabled.")
-					->DataElement(UI_D, &Env_TileGenerator::rain_extra_Lightning, "Lightning", "Allows lightning when rain is enabled.")
-					//TODO: FIGURE OUT HOW TO ADD A SOUND INPUT HERE FOR THUNDER SOUND
+						//Extras
+						->DataElement(UI_D, &Env_TileGenerator::rain_extra_Thunder, "Thunder", "Allows thunder when rain is enabled.")
+						->DataElement(UI_D, &Env_TileGenerator::rain_extra_Lightning, "Lightning", "Allows lightning when rain is enabled.")
+						//TODO: FIGURE OUT HOW TO ADD A SOUND INPUT HERE FOR THUNDER SOUND
 
-					//RAIN_TOD
-					->DataElement(UI_SL, &Env_TileGenerator::rain_TOD_Range_Start, "TOD_Start", "The Time of Day value at which this weather effect will begin to be applicable.")
-					->Attribute(AZ::Edit::Attributes::Min, 0)
-					->Attribute(AZ::Edit::Attributes::Max, 24)
-					->Attribute(AZ::Edit::Attributes::Step, 1)
-					->Attribute(CN, &Env_TileGenerator::OnRainStartTODChanged)
+						//RAIN_TOD
+						->DataElement(UI_SL, &Env_TileGenerator::rain_TOD_Range_Start, "TOD_Start", "The Time of Day value at which this weather effect will begin to be applicable.")
+							->Attribute(AZ::Edit::Attributes::Min, 0)
+							->Attribute(AZ::Edit::Attributes::Max, 24)
+							->Attribute(AZ::Edit::Attributes::Step, 1)
+							->Attribute(CN, &Env_TileGenerator::OnRainStartTODChanged)
 
-					->DataElement(UI_SL, &Env_TileGenerator::rain_TOD_Range_Stop, "TOD_Stop", "The Time of Day value at which this weather effect will no longer be applicable.")
-					->Attribute(AZ::Edit::Attributes::Min, 0)
-					->Attribute(AZ::Edit::Attributes::Max, 24)
-					->Attribute(AZ::Edit::Attributes::Step, 1)
-					->Attribute(CN, &Env_TileGenerator::OnRainStopTODChanged)
+						->DataElement(UI_SL, &Env_TileGenerator::rain_TOD_Range_Stop, "TOD_Stop", "The Time of Day value at which this weather effect will no longer be applicable.")
+							->Attribute(AZ::Edit::Attributes::Min, 0)
+							->Attribute(AZ::Edit::Attributes::Max, 24)
+							->Attribute(AZ::Edit::Attributes::Step, 1)
+							->Attribute(CN, &Env_TileGenerator::OnRainStopTODChanged)
 
-					//Snowfall Section
-					->ClassElement(GRP, "Complex: Snowfall")
-					->Attribute(AZ::Edit::Attributes::AutoExpand, false)
-					//Intensity
-					->DataElement(UI_D, &Env_TileGenerator::snow_strength_light, "Light Snowfall", "Allows tile to generate light snowfall.")
-					->DataElement(UI_D, &Env_TileGenerator::snow_strength_medium, "Regular Snowfall", "Allows tile to generate regular snowfall.")
-					->DataElement(UI_D, &Env_TileGenerator::snow_strength_heavy, "Heavy Snowfall", "Allows tile to generate heavy snowfall.")
-					//Extras
-					->DataElement(UI_D, &Env_TileGenerator::snow_extra_FreezeGround, "Freeze Ground", "Will render snow overlays on terrain mesh. NOTE: This will not affect static meshes.")
+						//Snowfall Section
+						->ClassElement(GRP, "Complex: Snowfall")
+							->Attribute(AZ::Edit::Attributes::AutoExpand, false)
+						//Intensity
+						->DataElement(UI_D, &Env_TileGenerator::snow_strength_light, "Light Snowfall", "Allows tile to generate light snowfall.")
+						->DataElement(UI_D, &Env_TileGenerator::snow_strength_medium, "Regular Snowfall", "Allows tile to generate regular snowfall.")
+						->DataElement(UI_D, &Env_TileGenerator::snow_strength_heavy, "Heavy Snowfall", "Allows tile to generate heavy snowfall.")
+						//Extras
+						->DataElement(UI_D, &Env_TileGenerator::snow_extra_FreezeGround, "Freeze Ground", "Will render snow overlays on terrain mesh. NOTE: This will not affect static meshes.")
 
-					->DataElement(UI_SL, &Env_TileGenerator::snow_extra_FreezeAmount, "Freeze Amount", "Influence of the freezing on the terrain when Freeze Ground is enabled.")
-					->Attribute(AZ::Edit::Attributes::Min, 0.0f)
-					->Attribute(AZ::Edit::Attributes::Max, 1.0f)
-					->Attribute(AZ::Edit::Attributes::Step, 0.01f)
+						->DataElement(UI_SL, &Env_TileGenerator::snow_extra_FreezeAmount, "Freeze Amount", "Influence of the freezing on the terrain when Freeze Ground is enabled.")
+							->Attribute(AZ::Edit::Attributes::Min, 0.0f)
+							->Attribute(AZ::Edit::Attributes::Max, 1.0f)
+							->Attribute(AZ::Edit::Attributes::Step, 0.01f)
 
-					//SNOW_TOD
-					->DataElement(UI_SL, &Env_TileGenerator::snow_TOD_Range_Start, "TOD_Start", "The Time of Day value at which this weather effect will begin to be applicable.")
-					->Attribute(AZ::Edit::Attributes::Min, 0)
-					->Attribute(AZ::Edit::Attributes::Max, 24)
-					->Attribute(AZ::Edit::Attributes::Step, 1)
-					->Attribute(CN, &Env_TileGenerator::OnSnowStartTODChanged)
+						//SNOW_TOD
+						->DataElement(UI_SL, &Env_TileGenerator::snow_TOD_Range_Start, "TOD_Start", "The Time of Day value at which this weather effect will begin to be applicable.")
+							->Attribute(AZ::Edit::Attributes::Min, 0)
+							->Attribute(AZ::Edit::Attributes::Max, 24)
+							->Attribute(AZ::Edit::Attributes::Step, 1)
+							->Attribute(CN, &Env_TileGenerator::OnSnowStartTODChanged)
 
-					->DataElement(UI_SL, &Env_TileGenerator::snow_TOD_Range_Stop, "TOD_Stop", "The Time of Day value at which this weather effect will no longer be applicable.")
-					->Attribute(AZ::Edit::Attributes::Min, 0)
-					->Attribute(AZ::Edit::Attributes::Max, 24)
-					->Attribute(AZ::Edit::Attributes::Step, 1)
-					->Attribute(CN, &Env_TileGenerator::OnSnowStopTODChanged)
+						->DataElement(UI_SL, &Env_TileGenerator::snow_TOD_Range_Stop, "TOD_Stop", "The Time of Day value at which this weather effect will no longer be applicable.")
+							->Attribute(AZ::Edit::Attributes::Min, 0)
+							->Attribute(AZ::Edit::Attributes::Max, 24)
+							->Attribute(AZ::Edit::Attributes::Step, 1)
+							->Attribute(CN, &Env_TileGenerator::OnSnowStopTODChanged)
 					//Seperate Slice List for UI Visibiltiy Toggle Behavior for above sections
 					->ClassElement(GRP, "Slice Lists")
-					->DataElement(UI_D, &Env_TileGenerator::sliceList, "Base Slice List", "List of generated base slices")
-					->Attribute(CN, &Env_TileGenerator::onListLengthChanged)
-					//Floating Islands
-					->DataElement(UI_D, &Env_TileGenerator::decoLayer, "Decorative Layer Slice List", "Slices to spawn on top of base tile.")
+						->DataElement(UI_D, &Env_TileGenerator::sliceList, "Base Slice List", "List of generated base slices")
+						->Attribute(CN, &Env_TileGenerator::onListLengthChanged)
+						//Decorative Layer
+						->DataElement(UI_D, &Env_TileGenerator::decoLayer, "Decorative Layer Slice List", "Slices to spawn on top of base tile.")
 
+					//Crystals
+					->ClassElement(GRP, "Crystals")
+						->DataElement(UI_D, &Env_TileGenerator::maxCrystals,"Max Crystals","Maximum number of crystals to spawn per player.")
+						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
+						->DataElement(UI_D, &Env_TileGenerator::multipleCrystalsPerTile,"Multi-Crystal Placement", "If true, then multiple gems can be spawned on the same tile.")
 					;
 
 			}

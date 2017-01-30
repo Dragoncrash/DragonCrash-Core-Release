@@ -39,7 +39,7 @@ namespace LYGame
 
         /*!
          * Re-initializes the Game
-         * /return a new instance of LyGame::TestGame() or nullptr if failed to initialize.
+         * /return a new instance of LyGame::DragonCrashGame() or nullptr if failed to initialize.
          */
         IGameRef Reset();
 

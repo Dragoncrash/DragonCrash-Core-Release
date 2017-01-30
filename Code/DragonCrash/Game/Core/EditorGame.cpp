@@ -3,7 +3,7 @@
 #include "EditorGame.h"
 #include "System/GameStartup.h"
 #include "IGameRulesSystem.h"
-#include "TestGame.h"
+#include "DragonCrashGame.h"
 #include "ILevelSystem.h"
 #include "IActorSystem.h"
 #include "EditorUIEnums.h"

@@ -1,7 +1,7 @@
 
 #include "StdAfx.h"
 #include "GameStartup.h"
-#include "Core/TestGame.h"
+#include "Core/DragonCrashGame.h"
 #include "Core/EditorGame.h"
 #include "platform_impl.h"
 #include "IHardwareMouse.h"
@@ -93,12 +93,12 @@ IGameRef GameStartup::Init(SSystemInitParams& startupParams)
 
 IGameRef GameStartup::Reset()
 {
-    static char gameBuffer[sizeof(LYGame::TestGame)];
+    static char gameBuffer[sizeof(LYGame::DragonCrashGame)];
 
     ISystem* system = m_Framework->GetISystem();
     ModuleInitISystem(system, "Test");
 
-    m_Game = new(reinterpret_cast<void*>(gameBuffer)) LYGame::TestGame();
+    m_Game = new(reinterpret_cast<void*>(gameBuffer)) LYGame::DragonCrashGame();
     const bool initialized = (m_Game && m_Game->Init(m_Framework));
 
     return initialized ? &m_Game : nullptr;

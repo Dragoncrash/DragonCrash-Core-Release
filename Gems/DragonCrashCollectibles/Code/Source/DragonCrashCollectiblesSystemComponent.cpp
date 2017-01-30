@@ -61,4 +61,14 @@ namespace DragonCrashCollectibles
     {
         CrystalRequestBus::Handler::BusDisconnect();
     }
+
+#pragma region DragonCrashCollectibleRequestBus
+	bool Crystal::isHidden() {
+		return hidden;
+	}
+
+	void Crystal::setCrystalModel(AZ::Data::Asset<AZ::DynamicPrefabAsset> slice) {
+		crystalModel = slice;
+	}
+#pragma endregion DragonCrashCollectibleRequestBus
 }

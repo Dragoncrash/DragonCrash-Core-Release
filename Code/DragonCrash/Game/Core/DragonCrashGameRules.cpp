@@ -1,13 +1,13 @@
 
 #include "StdAfx.h"
-#include "TestGameRules.h"
+#include "DragonCrashGameRules.h"
 #include "IActorSystem.h"
 
 namespace LYGame
 {
-    DECLARE_DEFAULT_COMPONENT_FACTORY(TestGameRules, IGameRules)
+    DECLARE_DEFAULT_COMPONENT_FACTORY(DragonCrashGameRules, IGameRules)
 
-    bool TestGameRules::Init(IGameObject* pGameObject)
+    bool DragonCrashGameRules::Init(IGameObject* pGameObject)
     {
         SetGameObject(pGameObject);
         if (!pGameObject->BindToNetwork())
@@ -27,7 +27,7 @@ namespace LYGame
         return true;
     }
 
-    void TestGameRules::PostInit(IGameObject* pGameObject)
+    void DragonCrashGameRules::PostInit(IGameObject* pGameObject)
     {
         if (pGameObject != nullptr)
         {
@@ -36,7 +36,7 @@ namespace LYGame
         }
     }
 
-    TestGameRules::~TestGameRules()
+    DragonCrashGameRules::~DragonCrashGameRules()
     {
         if (gEnv->pGame->GetIGameFramework()->GetIGameRulesSystem())
         {
@@ -44,7 +44,7 @@ namespace LYGame
         }
     }
 
-    bool TestGameRules::OnClientConnect(ChannelId channelId, bool isReset)
+    bool DragonCrashGameRules::OnClientConnect(ChannelId channelId, bool isReset)
     {
         // This is where the actor for a player is created on starting / connecting to the game.
         Vec3 position(0, -5, 34); // Set position because rendering doesn't start until the camera leaves 0,0,0.

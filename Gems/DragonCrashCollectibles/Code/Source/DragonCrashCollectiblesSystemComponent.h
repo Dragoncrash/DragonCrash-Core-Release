@@ -2,6 +2,7 @@
 #pragma once
 
 #include <AzCore/Component/Component.h>
+#include <AzCore/Prefab/PrefabAsset.h>
 
 #include <DragonCrashCollectibles/DragonCrashCollectiblesBus.h>
 
@@ -24,7 +25,8 @@ namespace DragonCrashCollectibles
     protected:
         ////////////////////////////////////////////////////////////////////////
         // DragonCrashCollectiblesRequestBus interface implementation
-
+		bool isHidden() override;
+		void setCrystalModel(AZ::Data::Asset<AZ::DynamicPrefabAsset>) override;
         ////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////
@@ -34,7 +36,7 @@ namespace DragonCrashCollectibles
         void Deactivate() override;
         ////////////////////////////////////////////////////////////////////////
 
-		
-
+		bool hidden = false;
+		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;
     };
 }

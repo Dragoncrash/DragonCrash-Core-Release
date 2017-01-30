@@ -10,7 +10,7 @@
 #include <Environment_Tile_System_v2/EnvTileBus.h>
 #include <AzFramework/Entity/EntityContextBus.h>
 #include <AzCore/Component/ComponentBus.h>
-#include <LmbrCentral/Physics/PhysicsSystemComponentBus.h>
+#include <LmbrCentral/Physics/PhysicsSystemComponentBus.h>//May not be necessary here
 
 namespace EnvTile
 {
@@ -212,5 +212,14 @@ namespace EnvTile
 
 		//Spawning Helper (Taken from SpawnerComponent)
 		AzFramework::SliceInstantiationTicket SpawnSliceInternal(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative);
+
+		//Crystals
+		bool spawnCrystals;
+
+		AZStd::fixed_vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>,4> crystalModels;//Slices that contain the Crystal component
+		//Need access to the crystal's hidden variable and placement functions
+
+		int maxCrystals; //gems per player
+		bool multipleCrystalsPerTile = false; // Can there be more than one gem in a tile?
 	};
 }

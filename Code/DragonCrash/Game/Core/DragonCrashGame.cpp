@@ -1,10 +1,10 @@
 
 #include "StdAfx.h"
 #include "Game/Actor.h"
-#include "TestGame.h"
+#include "DragonCrashGame.h"
 #include "IGameFramework.h"
 #include "IGameRulesSystem.h"
-#include "TestGameRules.h"
+#include "DragonCrashGameRules.h"
 #include "IPlatformOS.h"
 #include <functional>
 
@@ -21,12 +21,12 @@ using namespace LYGame;
 #define REGISTER_FACTORY(host, name, impl, isAI) \
     (host)->RegisterFactory((name), (impl*)0, (isAI), (impl*)0)
 
-TestGame* LYGame::g_Game = nullptr;
+DragonCrashGame* LYGame::g_Game = nullptr;
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 
-TestGame::TestGame()
+DragonCrashGame::DragonCrashGame()
     : m_clientEntityId(INVALID_ENTITYID)
     , m_gameRules(nullptr)
     , m_gameFramework(nullptr)
@@ -37,7 +37,7 @@ TestGame::TestGame()
     GetISystem()->SetIGame(this);
 }
 
-TestGame::~TestGame()
+DragonCrashGame::~DragonCrashGame()
 {
     m_gameFramework->EndGameContext(false);
 
@@ -52,7 +52,7 @@ TestGame::~TestGame()
     ReleaseActionMaps();
 }
 
-bool TestGame::Init(IGameFramework* framework)
+bool DragonCrashGame::Init(IGameFramework* framework)
 {
     m_gameFramework = framework;
 
@@ -71,22 +71,22 @@ bool TestGame::Init(IGameFramework* framework)
     LoadActionMaps("config/input/actionmaps.xml");
 
     // Register game rules wrapper.
-    REGISTER_FACTORY(framework, "TestGameRules", TestGameRules, false);
+    REGISTER_FACTORY(framework, "DragonCrashGameRules", DragonCrashGameRules, false);
     IGameRulesSystem* pGameRulesSystem = g_Game->GetIGameFramework()->GetIGameRulesSystem();
-    pGameRulesSystem->RegisterGameRules("DummyRules", "TestGameRules");
+    pGameRulesSystem->RegisterGameRules("DummyRules", "DragonCrashGameRules");
 
     GetISystem()->GetPlatformOS()->UserDoSignIn(0);
 
     return true;
 }
 
-bool TestGame::CompleteInit()
+bool DragonCrashGame::CompleteInit()
 {
 	//EBUS_EVENT(AZ::ComponentApplicationBus, RegisterComponentDescriptor, Env_Tile::Env_TileSystemComponent::CreateDescriptor());
     return true;
 }
 
-int TestGame::Update(bool hasFocus, unsigned int updateFlags)
+int DragonCrashGame::Update(bool hasFocus, unsigned int updateFlags)
 {
     const float frameTime = gEnv->pTimer->GetFrameTime();
 
@@ -96,17 +96,17 @@ int TestGame::Update(bool hasFocus, unsigned int updateFlags)
     return static_cast<int>(continueRunning);
 }
 
-void TestGame::PlayerIdSet(EntityId playerId)
+void DragonCrashGame::PlayerIdSet(EntityId playerId)
 {
     m_clientEntityId = playerId;
 }
 
-void TestGame::Shutdown()
+void DragonCrashGame::Shutdown()
 {
-    this->~TestGame();
+    this->~DragonCrashGame();
 }
 
-void TestGame::LoadActionMaps(const char* fileName)
+void DragonCrashGame::LoadActionMaps(const char* fileName)
 {
     if (g_Game->GetIGameFramework()->IsGameStarted())
     {
@@ -127,7 +127,7 @@ void TestGame::LoadActionMaps(const char* fileName)
     }
 }
 
-void TestGame::ReleaseActionMaps()
+void DragonCrashGame::ReleaseActionMaps()
 {
     if (m_defaultActionMap && m_gameFramework)
     {
@@ -137,7 +137,7 @@ void TestGame::ReleaseActionMaps()
     }
 }
 
-bool TestGame::ReadProfile(const XmlNodeRef& rootNode)
+bool DragonCrashGame::ReadProfile(const XmlNodeRef& rootNode)
 {
     bool successful = false;
 
@@ -158,7 +158,7 @@ bool TestGame::ReadProfile(const XmlNodeRef& rootNode)
     return successful;
 }
 
-bool TestGame::ReadProfilePlatform(const XmlNodeRef& platformsNode, LYGame::Platform platformId)
+bool DragonCrashGame::ReadProfilePlatform(const XmlNodeRef& platformsNode, LYGame::Platform platformId)
 {
     bool successful = false;
 
@@ -214,14 +214,14 @@ bool TestGame::ReadProfilePlatform(const XmlNodeRef& platformsNode, LYGame::Plat
         }
         else
         {
-            GameWarning("TestGame::ReadProfilePlatform: Failed to find platform, action mappings loading will fail");
+            GameWarning("DragonCrashGame::ReadProfilePlatform: Failed to find platform, action mappings loading will fail");
         }
     }
 
     return successful;
 }
 
-LYGame::Platform TestGame::GetPlatform() const
+LYGame::Platform DragonCrashGame::GetPlatform() const
 {
     LYGame::Platform platform = ePlatform_Unknown;
 
@@ -238,7 +238,7 @@ LYGame::Platform TestGame::GetPlatform() const
     return platform;
 }
 
-void TestGame::OnActionEvent(const SActionEvent& event)
+void DragonCrashGame::OnActionEvent(const SActionEvent& event)
 {
     switch (event.m_event)
     {

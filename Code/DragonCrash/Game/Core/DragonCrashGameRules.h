@@ -5,12 +5,12 @@
 
 namespace LYGame
 {
-    class TestGameRules
-        : public CGameObjectExtensionHelper < TestGameRules, IGameRules >
+    class DragonCrashGameRules
+        : public CGameObjectExtensionHelper < DragonCrashGameRules, IGameRules >
     {
     public:
-        TestGameRules() {}
-        virtual ~TestGameRules();
+        DragonCrashGameRules() {}
+        virtual ~DragonCrashGameRules();
 
         //////////////////////////////////////////////////////////////////////////
         //! IGameObjectExtension

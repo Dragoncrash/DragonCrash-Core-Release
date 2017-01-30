@@ -50,15 +50,15 @@ namespace LYGame
     /*!
      * Initializes, runs, and handles a game's simulation.
      */
-    class TestGame
+    class DragonCrashGame
         : public IGame
         , public ISystemEventListener
         , public IGameFrameworkListener
         , public ILevelSystemListener
     {
     public:
-        TestGame();
-        virtual ~TestGame();
+        DragonCrashGame();
+        virtual ~DragonCrashGame();
 
         /*!
          * /return a pointer to the game's IGameFramework instance
@@ -130,5 +130,5 @@ namespace LYGame
         PlatformInfo                m_platformInfo;
     };
 
-    SC_API extern TestGame* g_Game;
+    SC_API extern DragonCrashGame* g_Game;
 } // namespace LYGame

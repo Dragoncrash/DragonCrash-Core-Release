@@ -7,8 +7,8 @@ def build(bld):
         #==============================
         # Settings
         #==============================
-        target      = 'Test',
-        vs_filter   = 'Game/Test',
+        target      = 'DragonCrash',
+        vs_filter   = 'Game/DragonCrash',
         file_list   = 'game.waf_files',
         platforms   = ['all'],
         configurations  = ['all'],
