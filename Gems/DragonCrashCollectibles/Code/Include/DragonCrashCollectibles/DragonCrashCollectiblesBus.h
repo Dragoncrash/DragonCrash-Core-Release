@@ -5,7 +5,7 @@
 
 namespace DragonCrashCollectibles
 {
-    class DragonCrashCollectiblesRequests
+    class CrystalRequests
         : public AZ::EBusTraits
     {
 
@@ -14,5 +14,5 @@ namespace DragonCrashCollectibles
         static const AZ::EBusAddressPolicy AddressPolicy = AZ::EBusAddressPolicy::Single;
         // Public functions
     };
-    using DragonCrashCollectiblesRequestBus = AZ::EBus<DragonCrashCollectiblesRequests>;
+    using CrystalRequestBus = AZ::EBus<CrystalRequests>;
 } // namespace DragonCrashCollectibles

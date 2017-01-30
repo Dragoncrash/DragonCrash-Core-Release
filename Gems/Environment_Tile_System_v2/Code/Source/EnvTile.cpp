@@ -25,70 +25,14 @@
 
 namespace EnvTile
 {
-   /* void Env_Tile::Reflect(AZ::ReflectContext* context)
-    {
-        if (AZ::SerializeContext* serialize = azrtti_cast<AZ::SerializeContext*>(context))
-        {
-            serialize->Class<Env_Tile, AZ::Component>()
-                ->Version(0)
-                ->SerializerForEmptyClass();
-
-            if (AZ::EditContext* ec = serialize->GetEditContext())
-            {
-                ec->Class<Env_Tile>("Environment_Tile_System_v2", "[Description of functionality provided by this System Component]")
-                    ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
-                        // ->Attribute(AZ::Edit::Attributes::Category, "") Set a category
-                        ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
-                        ->Attribute(AZ::Edit::Attributes::AutoExpand, true)
-                    ;
-            }
-        }
-    }
-
-    void Env_Tile::GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided)
-    {
-        provided.push_back(AZ_CRC("Environment_Tile_System_v2Service"));
-    }
-
-    void Env_Tile::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)
-    {
-        incompatible.push_back(AZ_CRC("Environment_Tile_System_v2Service"));
-    }
-
-    void Env_Tile::GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required)
-    {
-        (void)required;
-    }
-
-    void Env_Tile::GetDependentServices(AZ::ComponentDescriptor::DependencyArrayType& dependent)
-    {
-        (void)dependent;
-    }
-
-    void Env_Tile::Init()
-    {
-    }
-
-    void Env_Tile::Activate()
-    {
-        Environment_Tile_System_v2RequestBus::Handler::BusConnect();
-    }
-
-    void Env_Tile::Deactivate()
-    {
-        Environment_Tile_System_v2RequestBus::Handler::BusDisconnect();
-    }*/
+   
 #pragma region Component
 	Env_TileGenerator::Env_TileGenerator() {
 		//Taken from SpawnerComponent. Not sure what this does yet
 		for (auto iter = sliceList.begin(); iter != sliceList.end(); iter++) {
 			iter->SetFlags(static_cast<AZ::u8>(AZ::Data::AssetFlags::OBJECTSTREAM_NO_LOAD));
 		}
-		/*for (auto v : sliceList){
-		for (auto iter = v.begin(); iter != v.end(); iter++){
-		iter->SetFlags(static_cast<AZ::u8>(AZ::Data::AssetFlags::OBJECTSTREAM_NO_LOAD));
-		}
-		}*/
+		
 	}
 
 	void Env_TileGenerator::Reflect(AZ::ReflectContext* context)

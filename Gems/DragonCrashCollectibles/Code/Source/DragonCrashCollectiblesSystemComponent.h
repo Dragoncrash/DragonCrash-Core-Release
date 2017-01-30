@@ -7,12 +7,12 @@
 
 namespace DragonCrashCollectibles
 {
-    class DragonCrashCollectiblesSystemComponent
+    class Crystal
         : public AZ::Component
-        , protected DragonCrashCollectiblesRequestBus::Handler
+        , protected CrystalRequestBus::Handler
     {
     public:
-        AZ_COMPONENT(DragonCrashCollectiblesSystemComponent, "{8FD63DCF-BF41-4492-8CB9-08A900FBA063}");
+        AZ_COMPONENT(Crystal, "{8FD63DCF-BF41-4492-8CB9-08A900FBA063}");
 
         static void Reflect(AZ::ReflectContext* context);
 
@@ -33,5 +33,8 @@ namespace DragonCrashCollectibles
         void Activate() override;
         void Deactivate() override;
         ////////////////////////////////////////////////////////////////////////
+
+		
+
     };
 }

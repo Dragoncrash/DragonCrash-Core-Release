@@ -10,37 +10,11 @@
 #include <Environment_Tile_System_v2/EnvTileBus.h>
 #include <AzFramework/Entity/EntityContextBus.h>
 #include <AzCore/Component/ComponentBus.h>
+#include <LmbrCentral/Physics/PhysicsSystemComponentBus.h>
 
 namespace EnvTile
 {
-	/*class Env_TileGenerator
-		: public AZ::Component
-		, protected Env_GeneratorRequestBus::Handler
-		, private AzFramework::SliceInstantiationResultBus::MultiHandler
-	{
-    public:
-        AZ_COMPONENT(Env_TileGenerator, "{A03A8932-D4E4-4766-A536-8CA8C280C7BD}");
-
-        static void Reflect(AZ::ReflectContext* context);
-
-        static void GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided);
-        static void GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible);
-        static void GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required);
-        static void GetDependentServices(AZ::ComponentDescriptor::DependencyArrayType& dependent);
-
-    protected:
-        ////////////////////////////////////////////////////////////////////////
-        // Environment_Tile_System_v2RequestBus interface implementation
-
-        ////////////////////////////////////////////////////////////////////////
-
-        ////////////////////////////////////////////////////////////////////////
-        // AZ::Component interface implementation
-        void Init() override;
-        void Activate() override;
-        void Deactivate() override;
-        ////////////////////////////////////////////////////////////////////////
-    };*/
+	
 	class Env_TileGenerator
 		: public AZ::Component
 		, protected Env_GeneratorRequestBus::Handler
@@ -189,7 +163,7 @@ namespace EnvTile
 		AZStd::vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>> sliceList;
 		int slice_layerID = 0, max_slice_layerID = 0;//For UI
 
-													 //Editor UI access to Lists
+		//Editor UI access to Lists
 		int listIndex = 0;
 		int listSize = 0;
 
@@ -234,10 +208,7 @@ namespace EnvTile
 
 		//[UI_ONLY] -> Spawn Params(BASE)
 		spawnMethod sp_Method = spawnMethod::Randomized;
-		spawnMethod sp_Method_fi = spawnMethod::Randomized;
 		spawnType   sp_Type = spawnType::Once;
-		//[UI_ONLY] -> Spawn Params (LAYERS)
-		spawnMethod layer_sp_Method = spawnMethod::Randomized;
 
 		//Spawning Helper (Taken from SpawnerComponent)
 		AzFramework::SliceInstantiationTicket SpawnSliceInternal(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative);

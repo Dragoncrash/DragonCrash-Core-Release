@@ -19,7 +19,7 @@ namespace DragonCrashCollectibles
         {
             // Push results of [MyComponent]::CreateDescriptor() into m_descriptors here.
             m_descriptors.insert(m_descriptors.end(), {
-                DragonCrashCollectiblesSystemComponent::CreateDescriptor(),
+                Crystal::CreateDescriptor(),
             });
         }
 
@@ -29,7 +29,7 @@ namespace DragonCrashCollectibles
         AZ::ComponentTypeList GetRequiredSystemComponents() const override
         {
             return AZ::ComponentTypeList{
-                azrtti_typeid<DragonCrashCollectiblesSystemComponent>(),
+                azrtti_typeid<Crystal>(),
             };
         }
     };

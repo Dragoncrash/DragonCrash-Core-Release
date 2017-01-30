@@ -8,19 +8,19 @@
 
 namespace DragonCrashCollectibles
 {
-    void DragonCrashCollectiblesSystemComponent::Reflect(AZ::ReflectContext* context)
+    void Crystal::Reflect(AZ::ReflectContext* context)
     {
         if (AZ::SerializeContext* serialize = azrtti_cast<AZ::SerializeContext*>(context))
         {
-            serialize->Class<DragonCrashCollectiblesSystemComponent, AZ::Component>()
+            serialize->Class<Crystal, AZ::Component>()
                 ->Version(0)
                 ->SerializerForEmptyClass();
 
             if (AZ::EditContext* ec = serialize->GetEditContext())
             {
-                ec->Class<DragonCrashCollectiblesSystemComponent>("DragonCrashCollectibles", "[Description of functionality provided by this System Component]")
+                ec->Class<Crystal>("Crystal", "A collectible crystal")
                     ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
-                        // ->Attribute(AZ::Edit::Attributes::Category, "") Set a category
+                        ->Attribute(AZ::Edit::Attributes::Category, "DragonCrash-Collectibles")
                         ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
                         ->Attribute(AZ::Edit::Attributes::AutoExpand, true)
                     ;
@@ -28,37 +28,37 @@ namespace DragonCrashCollectibles
         }
     }
 
-    void DragonCrashCollectiblesSystemComponent::GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided)
+    void Crystal::GetProvidedServices(AZ::ComponentDescriptor::DependencyArrayType& provided)
     {
-        provided.push_back(AZ_CRC("DragonCrashCollectiblesService"));
+        provided.push_back(AZ_CRC("CrystalService"));
     }
 
-    void DragonCrashCollectiblesSystemComponent::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)
+    void Crystal::GetIncompatibleServices(AZ::ComponentDescriptor::DependencyArrayType& incompatible)
     {
-        incompatible.push_back(AZ_CRC("DragonCrashCollectiblesService"));
+        incompatible.push_back(AZ_CRC("CrystalService"));
     }
 
-    void DragonCrashCollectiblesSystemComponent::GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required)
+    void Crystal::GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required)
     {
         (void)required;
     }
 
-    void DragonCrashCollectiblesSystemComponent::GetDependentServices(AZ::ComponentDescriptor::DependencyArrayType& dependent)
+    void Crystal::GetDependentServices(AZ::ComponentDescriptor::DependencyArrayType& dependent)
     {
         (void)dependent;
     }
 
-    void DragonCrashCollectiblesSystemComponent::Init()
+    void Crystal::Init()
     {
     }
 
-    void DragonCrashCollectiblesSystemComponent::Activate()
+    void Crystal::Activate()
     {
-        DragonCrashCollectiblesRequestBus::Handler::BusConnect();
+       CrystalRequestBus::Handler::BusConnect();
     }
 
-    void DragonCrashCollectiblesSystemComponent::Deactivate()
+    void Crystal::Deactivate()
     {
-        DragonCrashCollectiblesRequestBus::Handler::BusDisconnect();
+        CrystalRequestBus::Handler::BusDisconnect();
     }
 }
