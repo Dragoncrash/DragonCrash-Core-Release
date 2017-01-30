@@ -221,5 +221,7 @@ namespace EnvTile
 
 		int maxCrystals; //gems per player
 		bool multipleCrystalsPerTile = false; // Can there be more than one gem in a tile?
+
+		
 	};
 }

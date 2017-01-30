@@ -37,6 +37,7 @@ namespace DragonCrashCollectibles
         ////////////////////////////////////////////////////////////////////////
 
 		bool hidden = false;
+		bool forceLocalSlice = false;
 		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;
     };
 }

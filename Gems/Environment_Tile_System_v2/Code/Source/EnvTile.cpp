@@ -497,12 +497,12 @@ namespace EnvTile
 		Env_GeneratorRequestBus::Handler::BusConnect(eid);
 
 		//Spawn logic triggered on activation
-
+#pragma region Base
 		//Get number of loop iterations based on spawnType setting
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
 		AZ::Vector3 accumulatedOffset = AZ::Vector3::CreateZero();//Accumulates the offset used to determine grid position.
 
-																  //Loop through the list and spawn after constructing proper transforms.
+		//Loop through the list and spawn after constructing proper transforms.
 		for (int i = 0; i < loopLength; i++) {
 			AZ::Data::Asset<AZ::DynamicPrefabAsset> sliceToSpawn;
 			AZ::Transform sliceTransform = AZ::Transform::Identity();
@@ -546,19 +546,45 @@ namespace EnvTile
 			//Spawn Slice
 			Gen_SpawnSliceRelative(sliceToSpawn, sliceTransform);
 			CryLog("Spawned Base Slice: %i", i);
+#pragma endregion Base
 
+#pragma region Deco
 			//Handle Decorative Slice Layer
 			//NOTE: ALL SUB-SLICES ARE SPAWNED. TO BYPASS THIS FOR VARIATIONS OF A SINGLE MODEL,
 			//	REPEAT THE SLICES IN THE BASE SLICE LIST
 			int tmp_sub_obj_count = 0;
-			if (decoLayer.size()>0 && decoLayer[i%sliceList.size()].size() > 0) {
+			int crystalsSpawned = 0;
+
+			if (decoLayer.size() > 0 && decoLayer[i%sliceList.size()].size() > 0) {
 				for (auto item : decoLayer[i%sliceList.size()]) {
 					//Spawn at Tile Location (NOTE: BUILD SLICES ACCORDINGLY)
 					Gen_SpawnSliceRelative(item, sliceTransform);
 					CryLog("Base Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
 					tmp_sub_obj_count++;
+#pragma region Crystal
+					if (spawnCrystals) {
+						if (!multipleCrystalsPerTile) {
+							//Generate random
+							
+						}
+					}
+#pragma endregion Crystal
 				}
 			}
+#pragma endregion Deco
+/*
+#pragma region Crystal
+			if (spawnCrystals) {
+				//Single Crystal per tile
+				if (!multipleCrystalsPerTile) {
+					bool spawnedOne = false;
+
+				}
+				else {
+					//Multiple Crystals per tile (Max: 1 per player)
+				}
+			}
+#pragma endregion Crystal*/
 		}
 
 

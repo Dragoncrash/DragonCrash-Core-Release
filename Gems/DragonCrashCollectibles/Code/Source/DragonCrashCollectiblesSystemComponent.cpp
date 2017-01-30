@@ -6,16 +6,25 @@
 
 #include "DragonCrashCollectiblesSystemComponent.h"
 
+#define UI_D  AZ::Edit::UIHandlers::Default
+#define UI_CB AZ::Edit::UIHandlers::ComboBox
+#define UI_SL AZ::Edit::UIHandlers::Slider
+#define UI_SP AZ::Edit::UIHandlers::SpinBox
+#define GRP   AZ::Edit::ClassElements::Group
+#define CN    AZ::Edit::Attributes::ChangeNotify
+#define VS	  AZ::Edit::Attributes::Visibility
+
 namespace DragonCrashCollectibles
 {
     void Crystal::Reflect(AZ::ReflectContext* context)
     {
         if (AZ::SerializeContext* serialize = azrtti_cast<AZ::SerializeContext*>(context))
         {
-            serialize->Class<Crystal, AZ::Component>()
-                ->Version(0)
-                ->SerializerForEmptyClass();
-
+			serialize->Class<Crystal, AZ::Component>()
+				->Version(0)
+				->Field("Crystal-Hidden", &Crystal::hidden)
+				->Field("Crystal-Slices", &Crystal::crystalModel)
+				;
             if (AZ::EditContext* ec = serialize->GetEditContext())
             {
                 ec->Class<Crystal>("Crystal", "A collectible crystal")
@@ -23,6 +32,11 @@ namespace DragonCrashCollectibles
                         ->Attribute(AZ::Edit::Attributes::Category, "DragonCrash-Collectibles")
                         ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
                         ->Attribute(AZ::Edit::Attributes::AutoExpand, true)
+
+					->ClassElement(GRP, "Crystal")
+					->DataElement(UI_D, &Crystal::hidden, "Hidden in Mesh", "If true, the crystal will be hidden inside a destructible mesh. Else it will appear above the entity's position.")
+					->DataElement(UI_D, &Crystal::forceLocalSlice, "Force Local Slice", "If true, then this gem will use the specified slice as specified below.")
+					->DataElement(UI_D, &Crystal::crystalModel, "Crystal Slice","Slice to assign to this gem (Can be overwritten from the Environment Tile)")
                     ;
             }
         }
