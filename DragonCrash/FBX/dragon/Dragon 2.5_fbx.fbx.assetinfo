@@ -1,0 +1,286 @@
+<ObjectStream version="1">
+	<Class name="SceneManifest" version="1" type="{9274AD17-3212-4651-9F3B-7DCCB080E467}">
+		<Class name="AZStd::vector" field="values" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
+			<Class name="AZStd::shared_ptr" field="element" type="{D5B5ACA6-A81E-410E-8151-80C97B8CD2A0}">
+				<Class name="MeshGroup" field="element" version="1" type="{07B356B7-3635-40B5-878A-FAC4EFD5AD86}">
+					<Class name="IMeshGroup" field="BaseClass1" version="1" type="{74D45E45-81EE-4AD4-83B5-F37EB98D847C}">
+						<Class name="IMeshBaseGroup" field="BaseClass1" version="1" type="{1D20FA11-B184-429E-8C86-745852234845}">
+							<Class name="IGroup" field="BaseClass1" version="1" type="{DE008E67-790D-4672-A73A-5CA0F31EDD2D}">
+								<Class name="IManifestObject" field="BaseClass1" type="{3B839407-1884-4FF4-ABEA-CA9D347E83F7}"/>
+							</Class>
+						</Class>
+					</Class>
+					<Class name="AZStd::string" field="name" value="Dragon 2.5_fbx" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+					<Class name="SceneNodeSelectionList" field="nodeSelectionList" version="1" type="{D0CE66CE-1BAD-42F5-86ED-3923573B3A02}">
+						<Class name="ISceneNodeSelectionList" field="BaseClass1" version="1" type="{DC3F9996-E550-4780-A03B-80B0DDA1DA45}"/>
+						<Class name="AZStd::vector" field="selectedNodes" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
+							<Class name="AZStd::string" field="element" value="" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.Sun" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.Cube" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.002" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Helper_Bone" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_R.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_L.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_L.002" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Cont_tail.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Cont_tail.002" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.004" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.root" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.tail_1" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.002.Bone.002_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Helper_Bone.Helper_Bone_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_4_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_4_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_4_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_4_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_R.001.Arm_Cont_R.001_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_L.001.Arm_Cont_L.001_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.001.Leg_Cont_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.001.Leg_Cont_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_L.002.Arm_Cont_L.002_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.001.Bone.001_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Cont_tail.001.Cont_tail" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Cont_tail.002.Cont_tail.002_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.004.IK_Target_Kopf.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_R.Arm_Cont_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Arm_Cont_L.Arm_Cont_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.root.root_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.tail_1.tail_2" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_L.lowerleg_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_R.lowerleg_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_1_L.back_S_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_2_L.back_M_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_3_L.back_Z_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_4_L.back_D_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_1_R.front_S_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_2_R.front_M_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_3_R.front_Z_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_4_R.front_D_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_1_R.back_S_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_2_R.back_M_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_3_R.back_Z_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_4_R.back_D_1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_1_L.front_S_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_2_L.front_M_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_3_L.front_Z_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_4_L.front_D_1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.001.Leg_Cont_L.Leg_Cont_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.001.Leg_Cont_R.Leg_Cont_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Cont_tail.001.Cont_tail.Cont_tail_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.004.IK_Target_Kopf.001.IK_Target_Kopf" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.tail_1.tail_2.tail_3" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_L.lowerleg_L.kneecap_Act_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_L.lowerleg_L.lowerleg_muscle_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_R.lowerleg_R.kneecap_Act_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_R.lowerleg_R.lowerleg_muscle_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_1_L.back_S_1_L.back_S_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_2_L.back_M_1_L.back_M_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_3_L.back_Z_1_L.back_Z_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_4_L.back_D_1_L.back_D_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_1_R.front_S_1_R.front_S_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_2_R.front_M_1_R.front_M_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_3_R.front_Z_1_R.front_Z_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_4_R.front_D_1_R.front_D_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_1_R.back_S_1_R.back_S_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_2_R.back_M_1_R.back_M_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_3_R.back_Z_1_R.back_Z_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_4_R.back_D_1_R.back_D_2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_1_L.front_S_1_L.front_S_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_2_L.front_M_1_L.front_M_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_3_L.front_Z_1_L.front_Z_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_4_L.front_D_1_L.front_D_2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Bone.004.IK_Target_Kopf.001.IK_Target_Kopf.IK_Target_Kopf_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.tail_1.tail_2.tail_3.ik_ACT_tail_5" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_L.lowerleg_L.kneecap_Act_L.kneecap_Act_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_L.lowerleg_L.lowerleg_muscle_L.lowerleg_muscle_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_R.lowerleg_R.kneecap_Act_R.kneecap_Act_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.Oberschenkel_R.lowerleg_R.lowerleg_muscle_R.lowerleg_muscle_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.paunch.002" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.upper_arm_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.upper_arm_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_1_L.back_S_1_L.back_S_2_L.back_S_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_2_L.back_M_1_L.back_M_2_L.back_M_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_3_L.back_Z_1_L.back_Z_2_L.back_Z_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_4_L.back_D_1_L.back_D_2_L.back_D_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_1_R.front_S_1_R.front_S_2_R.front_S_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_2_R.front_M_1_R.front_M_2_R.front_M_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_3_R.front_Z_1_R.front_Z_2_R.front_Z_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_4_R.front_D_1_R.front_D_2_R.front_D_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_1_R.back_S_1_R.back_S_2_R.back_S_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_2_R.back_M_1_R.back_M_2_R.back_M_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_3_R.back_Z_1_R.back_Z_2_R.back_Z_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_4_R.back_D_1_R.back_D_2_R.back_D_3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_1_L.front_S_1_L.front_S_2_L.front_S_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_2_L.front_M_1_L.front_M_2_L.front_M_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_3_L.front_Z_1_L.front_Z_2_L.front_Z_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_4_L.front_D_1_L.front_D_2_L.front_D_3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.tail_1.tail_2.tail_3.ik_ACT_tail_5.ik_ACT_tail_5_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.paunch.002.paunch.002_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.upper_arm_L.ik_underarm_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.upper_arm_R.ik_underarm_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_1_L.back_S_1_L.back_S_2_L.back_S_3_L.back_S_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_2_L.back_M_1_L.back_M_2_L.back_M_3_L.back_M_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_3_L.back_Z_1_L.back_Z_2_L.back_Z_3_L.back_Z_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_L.back_food_C_4_L.back_D_1_L.back_D_2_L.back_D_3_L.back_D_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_1_R.front_S_1_R.front_S_2_R.front_S_3_R.front_S_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_2_R.front_M_1_R.front_M_2_R.front_M_3_R.front_M_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_3_R.front_Z_1_R.front_Z_2_R.front_Z_3_R.front_Z_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_R.front_food_C_4_R.front_D_1_R.front_D_2_R.front_D_3_R.front_D_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_1_R.back_S_1_R.back_S_2_R.back_S_3_R.back_S_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_2_R.back_M_1_R.back_M_2_R.back_M_3_R.back_M_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_3_R.back_Z_1_R.back_Z_2_R.back_Z_3_R.back_Z_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.back_food_R.back_food_C_4_R.back_D_1_R.back_D_2_R.back_D_3_R.back_D_3_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_1_L.front_S_1_L.front_S_2_L.front_S_3_L.front_S_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_2_L.front_M_1_L.front_M_2_L.front_M_3_L.front_M_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_3_L.front_Z_1_L.front_Z_2_L.front_Z_3_L.front_Z_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.Hand_L.front_food_C_4_L.front_D_1_L.front_D_2_L.front_D_3_L.front_D_3_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.upper_arm_L.ik_underarm_L.ik_underarm_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.upper_arm_R.ik_underarm_R.ik_underarm_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w1_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w4_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w7_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w1_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w4_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w7_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w1_L.w2_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w4_L.w5_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w7_L.w8_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w1_R.w2_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w4_R.w5_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w7_R.w8_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w1_L.w2_L.w3_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w4_L.w5_L.w6_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w7_L.w8_L.w9_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w1_R.w2_R.w3_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w4_R.w5_R.w6_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w7_R.w8_R.w9_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w1_L.w2_L.w3_L.w3_L.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w4_L.w5_L.w6_L.w6_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w7_L.w8_L.w9_L.w9_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w1_R.w2_R.w3_R.w3_R.001" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w4_R.w5_R.w6_R.w6_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w7_R.w8_R.w9_R.w9_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augen_Control" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.IK_Auge_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_oben_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_unten_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.IK_Auge_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.upper_lip" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.ACT_neck_skin" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenbraue_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.cheek_muscle_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_oben_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_unten_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenbraue_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.cheek_muscle_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.mouth_Cont" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.003" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_L.001.w_C_L.w1_L.w2_L.w3_L.w3_L.001.w3_L.001_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.w_C_R.001.w_C_R.w1_R.w2_R.w3_R.w3_R.001.w3_R.001_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.lower_lip" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.tongue_2" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.Cont_tongue" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augen_Control.IK_Target_Auge_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augen_Control.IK_Target_Auge_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.IK_Auge_L.Auge_Lens_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_oben_L.Augenlid_oben_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_unten_L.Augenlid_unten_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.IK_Auge_R.Auge_Lens_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.upper_lip.upper_lip_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.ACT_neck_skin.ACT_neck_skin_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenbraue_L.Augenbraue_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.cheek_muscle_L.cheek_muscle_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_oben_R.Augenlid_oben_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenlid_unten_R.Augenlid_unten_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augenbraue_R.Augenbraue_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.cheek_muscle_R.cheek_muscle_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.mouth_Cont.lips_Cont" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.003.Nase_L" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.003.Nase_R" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.lower_lip.lower_lip_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.tongue_2.tongue_1" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.Cont_tongue.Cont_tongue_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augen_Control.IK_Target_Auge_L.IK_Target_Auge_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Augen_Control.IK_Target_Auge_R.IK_Target_Auge_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.IK_Auge_L.Auge_Lens_L.Auge_Lens_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.IK_Auge_R.Auge_Lens_R.Auge_Lens_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.mouth_Cont.lips_Cont.lips_Cont_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.003.Nase_L.Nase_L_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.003.Nase_R.Nase_R_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.tongue_2.tongue_1.ik_tongue" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							<Class name="AZStd::string" field="element" value="RootNode.a.pelvic_2.pelvic_1.paunch.breast.ACT_neck_4.ACT_neck_3.ACT_neck_2.ACT_neck_1.head.IK_head.Bone.tongue_2.tongue_1.ik_tongue.ik_tongue_end" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+						</Class>
+						<Class name="AZStd::vector" field="unselectedNodes" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}"/>
+					</Class>
+					<Class name="AZStd::vector" field="rules" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
+						<Class name="AZStd::shared_ptr" field="element" type="{D5B5ACA6-A81E-410E-8151-80C97B8CD2A0}">
+							<Class name="StaticMeshAdvancedRule" field="element" version="3" type="{AE82749D-A68A-4FE7-A8BA-0F4CE67607AC}">
+								<Class name="IMeshAdvancedRule" field="BaseClass1" version="1" type="{ADF04C44-5786-466A-AE69-63E5E3474D21}">
+									<Class name="IRule" field="BaseClass1" version="1" type="{81267F8B-3963-423B-9FF7-D276D82CD110}">
+										<Class name="IManifestObject" field="BaseClass1" type="{3B839407-1884-4FF4-ABEA-CA9D347E83F7}"/>
+									</Class>
+								</Class>
+								<Class name="bool" field="use32bitVertices" value="false" type="{A0CA880C-AFE4-43CB-926C-59AC48496112}"/>
+								<Class name="bool" field="mergeMeshes" value="true" type="{A0CA880C-AFE4-43CB-926C-59AC48496112}"/>
+								<Class name="AZStd::string" field="vertexColorStreamName" value="Disabled" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+								<Class name="AZStd::string" field="uvStreamName" value="UV_mirror" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+							</Class>
+						</Class>
+						<Class name="AZStd::shared_ptr" field="element" type="{D5B5ACA6-A81E-410E-8151-80C97B8CD2A0}">
+							<Class name="MaterialRule" field="element" version="2" type="{35620013-A27C-4F6D-87BF-72F11688ACAD}">
+								<Class name="IMaterialRule" field="BaseClass1" version="1" type="{428C9752-6EDF-4FA2-9BDF-DBDFCEB4CC0F}">
+									<Class name="IRule" field="BaseClass1" version="1" type="{81267F8B-3963-423B-9FF7-D276D82CD110}">
+										<Class name="IManifestObject" field="BaseClass1" type="{3B839407-1884-4FF4-ABEA-CA9D347E83F7}"/>
+									</Class>
+								</Class>
+								<Class name="bool" field="updateMaterials" value="false" type="{A0CA880C-AFE4-43CB-926C-59AC48496112}"/>
+								<Class name="bool" field="removeMaterials" value="false" type="{A0CA880C-AFE4-43CB-926C-59AC48496112}"/>
+							</Class>
+						</Class>
+					</Class>
+				</Class>
+			</Class>
+		</Class>
+	</Class>
+</ObjectStream>
+
