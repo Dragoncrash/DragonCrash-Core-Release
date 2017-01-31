@@ -1,12 +1,12 @@
 {
     "project_name": "DragonCrash",
     "product_name": "Empty Template",
-    "executable_name": "TestLauncher",
+    "executable_name": "DragonCrashLauncher",
     "code_folder": "Code/DragonCrash",
     "modules" : ["DragonCrash"],
 
     "durango_settings" : {
-        "app_id"            : "Test.app",
+        "app_id"            : "DragonCrash.app",
         "package_name"      : "DragonCrash",
         "display_name"      : "Lumberyard Test",
         "publisher"         : "Amazon, Inc",

@@ -23,6 +23,7 @@ namespace DragonCrashCollectibles
 			serialize->Class<Crystal, AZ::Component>()
 				->Version(0)
 				->Field("Crystal-Hidden", &Crystal::hidden)
+				->Field("Crystal-ForceLocalModel", &Crystal::forceLocalSlice)
 				->Field("Crystal-Slices", &Crystal::crystalModel)
 				;
             if (AZ::EditContext* ec = serialize->GetEditContext())
