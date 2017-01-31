@@ -1,0 +1,106 @@
+<Graph Description="" Group="Fire" enabled="1" MultiPlayer="ClientServer">
+ <Nodes>
+  <Node Id="1" Class="Movement:MoveEntityTo" pos="-470,-320,0" flags="0" EntityGUID="{66C5A73B-06B4-47CA-AE2B-EC2416A464F7}" EntityGUID_64="47CA06B466C5A73B">
+   <Inputs Destination="0,0,0" DynamicDestination="1" ValueType="0" Value="4" EaseInDistance="0" EaseOutDistance="0" CoordSys="0"/>
+  </Node>
+  <Node Id="2" Class="Movement:MoveEntityTo" pos="-250,-100,0" flags="0" EntityGUID="{66C5A73B-06B4-47CA-AE2B-EC2416A464F7}" EntityGUID_64="47CA06B466C5A73B">
+   <Inputs Destination="0,0,0" DynamicDestination="1" ValueType="0" Value="4" EaseInDistance="0" EaseOutDistance="0" CoordSys="0"/>
+  </Node>
+  <Node Id="3" Class="Debug:InputKey" pos="-630,-140,0" flags="0">
+   <Inputs Key="j" NonDevMode="0" KeyboardOnly="0"/>
+  </Node>
+  <Node Id="4" Class="Debug:InputKey" pos="-400,-20,0" flags="0">
+   <Inputs Key="l" NonDevMode="0" KeyboardOnly="0"/>
+  </Node>
+  <Node Id="6" Class="entity:TagPoint" pos="-640,-340,0" flags="0" EntityGUID="{BF03C071-4EE0-49F6-A89F-4E7E6BFA800F}" EntityGUID_64="49F64EE0BF03C071">
+   <Inputs pos="0,0,0" rotate="0,0,0" scale="0,0,0" CoordSys="1"/>
+  </Node>
+  <Node Id="8" Class="entity:TagPoint" pos="-410,-110,0" flags="0" EntityGUID="{EED648BC-5932-40E1-B66C-EF8280CF5C1B}" EntityGUID_64="40E15932EED648BC">
+   <Inputs pos="0,0,0" rotate="0,0,0" scale="0,0,0" CoordSys="1"/>
+  </Node>
+  <Node Id="9" Class="Entity:SpawnArchetype" pos="410,-380,0" flags="0">
+   <Inputs Archetype="" Name="" Pos="0,0,0" Rot="0,0,0" Scale="1,1,1"/>
+  </Node>
+  <Node Id="10" Class="String:SetString" pos="80,-320,0" flags="0">
+   <Inputs In="Level.physics.projectile"/>
+  </Node>
+  <Node Id="12" Class="Physics:ActionImpulse" pos="840,-360,0" flags="0">
+   <Inputs Impulse="0,0,0" AngularImpulse="0,5000,1000" Point="0,0,0" PartIndex="0" CoordSystem="1"/>
+  </Node>
+  <Node Id="14" Class="entity:TagPoint" pos="110,-230,0" flags="0" EntityGUID="{8CA0614E-ED0C-4766-B3EE-660A2EA870B6}" EntityGUID_64="4766ED0C8CA0614E">
+   <Inputs pos="0,0,0" rotate="0,0,0" scale="0,0,0" CoordSys="1"/>
+  </Node>
+  <Node Id="15" Class="Interpolate:Int" pos="420,-480,0" flags="0">
+   <Inputs StartValue="0" EndValue="6000" Time="5" UpdateFrequency="0"/>
+  </Node>
+  <Node Id="16" Class="Vec3:ToVec3" pos="710,-440,0" flags="0">
+   <Inputs x="0" y="0" z="1000"/>
+  </Node>
+  <Node Id="17" Class="Debug:DisplayMessage" pos="790,-600,0" flags="0">
+   <Inputs message="" DisplayTime="0" posX="50" posY="50" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="21" Class="Debug:InputKey" pos="80,-460,0" flags="0">
+   <Inputs Key="i" NonDevMode="0" KeyboardOnly="0"/>
+  </Node>
+  <Node Id="24" Class="Game:Start" pos="-27.92174,-499.36957,0" flags="0">
+   <Inputs InGame="1" InEditor="1"/>
+  </Node>
+  <Node Id="25" Class="Input:MouseCursor" pos="178.26956,-522.99567,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="32" Class="Time:Delay" pos="570,-280,0" flags="0">
+   <Inputs delay="10" resetOnInput="0"/>
+  </Node>
+  <Node Id="38" Class="Entity:RemoveEntity" pos="800,-170,0" flags="1">
+   <Inputs />
+  </Node>
+  <Node Id="39" Class="Debug:DisplayMessage" pos="860,-40,0" flags="0">
+   <Inputs message="Delay reached" DisplayTime="0" posX="50" posY="200" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="40" Class="Debug:DisplayMessage" pos="970,-200,0" flags="0">
+   <Inputs message="remove reached" DisplayTime="0" posX="50" posY="400" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+  <Node Id="41" Class="Entity:RemoveEntity" pos="500,-50,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="43" Class="Physics:PhysicsEnable" pos="460,-180,0" flags="0">
+   <Inputs />
+  </Node>
+  <Node Id="45" Class="entity:BasicEntity" pos="180,-70,0" flags="0" EntityGUID="{74B7E3DA-6B02-4A4A-90E5-15C79FDCDCBA}" EntityGUID_64="4A4A6B0274B7E3DA">
+   <Inputs Hide="0" MakeInvulnerable="0" MakeVulnerable="0" Ragdollize="0" Remove="0" ResetHealth="0" UnHide="0"/>
+  </Node>
+  <Node Id="46" Class="Debug:DisplayMessage" pos="600,40,0" flags="0">
+   <Inputs message="collision reached" DisplayTime="0" posX="50" posY="300" fontSize="2" clr_Color="1,1,1" centered="0"/>
+  </Node>
+ </Nodes>
+ <Edges>
+  <Edge nodeIn="1" nodeOut="3" portIn="Start" portOut="Pressed" enabled="1"/>
+  <Edge nodeIn="1" nodeOut="3" portIn="Stop" portOut="Released" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="4" portIn="Start" portOut="Pressed" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="4" portIn="Stop" portOut="Released" enabled="1"/>
+  <Edge nodeIn="1" nodeOut="6" portIn="Destination" portOut="pos" enabled="1"/>
+  <Edge nodeIn="2" nodeOut="8" portIn="Destination" portOut="pos" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="9" portIn="Activate" portOut="Succeeded" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="9" portIn="entityId" portOut="Succeeded" enabled="1"/>
+  <Edge nodeIn="32" nodeOut="9" portIn="in" portOut="Succeeded" enabled="1"/>
+  <Edge nodeIn="9" nodeOut="10" portIn="Archetype" portOut="Out" enabled="1"/>
+  <Edge nodeIn="9" nodeOut="14" portIn="Pos" portOut="pos" enabled="1"/>
+  <Edge nodeIn="16" nodeOut="15" portIn="y" portOut="Value" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="15" portIn="Show" portOut="Value" enabled="1"/>
+  <Edge nodeIn="17" nodeOut="15" portIn="message" portOut="Value" enabled="1"/>
+  <Edge nodeIn="12" nodeOut="16" portIn="Impulse" portOut="Result" enabled="1"/>
+  <Edge nodeIn="9" nodeOut="21" portIn="Spawn" portOut="Released" enabled="1"/>
+  <Edge nodeIn="15" nodeOut="21" portIn="Start" portOut="Pressed" enabled="1"/>
+  <Edge nodeIn="15" nodeOut="21" portIn="Stop" portOut="Released" enabled="1"/>
+  <Edge nodeIn="25" nodeOut="24" portIn="Show" portOut="output" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="32" portIn="Activate" portOut="out" enabled="1"/>
+  <Edge nodeIn="38" nodeOut="32" portIn="Entity" portOut="out" enabled="1"/>
+  <Edge nodeIn="39" nodeOut="32" portIn="Show" portOut="out" enabled="1"/>
+  <Edge nodeIn="41" nodeOut="32" portIn="Entity" portOut="out" enabled="1"/>
+  <Edge nodeIn="40" nodeOut="38" portIn="Show" portOut="Done" enabled="1"/>
+  <Edge nodeIn="46" nodeOut="41" portIn="Show" portOut="Done" enabled="1"/>
+  <Edge nodeIn="41" nodeOut="45" portIn="Activate" portOut="Hit" enabled="1"/>
+ </Edges>
+ <HyperGraphId Id="{674BFE0F-ED34-46ED-AEEF-0EE302D8FF3A}"/>
+ <GraphTokens />
+</Graph>
