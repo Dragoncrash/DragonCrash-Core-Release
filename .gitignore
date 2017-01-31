@@ -1,0 +1,18 @@
+# Start by Ignoring All Files
+*
+!*/
+
+# Add This File
+!.gitignore
+
+# Add Project Main Folders
+# Form: !/PROJECT_NAME/**
+!/DragonCrash/**
+
+# Add Project Code Folders
+# Form: !/Code/PROJECT_NAME/**
+!/Code/DragonCrash/**
+
+# Add Custom Gems
+!/Gems/DragonCrashCollectibles/**
+!/Gems/Environment_Tile_System_v2/**
