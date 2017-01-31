@@ -5,10 +5,10 @@ dragoncontroller =
 	-- properties that show up in the LY editor
 	Properties = 
 	{
-		Model = { entity = "", description = "The dragon model entity." },
 		FlightSpeed = { default = 100.0, description = "How fast the dragon flies.", suffix = " m/sec" },
 		YawTurnSpeed = { default = 180.0, description = "How fast the dragon turns left and right.", suffix = " degrees/sec"},
 		PitchTurnSpeed = { default = 180.0, description = "How fast the dragon turns up and down.", suffix = " degrees/sec"},
+		PitchAngleLimit = { default = 70.0, description = "How far the dragon can pitch up and down.", suffix = " degrees" },
 		BoostAcceleration = { default = 50.0, description = "How fast the dragon accelerates while boosting.", suffix = " m/sec^2"},
 		BoostMaxSpeed = { default = 300.0, description = "How fast the dragon can fly while boosting.", suffix = " m/sec"},
 		EnergyMax = { default = 8.0, description = "How long the dragon can boost at max energy.", suffix = " sec"},
@@ -34,8 +34,9 @@ dragoncontroller =
 	-- values to keep track of dragon state
 	StateValues =
 	{
-		Yaw = 0.0,					-- current yaw (horizonal) rotation
+		Yaw = 0.0,					-- current yaw (horizontal) rotation
 		Pitch = 0.0,				-- current pitch (vertical) rotation
+		IsColliding = false,		-- is dragon currently colliding with another entity
 		IsBoosting = false,			-- is dragon currently boosting?
 		IsEnergyExhausted = false,	-- did dragon use all energy and need to recharge
 		EnergyRemaining = 0.0,		-- seconds of boost energy remaining
@@ -49,38 +50,33 @@ dragoncontroller =
 
 -- movement logic to be handled every tick
 function dragoncontroller:HandleMovementTick(deltaTime)
-	-- get transform
-	local transform = self.modelTransformSender:GetLocalTM();
-	
 	-- update rotation state
 	self.StateValues.Yaw = self.StateValues.Yaw - self.InputValues.MainYaw * self.Properties.YawTurnSpeed * deltaTime;
 	self.StateValues.Pitch = self.StateValues.Pitch - self.InputValues.MainPitch * self.Properties.PitchTurnSpeed * deltaTime;
-	local roll = self.InputValues.MainYaw * 0.1; -- for banking, looks pretty silly and should be changed later
-	
-	-- constrain pitch to avoid flipping
-	if (self.StateValues.Pitch > math.pi * 3/8) then
-		self.StateValues.Pitch = math.pi * 3/8;
-	elseif (self.StateValues.Pitch < -math.pi * 3/8) then
-		self.StateValues.Pitch = -math.pi * 3/8;
-	end	
-		
-	-- create/extract transform components
-	local translation = transform:GetTranslation();
-	local scale = transform:ExtractScale();
-	local rotation = Quaternion.CreateRotationZ(self.StateValues.Yaw) * Quaternion.CreateRotationX(self.StateValues.Pitch) * Quaternion.CreateRotationY(roll);
-	
-	-- create new transform
-	transform = Transform.CreateFromQuaternion(rotation);
-	transform:MultiplyByScale(scale);
-	transform:SetTranslation(translation);
-	
-	-- apply transform
-	self.modelTransformSender:SetLocalTM(transform);
-	
-	-- no spinning
-	self.physicsSender:SetAngularVelocity(Vector3(0,0,0));
+	local roll = 0.0; -- TODO: add banking for horizontal turning
 
-	-- apply forward speed
+	-- constrain pitch to avoid flipping
+	if (self.StateValues.Pitch > self.Properties.PitchAngleLimit) then
+		self.StateValues.Pitch = self.Properties.PitchAngleLimit;
+	elseif (self.StateValues.Pitch < -self.Properties.PitchAngleLimit) then
+		self.StateValues.Pitch = -self.Properties.PitchAngleLimit;
+	end
+	
+	-- get transform
+	local transform = self.transformSender:GetWorldTM();
+		
+	-- extract current rotation
+	local currentRotation = Quaternion.CreateFromTransform(transform);
+	
+	-- create desired rotation using Yaw, Pitch, Roll
+	local desiredRotation = Quaternion.CreateRotationZ(self.StateValues.Yaw) 
+						  * Quaternion.CreateRotationX(self.StateValues.Pitch) 
+						  * Quaternion.CreateRotationY(roll);
+						  
+	-- apply angular velocity to reach desired rotation
+	
+	
+	-- apply forward velocity
 	local forwardDirection = transform:GetColumn(1);
 	forwardDirection:Normalize();
 	self.physicsSender:SetVelocity(forwardDirection * self.Properties.FlightSpeed);
@@ -122,6 +118,7 @@ function dragoncontroller:OnActivate()
 	-- convert rotation speeds to radians/sec
 	self.Properties.YawTurnSpeed = Math.DegToRad(self.Properties.YawTurnSpeed);
 	self.Properties.PitchTurnSpeed = Math.DegToRad(self.Properties.PitchTurnSpeed);
+	self.Properties.PitchAngleLimit = Math.DegToRad(self.Properties.PitchAngleLimit);
 	
 	-- tick handler
 	self.tickHandler = TickBusHandler(self, 0);
@@ -166,7 +163,7 @@ function dragoncontroller:OnActivate()
 	self.mainFireHandler = FloatGameplayNotificationBusHandler(self, self.mainFireId);
 	
 	-- entity senders
-	self.modelTransformSender = TransformBusSender(self.Properties.Model);
+	self.transformSender = TransformBusSender(self.entityId);
 	self.physicsSender = PhysicsComponentRequestBusSender(self.entityId);
 end
 
@@ -185,9 +182,19 @@ end
 
 -- called on collision
 function dragoncontroller:OnCollision(collision)
+	self.StateValues.IsColliding = true;
+
 	-- get tag request bus for entity collided with
 	local collisionTagSender = TagComponentRequestBusSender(collision.entity);
-	Debug.Log("collision");
+	
+	-- send to log
+	if (self.collisionCount == nil) then
+		self.collisionCount = 0;
+	end
+	self.collisionCount = self.collisionCount + 1;
+	Debug.Log("collision " .. self.collisionCount);
+	
+	
 	if (collisionTagSender) then
 		-- check for collision between dragons
 		if (collisionTagSender:HasTag( Crc32("dragon")) ) then

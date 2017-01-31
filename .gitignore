@@ -16,3 +16,6 @@
 # Add Custom Gems
 !/Gems/DragonCrashCollectibles/**
 !/Gems/Environment_Tile_System_v2/**
+
+# Remove Save Backups
+_savebackup
