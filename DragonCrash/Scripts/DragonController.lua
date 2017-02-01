@@ -14,6 +14,8 @@ dragoncontroller =
 		EnergyMax = { default = 8.0, description = "How long the dragon can boost at max energy.", suffix = " sec"},
 		EnergyRechargeTime = { default = 4.0, description = "How long the dragon takes to recharge all energy.", suffix = " sec"},
 		EnergyRechargeDelay = { default = 2.0, description = "How long the dragon must wait after boosting to recharge energy.", suffix = " sec"},
+		HealthMax = { default = 4.0, description = "The dragon's max health.", suffix = "" },
+		RespawnTime = { default = 5.0, description = "How long the dragon take to respawn.", suffix = " sec" },
 		-- TODO: add new editor-exposed properties here
 	},
 	
@@ -36,14 +38,49 @@ dragoncontroller =
 	{
 		Yaw = 0.0,					-- current yaw (horizontal) rotation
 		Pitch = 0.0,				-- current pitch (vertical) rotation
-		IsColliding = false,		-- is dragon currently colliding with another entity
 		IsBoosting = false,			-- is dragon currently boosting?
 		IsEnergyExhausted = false,	-- did dragon use all energy and need to recharge
 		EnergyRemaining = 0.0,		-- seconds of boost energy remaining
 		EnergyRechargeTimer = 0.0,	-- how long since last energy use
-		-- TODO: add new state values here
+		IsDead = false,				-- if the dragon is currently dead
+		HealthCurrent = 0.0,		-- how much health the dragon has
+		RespawnTimer = 0.0,			-- how long the dragons been dead
+		-- TODO: add new state valuses here
 	},
 }
+
+-- Dragon Event Handlers:
+
+-- called when dragon initially spawns or respawns
+function dragoncontroller:HandleSpawn()
+	Debug.Log("dragon is livin");
+
+	-- set state variables
+	self.StateValues.Yaw = 0.0;
+	self.StateValues.Pitch = 0.0;
+	self.StateValues.IsBoosting = false;
+	self.StateValues.IsEnergyExhausted = false;
+	self.StateValues.EnergyRemaining = self.Properties.EnergyMax;
+	self.StateValues.EnergyRechargeTimer = 0.0;
+	self.StateValues.HealthCurrent = self.Properties.HealthMax;
+	
+	-- get respawn transform
+	local respawnTranform = Transform.CreateTranslation(Vector3(0,0,500));
+	
+	-- move to respawn transform
+	self.transformSender:SetWorldTM(respawnTranform);
+end
+
+-- called when the dragon's hp reaches 0
+function dragoncontroller:HandleDeath()
+	Debug.Log("dragon is kill");
+	
+	-- stop movement
+	self.physicsSender:SetVelocity(Vector3(0,0,0));
+	self.physicsSender:SetAngularVelocity(Vector3(0,0,0));
+	
+	-- TODO: Add visual death indicators
+end
 
 
 -- Tick Handlers:
@@ -90,6 +127,11 @@ end
 -- shield logic to be handled every tick
 function dragoncontroller:HandleShieldingTick(deltaTime)
 	-- TODO: add shielding logic
+	
+	-- use as self-harm button for respawn testing
+	if (self.InputValues.Shield) then
+		self.StateValues.HealthCurrent = self.StateValues.HealthCurrent - deltaTime;
+	end
 end
 
 -- projectile firing logic to be handled every tick
@@ -165,14 +207,34 @@ function dragoncontroller:OnActivate()
 	-- entity senders
 	self.transformSender = TransformBusSender(self.entityId);
 	self.physicsSender = PhysicsComponentRequestBusSender(self.entityId);
+	
+	-- call spawn event
+	self:HandleSpawn();
 end
 
 -- called each tick
 function dragoncontroller:OnTick(deltaTime)
-	self:HandleMovementTick(deltaTime);
-	self:HandleDragonCrashTick(deltaTime);
-	self:HandleShieldingTick(deltaTime);
-	self:HandleFiringTick(deltaTime);
+	-- check if dragon has died
+	if (not self.StateValues.IsDead and self.StateValues.HealthCurrent <= 0.0) then
+		self:HandleDeath();
+		self.StateValues.IsDead = true;
+		self.StateValues.RespawnTimer = 0.0;
+	end
+	
+	if (not self.StateValues.IsDead) then
+		-- perform dragon logic if alive
+		self:HandleMovementTick(deltaTime);
+		self:HandleDragonCrashTick(deltaTime);
+		self:HandleShieldingTick(deltaTime);
+		self:HandleFiringTick(deltaTime);
+	else
+		-- handle respawn logic
+		self.StateValues.RespawnTimer = self.StateValues.RespawnTimer + deltaTime;
+		if (self.StateValues.RespawnTimer >= self.Properties.RespawnTime) then
+			self:HandleSpawn();
+			self.StateValues.IsDead = false;
+		end
+	end
 end
 
 -- called when script is deactivated
@@ -182,8 +244,6 @@ end
 
 -- called on collision
 function dragoncontroller:OnCollision(collision)
-	self.StateValues.IsColliding = true;
-
 	-- get tag request bus for entity collided with
 	local collisionTagSender = TagComponentRequestBusSender(collision.entity);
 	
