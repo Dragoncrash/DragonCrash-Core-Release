@@ -93,8 +93,11 @@ namespace EnvTile
 				//Crystals
 				->Field("Spawn Crystals", &Env_TileGenerator::spawnCrystals)
 				->Field("Crystal Slices", &Env_TileGenerator::crystalModels)
+				->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenCrystalModels)
 				->Field("Maximum Crystals", &Env_TileGenerator::maxCrystals)
 				->Field("Multi-Crystal Placement", &Env_TileGenerator::multipleCrystalsPerTile)
+				->Field("Advanced Mode", &Env_TileGenerator::advancedMode)
+				->Field("Free Floating Gems", &Env_TileGenerator::unhiddenGems)
 				;
 
 			if (AZ::EditContext* ec = serialize->GetEditContext())
@@ -224,7 +227,12 @@ namespace EnvTile
 
 					//Crystals
 					->ClassElement(GRP, "Crystals")
+						->DataElement(UI_D, &Env_TileGenerator::spawnCrystals, "Spawn Crystals", "Enables or disables the spawning of Collectible Crystals")
+						->DataElement(UI_D, &Env_TileGenerator::advancedMode, "Advanced Mode", "If advanced mode, each player gets maxCrystals amount of Crystals in their color. Else maxCrystals is the total number of crystals for all players.")
 						->DataElement(UI_D, &Env_TileGenerator::maxCrystals,"Max Crystals","Maximum number of crystals to spawn per player.")
+						->Attribute(AZ::Edit::Attributes::Min, 0)
+						->DataElement(UI_D, &Env_TileGenerator::unhiddenGems, "Free Floating Crystals", "Number of Crystals to spawn out in the open dynamically.")
+						->Attribute(AZ::Edit::Attributes::Min, 0)
 						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
 						->DataElement(UI_D, &Env_TileGenerator::multipleCrystalsPerTile,"Multi-Crystal Placement", "If true, then multiple gems can be spawned on the same tile.")
 					;
@@ -468,15 +476,16 @@ namespace EnvTile
 		const AZ::PrefabComponent::EntityList& entities = sliceAddress.second->GetInstantiated()->m_entities;
 
 		entityIds.reserve(entities.size());
-		tmp_spawned_tiles++;//Increment tile spawn counter
-		CryLog("Tiles Spawned: %i", tmp_spawned_tiles);
+		tmp_spawned++;//Increment tile spawn counter
+		CryLog("Objects Spawned: %i", tmp_spawned);
 		for (AZ::Entity * currEntity : entities)
 		{
 			entityIds.push_back(currEntity->GetId());
 			CryLog("Slice Instantiated");
 		}
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
-		if (loopLength == tmp_spawned_tiles)PostActivate();//Base Tiles have spawned and it is safe to iterate.
+		int crystalCount = advancedMode ? maxCrystals*numPlayers : maxCrystals;
+		if (tmp_spawned == loopLength+decoLayerObjectCount+crystalCount)PostActivate();//Base Tiles have spawned and it is safe to iterate.
 
 		EBUS_EVENT_ID(GetEntityId(), Env_TileNotificationBus, OnSpawned, ticket, entityIds);
 	}
@@ -495,6 +504,18 @@ namespace EnvTile
 		//Link the component to its bus
 		const AZ::EntityId eid = GetEntityId();
 		Env_GeneratorRequestBus::Handler::BusConnect(eid);
+
+		//Get Sub-Object counts
+		decoLayerObjectCount = 0;
+		if (decoLayer.size() > 0) {
+			for (auto i : decoLayer) {
+				if (i.size() > 0) {
+					for (auto j : i) {
+						decoLayerObjectCount++;
+					}
+				}
+			}
+		}
 
 		//Spawn logic triggered on activation
 #pragma region Base
@@ -553,7 +574,6 @@ namespace EnvTile
 			//NOTE: ALL SUB-SLICES ARE SPAWNED. TO BYPASS THIS FOR VARIATIONS OF A SINGLE MODEL,
 			//	REPEAT THE SLICES IN THE BASE SLICE LIST
 			int tmp_sub_obj_count = 0;
-			int crystalsSpawned = 0;
 
 			if (decoLayer.size() > 0 && decoLayer[i%sliceList.size()].size() > 0) {
 				for (auto item : decoLayer[i%sliceList.size()]) {
@@ -561,30 +581,21 @@ namespace EnvTile
 					Gen_SpawnSliceRelative(item, sliceTransform);
 					CryLog("Base Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
 					tmp_sub_obj_count++;
-#pragma region Crystal
-					if (spawnCrystals) {
-						if (!multipleCrystalsPerTile) {
-							//Generate random
-							
-						}
-					}
-#pragma endregion Crystal
 				}
 			}
 #pragma endregion Deco
-/*
 #pragma region Crystal
-			if (spawnCrystals) {
-				//Single Crystal per tile
-				if (!multipleCrystalsPerTile) {
-					bool spawnedOne = false;
-
-				}
-				else {
-					//Multiple Crystals per tile (Max: 1 per player)
-				}
+			AZ::Vector3 startRay = sliceTransform.GetPosition();
+			startRay += AZ::Vector3(0.0, 0.0, (float)(xOffset + yOffset));
+			AZ::Vector3 direction = AZ::Vector3(AZ::VectorFloat(0.0), AZ::VectorFloat(0.0), AZ::VectorFloat(-1.0));
+			CryLog("Start: [%f,%f,%f]", (float)(startRay.GetX()), (float)(startRay.GetY()), (float)(startRay.GetZ()));
+			CryLog("Direction: [%f,%f,%f]", (float)(direction.GetX()), (float)(direction.GetY()), (float)(direction.GetZ()));
+			float distance = 2 * (float)(xOffset + yOffset);
+			CryLog("DISTANCE: %f", distance);
+			if (!multipleCrystalsPerTile) {
+				generateCrystals(startRay,direction,distance);
 			}
-#pragma endregion Crystal*/
+#pragma endregion Crystal
 		}
 
 
@@ -601,137 +612,28 @@ namespace EnvTile
 
 #pragma region Helper Functions
 	void Env_TileGenerator::PostActivate() {
-		for (int i = 0; i < 25; i++) { //[0-24]
-			WeatherTrigger tmp;
-			tmp.triggerTime = i;
-			env_weather_trigger.push_back(tmp);
+		
+		
+	}
+
+	void Env_TileGenerator::generateCrystals(AZ::Vector3 start, AZ::Vector3 dir, float dist) {
+		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
+		if (spawnCrystals) {
+			if (!multipleCrystalsPerTile) {
+				srand((int)time(NULL));
+				int r = rand() % loopLength;
+				if (r >= loopLength/2 || true) {//Spawn Crystal
+					//TODO:HIDDEN CRYSTAL LOGIC
+					if (unhiddenSpawned < unhiddenGems) {
+						LmbrCentral::PhysicsSystemRequests::RayCastHit ray;
+						EBUS_EVENT_RESULT(ray, LmbrCentral::PhysicsSystemRequestBus, RayCast, start, dir, dist, 2,LmbrCentral::PhysicalEntityTypes::All);
+						
+						CryLog("CRYSTAL RAYCAST: Hit at postition: [%f,%f,%f]", (float)(ray.m_position.GetX()), (float)(ray.m_position.GetY()), (float)(ray.m_position.GetZ()));
+						CryLog("CRYSTAL RAYCAST: Distance of hit = %f", ray.m_distance);
+					}
+				}
+			}
 		}
-		CryLog("Initialize Weather Trigger List [Success]");
-
-		//Construct List: one entry per hour (consider refining time gap to smaller increments)
-
-
-
-		//Initial pass to set up weatherlink vectors
-		//for (int i = 0; i < entityIds.size(); i++){
-		//CryLog("Entity Number %i", i);//[TODO] Add Tile number property
-
-		//Use EBUS to get Tile Parameters (Not sure how this will work for unsupported entites that cannot return a value)
-		/*	int simple = getSimple(),
-		r_strength = getRainStrengths(),
-		s_strength = getSnowStrengths(),
-		r_extra = getRainExtra();
-		bool s_extra_freeze = getSnowFreezeGround();
-		float s_extra_freeze_amount = getSnowFreezeAmount();
-		int r_todstart = getRainTODStart(),
-		r_todstop = getRainTODStop(),
-		s_todstart = getSnowTODStart(),
-		s_todstop = getSnowTODStop();*/
-		/*EBUS_EVENT_ID_RESULT(simple, entityIds[i], Env_Tile::Env_TileRequestBus, getSimple);
-		EBUS_EVENT_ID_RESULT(r_strength, entityIds[i], Env_Tile::Env_TileRequestBus, getRainStrengths);
-		EBUS_EVENT_ID_RESULT(s_strength, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowStrengths);
-		EBUS_EVENT_ID_RESULT(r_extra, entityIds[i], Env_Tile::Env_TileRequestBus, getRainExtra);
-		EBUS_EVENT_ID_RESULT(s_extra_freeze, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowFreezeGround);
-		EBUS_EVENT_ID_RESULT(s_extra_freeze_amount, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowFreezeAmount);
-		EBUS_EVENT_ID_RESULT(r_todstart, entityIds[i], Env_Tile::Env_TileRequestBus, getRainTODStart);
-		EBUS_EVENT_ID_RESULT(r_todstop, entityIds[i], Env_Tile::Env_TileRequestBus, getRainTODStop);
-		EBUS_EVENT_ID_RESULT(s_todstart, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowTODStart);
-		EBUS_EVENT_ID_RESULT(s_todstop, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowTODStop);
-		*/
-		//Set trigger properties and attach indices after extracting flags
-		//RAIN
-		/*if (r_strength > 0){//Rain is enabled
-		WeatherUnit tmp_start, tmp_end;
-
-		tmp_start.start = true;
-		tmp_end.start = false;
-
-		//Simple Weather Addition
-		if (simple & 1){
-		tmp_start.t_cloud = 1;
-		tmp_end.t_cloud = 1;
-		}
-		if (simple & 2){
-		tmp_start.t_wind = 1;
-		tmp_end.t_wind = 1;
-		}
-
-		//Rain flags
-		tmp_start.t_rain = r_strength;
-		tmp_end.t_rain = r_strength;
-
-		if (r_extra & 1){
-		tmp_start.t_rain_extra_thunder = 1;
-		tmp_end.t_rain_extra_thunder = 1;
-		}
-		if (r_extra & 2){
-		tmp_start.t_rain_extra_lightning = 1;
-		tmp_end.t_rain_extra_lightning = 1;
-		}
-
-
-		//Tile
-		tmp_start.tileNumber = i;
-		tmp_end.tileNumber = i;
-
-		//Insert at TOD value
-		env_weather_trigger[r_todstart].triggerList.push_back(tmp_start);
-		env_weather_trigger[r_todstop].triggerList.push_back(tmp_end);
-
-		}
-
-		//SNOW
-		if (s_strength > 0){//Snow is enabled
-		WeatherUnit tmp_start, tmp_end;
-
-		tmp_start.start = true;
-		tmp_end.start = false;
-
-		//Simple Weather Addition
-		if (simple & 1){
-		tmp_start.t_cloud = 1;
-		tmp_end.t_cloud = 1;
-		}
-		if (simple & 2){
-		tmp_start.t_wind = 1;
-		tmp_end.t_wind = 1;
-		}
-
-		//Snow flags
-		tmp_start.t_snow = s_strength;
-		tmp_end.t_snow = s_strength;
-
-		tmp_start.t_snow_extra_freeze = s_extra_freeze;
-		tmp_start.t_snow_extra_f_amount = s_extra_freeze_amount;
-
-		tmp_end.t_snow_extra_freeze = s_extra_freeze;
-		tmp_end.t_snow_extra_f_amount = s_extra_freeze_amount;
-
-		//Tile
-		tmp_start.tileNumber = i;
-		tmp_end.tileNumber = i;
-
-		//Insert at TOD value
-		env_weather_trigger[s_todstart].triggerList.push_back(tmp_start);
-		env_weather_trigger[s_todstop].triggerList.push_back(tmp_end);
-		}
-		*/
-		//SIMPLE ONLY [TODO]: Add in Simple TOD option
-		/*if (r_strength==0 && s_strength==0 && simple > 0){
-		WeatherUnit tmp_start, tmp_end;
-
-		if (simple & 1){
-		tmp_start.t_cloud = 1;
-		tmp_end.t_cloud = 1;
-		}
-		if (simple & 2){
-		tmp_start.t_wind = 1;
-		tmp_end.t_wind = 1;
-		}
-
-
-		}*/
-		//}
 	}
 
 	void Env_TileGenerator::preloadTriggersAtTime(int tod) {
@@ -770,3 +672,134 @@ namespace EnvTile
 	}
 #pragma endregion Helper Functions
 }
+/*for (int i = 0; i < 25; i++) { //[0-24]
+WeatherTrigger tmp;
+tmp.triggerTime = i;
+env_weather_trigger.push_back(tmp);
+}
+CryLog("Initialize Weather Trigger List [Success]");
+*/
+//Construct List: one entry per hour (consider refining time gap to smaller increments)
+
+
+
+//Initial pass to set up weatherlink vectors
+//for (int i = 0; i < entityIds.size(); i++){
+//CryLog("Entity Number %i", i);//[TODO] Add Tile number property
+
+//Use EBUS to get Tile Parameters (Not sure how this will work for unsupported entites that cannot return a value)
+/*	int simple = getSimple(),
+r_strength = getRainStrengths(),
+s_strength = getSnowStrengths(),
+r_extra = getRainExtra();
+bool s_extra_freeze = getSnowFreezeGround();
+float s_extra_freeze_amount = getSnowFreezeAmount();
+int r_todstart = getRainTODStart(),
+r_todstop = getRainTODStop(),
+s_todstart = getSnowTODStart(),
+s_todstop = getSnowTODStop();*/
+/*EBUS_EVENT_ID_RESULT(simple, entityIds[i], Env_Tile::Env_TileRequestBus, getSimple);
+EBUS_EVENT_ID_RESULT(r_strength, entityIds[i], Env_Tile::Env_TileRequestBus, getRainStrengths);
+EBUS_EVENT_ID_RESULT(s_strength, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowStrengths);
+EBUS_EVENT_ID_RESULT(r_extra, entityIds[i], Env_Tile::Env_TileRequestBus, getRainExtra);
+EBUS_EVENT_ID_RESULT(s_extra_freeze, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowFreezeGround);
+EBUS_EVENT_ID_RESULT(s_extra_freeze_amount, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowFreezeAmount);
+EBUS_EVENT_ID_RESULT(r_todstart, entityIds[i], Env_Tile::Env_TileRequestBus, getRainTODStart);
+EBUS_EVENT_ID_RESULT(r_todstop, entityIds[i], Env_Tile::Env_TileRequestBus, getRainTODStop);
+EBUS_EVENT_ID_RESULT(s_todstart, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowTODStart);
+EBUS_EVENT_ID_RESULT(s_todstop, entityIds[i], Env_Tile::Env_TileRequestBus, getSnowTODStop);
+*/
+//Set trigger properties and attach indices after extracting flags
+//RAIN
+/*if (r_strength > 0){//Rain is enabled
+WeatherUnit tmp_start, tmp_end;
+
+tmp_start.start = true;
+tmp_end.start = false;
+
+//Simple Weather Addition
+if (simple & 1){
+tmp_start.t_cloud = 1;
+tmp_end.t_cloud = 1;
+}
+if (simple & 2){
+tmp_start.t_wind = 1;
+tmp_end.t_wind = 1;
+}
+
+//Rain flags
+tmp_start.t_rain = r_strength;
+tmp_end.t_rain = r_strength;
+
+if (r_extra & 1){
+tmp_start.t_rain_extra_thunder = 1;
+tmp_end.t_rain_extra_thunder = 1;
+}
+if (r_extra & 2){
+tmp_start.t_rain_extra_lightning = 1;
+tmp_end.t_rain_extra_lightning = 1;
+}
+
+
+//Tile
+tmp_start.tileNumber = i;
+tmp_end.tileNumber = i;
+
+//Insert at TOD value
+env_weather_trigger[r_todstart].triggerList.push_back(tmp_start);
+env_weather_trigger[r_todstop].triggerList.push_back(tmp_end);
+
+}
+
+//SNOW
+if (s_strength > 0){//Snow is enabled
+WeatherUnit tmp_start, tmp_end;
+
+tmp_start.start = true;
+tmp_end.start = false;
+
+//Simple Weather Addition
+if (simple & 1){
+tmp_start.t_cloud = 1;
+tmp_end.t_cloud = 1;
+}
+if (simple & 2){
+tmp_start.t_wind = 1;
+tmp_end.t_wind = 1;
+}
+
+//Snow flags
+tmp_start.t_snow = s_strength;
+tmp_end.t_snow = s_strength;
+
+tmp_start.t_snow_extra_freeze = s_extra_freeze;
+tmp_start.t_snow_extra_f_amount = s_extra_freeze_amount;
+
+tmp_end.t_snow_extra_freeze = s_extra_freeze;
+tmp_end.t_snow_extra_f_amount = s_extra_freeze_amount;
+
+//Tile
+tmp_start.tileNumber = i;
+tmp_end.tileNumber = i;
+
+//Insert at TOD value
+env_weather_trigger[s_todstart].triggerList.push_back(tmp_start);
+env_weather_trigger[s_todstop].triggerList.push_back(tmp_end);
+}
+*/
+//SIMPLE ONLY [TODO]: Add in Simple TOD option
+/*if (r_strength==0 && s_strength==0 && simple > 0){
+WeatherUnit tmp_start, tmp_end;
+
+if (simple & 1){
+tmp_start.t_cloud = 1;
+tmp_end.t_cloud = 1;
+}
+if (simple & 2){
+tmp_start.t_wind = 1;
+tmp_end.t_wind = 1;
+}
+
+
+}*/
+//}

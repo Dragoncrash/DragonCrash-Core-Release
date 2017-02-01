@@ -134,10 +134,11 @@ namespace EnvTile
 
 
 		int initialTime = 0;//Time at game start.
-		int tmp_spawned_tiles = 0;//DEBUG: LOGGED TO CONSOLE
+		int tmp_spawned = 0;//DEBUG: LOGGED TO CONSOLE
 
-								  //Helper Functions
+		//Helper Functions
 		void PostActivate();
+		void generateCrystals(AZ::Vector3, AZ::Vector3, float);
 		//From Env_TileBus
 		void preloadTriggersAtTime(int tod) override;//[TODO]
 		WeatherUnit processNextTrigger() override;//[TODO]
@@ -200,6 +201,7 @@ namespace EnvTile
 
 		//Test 2D Vectors
 		AZStd::vector<AZStd::vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>>> decoLayer;
+		int decoLayerObjectCount;
 
 		//[UI_ONLY] -> Local Transform Components
 		AZ::Vector3 offloc = AZ::Vector3::CreateZero();
@@ -217,11 +219,16 @@ namespace EnvTile
 		bool spawnCrystals;
 
 		AZStd::fixed_vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>,4> crystalModels;//Slices that contain the Crystal component
+		AZStd::vector < AZ::Data::Asset<AZ::DynamicPrefabAsset>> hiddenCrystalModels;
 		//Need access to the crystal's hidden variable and placement functions
-
-		int maxCrystals; //gems per player
+		bool advancedMode = false; //if true then the number of crystals is per player
+		int maxCrystals; //gems total. What this means depends on the mode
+		int unhiddenGems;
 		bool multipleCrystalsPerTile = false; // Can there be more than one gem in a tile?
-
+		int numPlayers = 2;
+		//Counters
+		int hiddenSpawned = 0, unhiddenSpawned = 0, totalSpawned = 0;
+		int p1, p2, p3, p4;//Meant for advanced mode (TODO)
 		
 	};
 }
