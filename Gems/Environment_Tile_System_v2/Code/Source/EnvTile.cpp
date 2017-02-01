@@ -484,8 +484,8 @@ namespace EnvTile
 			CryLog("Slice Instantiated");
 		}
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
-		int crystalCount = advancedMode ? maxCrystals*numPlayers : maxCrystals;
-		if (tmp_spawned == loopLength+decoLayerObjectCount+crystalCount)PostActivate();//Base Tiles have spawned and it is safe to iterate.
+		//int crystalCount = advancedMode ? maxCrystals*numPlayers : maxCrystals;
+		if (tmp_spawned == loopLength+decoLayerObjectCount)PostActivate();//Base Tiles have spawned and it is safe to iterate.
 
 		EBUS_EVENT_ID(GetEntityId(), Env_TileNotificationBus, OnSpawned, ticket, entityIds);
 	}
@@ -566,6 +566,7 @@ namespace EnvTile
 			}
 			//Spawn Slice
 			Gen_SpawnSliceRelative(sliceToSpawn, sliceTransform);
+			tilePositions.push_back(sliceTransform.GetPosition());
 			CryLog("Spawned Base Slice: %i", i);
 #pragma endregion Base
 
@@ -585,7 +586,7 @@ namespace EnvTile
 			}
 #pragma endregion Deco
 #pragma region Crystal
-			AZ::Vector3 startRay = sliceTransform.GetPosition();
+			/*AZ::Vector3 startRay = sliceTransform.GetPosition();
 			startRay += AZ::Vector3(0.0, 0.0, (float)(xOffset + yOffset));
 			AZ::Vector3 direction = AZ::Vector3(AZ::VectorFloat(0.0), AZ::VectorFloat(0.0), AZ::VectorFloat(-1.0));
 			CryLog("Start: [%f,%f,%f]", (float)(startRay.GetX()), (float)(startRay.GetY()), (float)(startRay.GetZ()));
@@ -594,7 +595,7 @@ namespace EnvTile
 			CryLog("DISTANCE: %f", distance);
 			if (!multipleCrystalsPerTile) {
 				generateCrystals(startRay,direction,distance);
-			}
+			}*/
 #pragma endregion Crystal
 		}
 
@@ -613,7 +614,19 @@ namespace EnvTile
 #pragma region Helper Functions
 	void Env_TileGenerator::PostActivate() {
 		
-		
+		//CryLog("tilePosition Vector Length = %i", tilePositions.size()); //DEBUG->Worked
+		for (auto item : tilePositions) {
+			AZ::Vector3 start, dir;
+			float rayDistance = (float)(2*(xOffset+yOffset));
+			start = AZ::Vector3(item) + AZ::Vector3(0.0,0.0,(float)(xOffset+yOffset));
+			dir = AZ::Vector3(0.0, 0.0, -1.0);
+
+			CryLog("Start RAY: [%f,%f,%f]", (float)(start.GetX()), (float)(start.GetY()), (float)(start.GetZ()));
+			CryLog("Direction RAY: [%f,%f,%f]", (float)(dir.GetX()), (float)(dir.GetY()), (float)(dir.GetZ()));
+			CryLog("Distance RAY: %f", rayDistance);
+			generateCrystals(start,dir,rayDistance);
+		}
+
 	}
 
 	void Env_TileGenerator::generateCrystals(AZ::Vector3 start, AZ::Vector3 dir, float dist) {
