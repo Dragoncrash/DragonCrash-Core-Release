@@ -162,6 +162,7 @@ namespace EnvTile
 
 		//LAYER->Slice List
 		AZStd::vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>> sliceList;
+		AZStd::vector<AZ::Vector3> tilePositions;
 		int slice_layerID = 0, max_slice_layerID = 0;//For UI
 
 		//Editor UI access to Lists
