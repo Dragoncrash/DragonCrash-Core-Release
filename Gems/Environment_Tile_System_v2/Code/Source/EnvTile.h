@@ -12,6 +12,9 @@
 #include <AzCore/Component/ComponentBus.h>
 #include <LmbrCentral/Physics/PhysicsSystemComponentBus.h>//May not be necessary here
 
+#define MAX_ADVANCED_CRYSTALS 16
+#define MAX_CASUAL_CRYSTALS 3
+
 namespace EnvTile
 {
 	
@@ -217,19 +220,30 @@ namespace EnvTile
 		AzFramework::SliceInstantiationTicket SpawnSliceInternal(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative);
 
 		//Crystals
-		bool spawnCrystals;
 
-		AZStd::fixed_vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>,4> crystalModels;//Slices that contain the Crystal component
+		bool spawnCrystals = true;
+		AZStd::fixed_vector<int, 16> tileIndices;
+		bool multipleCrystalsPerTile = false;
+		bool advancedMode = false;
+		int unhiddenGems;
+		AZStd::fixed_vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>, 4> crystalModels;//Slices that contain the Crystal component
+
+		//Feedback
+		int crystalsSpawned;
+
+		/*bool spawnCrystals;
+
+		
 		AZStd::vector < AZ::Data::Asset<AZ::DynamicPrefabAsset>> hiddenCrystalModels;
 		//Need access to the crystal's hidden variable and placement functions
 		bool advancedMode = false; //if true then the number of crystals is per player
 		int maxCrystals; //gems total. What this means depends on the mode
-		int unhiddenGems;
-		bool multipleCrystalsPerTile = false; // Can there be more than one gem in a tile?
+		
+		 // Can there be more than one gem in a tile?
 		int numPlayers = 2;
 		//Counters
 		int hiddenSpawned = 0, unhiddenSpawned = 0, totalSpawned = 0;
-		int p1, p2, p3, p4;//Meant for advanced mode (TODO)
+		int p1, p2, p3, p4;//Meant for advanced mode (TODO)*/
 		
 	};
 }

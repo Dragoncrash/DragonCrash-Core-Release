@@ -25,7 +25,11 @@ namespace DragonCrashCollectibles
     protected:
         ////////////////////////////////////////////////////////////////////////
         // DragonCrashCollectiblesRequestBus interface implementation
-		bool isHidden() override;
+		bool getHidden() override;
+		bool getEnabled() override;
+
+		void setHidden(bool) override;
+		void setEnabled(bool) override;
 		void setCrystalModel(AZ::Data::Asset<AZ::DynamicPrefabAsset>) override;
         ////////////////////////////////////////////////////////////////////////
 
@@ -35,9 +39,16 @@ namespace DragonCrashCollectibles
         void Activate() override;
         void Deactivate() override;
         ////////////////////////////////////////////////////////////////////////
-
-		bool hidden = false;
+		bool enabled = false;
+		bool hidden = true;
 		bool forceLocalSlice = false;
-		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;
+		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;//Replace in favor of regular spawner
+		AZ::Data::Asset<AZ::DynamicPrefabAsset> staticModel;
+		//Use Lua for more functionality
+
+		//Keep track of spawned Entity IDs
+
     };
+
+	
 }

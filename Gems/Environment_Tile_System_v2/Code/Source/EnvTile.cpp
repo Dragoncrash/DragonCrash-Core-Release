@@ -92,12 +92,14 @@ namespace EnvTile
 
 				//Crystals
 				->Field("Spawn Crystals", &Env_TileGenerator::spawnCrystals)
-				->Field("Crystal Slices", &Env_TileGenerator::crystalModels)
-				->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenCrystalModels)
-				->Field("Maximum Crystals", &Env_TileGenerator::maxCrystals)
+				->Field("Tile Indices", &Env_TileGenerator::tileIndices)
 				->Field("Multi-Crystal Placement", &Env_TileGenerator::multipleCrystalsPerTile)
 				->Field("Advanced Mode", &Env_TileGenerator::advancedMode)
 				->Field("Free Floating Gems", &Env_TileGenerator::unhiddenGems)
+				->Field("Crystal Slices", &Env_TileGenerator::crystalModels)
+				/*->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenCrystalModels)
+				->Field("Maximum Crystals", &Env_TileGenerator::maxCrystals)				
+				*/
 				;
 
 			if (AZ::EditContext* ec = serialize->GetEditContext())
@@ -224,17 +226,21 @@ namespace EnvTile
 						->Attribute(CN, &Env_TileGenerator::onListLengthChanged)
 						//Decorative Layer
 						->DataElement(UI_D, &Env_TileGenerator::decoLayer, "Decorative Layer Slice List", "Slices to spawn on top of base tile.")
-
+						
 					//Crystals
 					->ClassElement(GRP, "Crystals")
 						->DataElement(UI_D, &Env_TileGenerator::spawnCrystals, "Spawn Crystals", "Enables or disables the spawning of Collectible Crystals")
+						->DataElement(UI_D, &Env_TileGenerator::multipleCrystalsPerTile, "Multi-Crystal Placement", "If true, then multiple gems can be spawned on the same tile.")
 						->DataElement(UI_D, &Env_TileGenerator::advancedMode, "Advanced Mode", "If advanced mode, each player gets maxCrystals amount of Crystals in their color. Else maxCrystals is the total number of crystals for all players.")
+						->DataElement(UI_D, &Env_TileGenerator::unhiddenGems, "Free Floating Crystals", "Number of Crystals to spawn out in the open dynamically.")
+						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
+					/*	
 						->DataElement(UI_D, &Env_TileGenerator::maxCrystals,"Max Crystals","Maximum number of crystals to spawn per player.")
 						->Attribute(AZ::Edit::Attributes::Min, 0)
-						->DataElement(UI_D, &Env_TileGenerator::unhiddenGems, "Free Floating Crystals", "Number of Crystals to spawn out in the open dynamically.")
+						
 						->Attribute(AZ::Edit::Attributes::Min, 0)
 						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
-						->DataElement(UI_D, &Env_TileGenerator::multipleCrystalsPerTile,"Multi-Crystal Placement", "If true, then multiple gems can be spawned on the same tile.")
+						*/
 					;
 
 			}
@@ -585,18 +591,6 @@ namespace EnvTile
 				}
 			}
 #pragma endregion Deco
-#pragma region Crystal
-			/*AZ::Vector3 startRay = sliceTransform.GetPosition();
-			startRay += AZ::Vector3(0.0, 0.0, (float)(xOffset + yOffset));
-			AZ::Vector3 direction = AZ::Vector3(AZ::VectorFloat(0.0), AZ::VectorFloat(0.0), AZ::VectorFloat(-1.0));
-			CryLog("Start: [%f,%f,%f]", (float)(startRay.GetX()), (float)(startRay.GetY()), (float)(startRay.GetZ()));
-			CryLog("Direction: [%f,%f,%f]", (float)(direction.GetX()), (float)(direction.GetY()), (float)(direction.GetZ()));
-			float distance = 2 * (float)(xOffset + yOffset);
-			CryLog("DISTANCE: %f", distance);
-			if (!multipleCrystalsPerTile) {
-				generateCrystals(startRay,direction,distance);
-			}*/
-#pragma endregion Crystal
 		}
 
 
@@ -615,7 +609,7 @@ namespace EnvTile
 	void Env_TileGenerator::PostActivate() {
 		
 		//CryLog("tilePosition Vector Length = %i", tilePositions.size()); //DEBUG->Worked
-		for (auto item : tilePositions) {
+		/*for (auto item : tilePositions) {
 			AZ::Vector3 start, dir;
 			float rayDistance = (float)(2*(xOffset+yOffset));
 			start = AZ::Vector3(item) + AZ::Vector3(0.0,0.0,(float)(xOffset+yOffset));
@@ -625,11 +619,11 @@ namespace EnvTile
 			CryLog("Direction RAY: [%f,%f,%f]", (float)(dir.GetX()), (float)(dir.GetY()), (float)(dir.GetZ()));
 			CryLog("Distance RAY: %f", rayDistance);
 			generateCrystals(start,dir,rayDistance);
-		}
+		}*/
 
 	}
 
-	void Env_TileGenerator::generateCrystals(AZ::Vector3 start, AZ::Vector3 dir, float dist) {
+	/*void Env_TileGenerator::generateCrystals(AZ::Vector3 start, AZ::Vector3 dir, float dist) {
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
 		if (spawnCrystals) {
 			if (!multipleCrystalsPerTile) {
@@ -647,7 +641,7 @@ namespace EnvTile
 				}
 			}
 		}
-	}
+	}*/
 
 	void Env_TileGenerator::preloadTriggersAtTime(int tod) {
 		/*CryLog("Loading Triggers for Time: %i", tod);

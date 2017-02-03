@@ -16,25 +16,30 @@
 
 namespace DragonCrashCollectibles
 {
+
+#pragma region Crystal
     void Crystal::Reflect(AZ::ReflectContext* context)
     {
         if (AZ::SerializeContext* serialize = azrtti_cast<AZ::SerializeContext*>(context))
         {
 			serialize->Class<Crystal, AZ::Component>()
 				->Version(0)
+				->Field("Crystal-Enabled", &Crystal::enabled)
 				->Field("Crystal-Hidden", &Crystal::hidden)
 				->Field("Crystal-ForceLocalModel", &Crystal::forceLocalSlice)
-				->Field("Crystal-Slices", &Crystal::crystalModel)
+				->Field("Crystal-Slice", &Crystal::crystalModel)
+				->Field("Crystal-Static Slice", &Crystal::staticModel)
 				;
             if (AZ::EditContext* ec = serialize->GetEditContext())
             {
                 ec->Class<Crystal>("Crystal", "A collectible crystal")
                     ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
                         ->Attribute(AZ::Edit::Attributes::Category, "DragonCrash-Collectibles")
-                        ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("System"))
+                        ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("Game"))
                         ->Attribute(AZ::Edit::Attributes::AutoExpand, true)
 
 					->ClassElement(GRP, "Crystal")
+					->DataElement(UI_D, &Crystal::enabled, "Enabled", "If enabled, this asset can function as the gem.")
 					->DataElement(UI_D, &Crystal::hidden, "Hidden in Mesh", "If true, the crystal will be hidden inside a destructible mesh. Else it will appear above the entity's position.")
 					->DataElement(UI_D, &Crystal::forceLocalSlice, "Force Local Slice", "If true, then this gem will use the specified slice as specified below.")
 					->DataElement(UI_D, &Crystal::crystalModel, "Crystal Slice","Slice to assign to this gem (Can be overwritten from the Environment Tile)")
@@ -78,12 +83,27 @@ namespace DragonCrashCollectibles
     }
 
 #pragma region DragonCrashCollectibleRequestBus
-	bool Crystal::isHidden() {
+	bool Crystal::getHidden() {
 		return hidden;
+	}
+	bool Crystal::getEnabled(){
+		return enabled;
+	}
+
+	void Crystal::setHidden(bool b){
+		hidden = b;
+	}
+
+	void Crystal::setEnabled(bool b){
+		enabled = b;
 	}
 
 	void Crystal::setCrystalModel(AZ::Data::Asset<AZ::DynamicPrefabAsset> slice) {
 		crystalModel = slice;
 	}
 #pragma endregion DragonCrashCollectibleRequestBus
+
+#pragma endregion Crystal
+
+
 }
