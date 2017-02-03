@@ -10,6 +10,7 @@
 #include <AzFramework/Math/MathUtils.h>
 #include <IPhysics.h>
 #include <MathConversion.h>
+#include <LmbrCentral/Scripting/TagComponentBus.h>
 
 #include "DragonCrashControllerComponent.h"
 
@@ -181,7 +182,49 @@ namespace DragonCrashController
 		action.v = AZVec3ToLYVec3(forwardVelocity);
 		action.w = AZVec3ToLYVec3(angularVelocity);
 
-		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, action);
+		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, action, false);
+	}
+
+	void DragonCrashControllerComponent::HandleDragonCrashTick(float deltaTime)
+	{
+
+	}
+
+	void DragonCrashControllerComponent::HandleShieldTick(float deltaTime)
+	{
+
+	}
+
+	void DragonCrashControllerComponent::HandleAttackTick(float deltaTime)
+	{
+
+	}
+
+	void DragonCrashControllerComponent::HandleDeadTick(float deltaTime)
+	{
+		pe_action_set_velocity action;
+		action.v = AZVec3ToLYVec3(AZ::Vector3(0,0,0));
+		action.w = AZVec3ToLYVec3(AZ::Vector3(0,0,0));
+		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, action, false);
+
+		m_respawnTimer += deltaTime;
+		if (m_respawnTimer >= m_respawnTime) 
+			OnSpawn();
+	}
+
+	void DragonCrashControllerComponent::HandleDragonCollision(Collision collision)
+	{
+
+	}
+
+	void DragonCrashControllerComponent::HandleAttackCollision(Collision collision)
+	{
+
+	}
+
+	void DragonCrashControllerComponent::HandleOtherCollision(Collision collision)
+	{
+
 	}
 
 	void DragonCrashControllerComponent::Init()
@@ -223,6 +266,8 @@ namespace DragonCrashController
 
 		AZ::GameplayNotificationId mainFireId(GetEntityId(), "main_fire");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(mainFireId);
+
+		OnSpawn();
 	}
 
 	void DragonCrashControllerComponent::Deactivate()
@@ -234,21 +279,30 @@ namespace DragonCrashController
 	void DragonCrashControllerComponent::OnTick(float deltaTime, AZ::ScriptTimePoint time)
 	{
 		if (!m_isDead && m_healthCurrent <= 0.0)
-		{
 			OnDeath();
-		}
 
 		if (!m_isDead)
 		{
 			HandleMovementTick(deltaTime);
 			HandleDragonCrashTick(deltaTime);
-			HandleShieldingTick(deltaTime);
-			HandleFiringTick(deltaTime);
+			HandleShieldTick(deltaTime);
+			HandleAttackTick(deltaTime);
 		}
 		else
-		{
 			HandleDeadTick(deltaTime);
-		}
+	}
+
+	void DragonCrashControllerComponent::OnCollision(const Collision& collision)
+	{
+		LmbrCentral::Tags collidedTags;
+		EBUS_EVENT_ID_RESULT(collidedTags, GetEntityId(), LmbrCentral::TagComponentRequestBus, GetTags);
+
+		if (collidedTags.find(AZ_CRC("dragon")) != collidedTags.end())
+			HandleDragonCollision(collision);
+		if (collidedTags.find(AZ_CRC("attack")) != collidedTags.end())
+			HandleAttackCollision(collision);
+		else
+			HandleOtherCollision(collision);
 	}
 
 	void DragonCrashControllerComponent::OnGameplayEventAction(const float& value)

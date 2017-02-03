@@ -1,7 +1,7 @@
 #pragma once
 
-#include <AzCore\Component\Component.h>
-#include <AzCore\Component\TickBus.h>
+#include <AzCore/Component/Component.h>
+#include <AzCore/Component/TickBus.h>
 #include <GameplayEventBus.h>
 #include <LmbrCentral/Physics/PhysicsComponentBus.h>
 
@@ -10,6 +10,7 @@ namespace DragonCrashController
 	class DragonCrashControllerComponent
 		: public AZ::Component
 		, public AZ::TickBus::Handler
+		, public LmbrCentral::PhysicsComponentNotificationBus::Handler
 		, public AZ::GameplayNotificationBus<float>::MultiHandler
 	{
 	public:
@@ -27,6 +28,9 @@ namespace DragonCrashController
 		// TickBus
 		void OnTick(float deltaTime, AZ::ScriptTimePoint time) override;
 
+		// PhysicsComponentNotificationBus
+		void OnCollision(const Collision& collision) override;
+
 		// GameplayNotificationBus
 		void OnGameplayEventAction(const float& value) override;
 		void OnGameplayEventFailed() override;
@@ -37,13 +41,13 @@ namespace DragonCrashController
 
 		void HandleMovementTick(float deltaTime);
 		void HandleDragonCrashTick(float deltaTime);
-		void HandleShieldingTick(float deltaTime);
-		void HandleFiringTick(float deltaTime);
+		void HandleShieldTick(float deltaTime);
+		void HandleAttackTick(float deltaTime);
 		void HandleDeadTick(float deltaTime);
 
-		void HandleDragonCollision(LmbrCentral::PhysicsComponentNotifications::Collision collision);
-		void HandleAttackCollision(LmbrCentral::PhysicsComponentNotifications::Collision collision);
-		void HandleOtherCollision(LmbrCentral::PhysicsComponentNotifications::Collision collision);
+		void HandleDragonCollision(Collision collision);
+		void HandleAttackCollision(Collision collision);
+		void HandleOtherCollision(Collision collision);
 
 		// Editor-exposed settings
 		float m_flightSpeed;

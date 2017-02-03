@@ -180,19 +180,19 @@ function dragoncontroller:OnActivate()
 	self.physicsHandler = PhysicsComponentNotificationBusHandler(self, self.entityId);
 	
 	-- main yaw input handler
-	self.mainYawEventId = GameplayNotificationId(self.entityId, "main yaw");
+	self.mainYawEventId = GameplayNotificationId(self.entityId, "main_yaw");
 	self.mainYawHandler = FloatGameplayNotificationBusHandler(self, self.mainYawEventId);
 	
 	-- main pitch input handler
-	self.mainPitchEventId = GameplayNotificationId(self.entityId, "main pitch");
+	self.mainPitchEventId = GameplayNotificationId(self.entityId, "main_pitch");
 	self.mainPitchHandler = FloatGameplayNotificationBusHandler(self, self.mainPitchEventId);
 	
 	-- secondary yaw input handler
-	self.secondaryYawEventId = GameplayNotificationId(self.entityId, "secondary yaw");
+	self.secondaryYawEventId = GameplayNotificationId(self.entityId, "secondary_yaw");
 	self.secondaryYawHandler = FloatGameplayNotificationBusHandler(self, self.secondaryYawEventId);
 	
 	-- secondary pitch input handler
-	self.secondaryPitchEventId = GameplayNotificationId(self.entityId, "secondary pitch");
+	self.secondaryPitchEventId = GameplayNotificationId(self.entityId, "secondary_pitch");
 	self.secondaryPitchHandler = FloatGameplayNotificationBusHandler(self, self.secondaryPitchEventId);
 	
 	-- ascend input handler
@@ -212,7 +212,7 @@ function dragoncontroller:OnActivate()
 	self.aimHandler = FloatGameplayNotificationBusHandler(self, self.aimId);
 	
 	-- main fire input handler
-	self.mainFireId = GameplayNotificationId(self.entityId, "main fire");
+	self.mainFireId = GameplayNotificationId(self.entityId, "main_fire");
 	self.mainFireHandler = FloatGameplayNotificationBusHandler(self, self.mainFireId);
 	
 	-- entity senders
@@ -268,12 +268,12 @@ function dragoncontroller:OnCollision(collision)
 	
 	if (collisionTagSender) then
 		-- check for collision between dragons
-		if (collisionTagSender:HasTag( Crc32("dragon")) ) then
+		if (collisionTagSender:HasTag( Crc32("dragon") )) then
 			self:HandleDragonCollision(collision);
 		end
 		
 		-- check for collision with attack projectile
-		if (collisionTagSender:HasTag( Crc32("attack")) ) then
+		if (collisionTagSender:HasTag( Crc32("attack") )) then
 			self:HandleAttackCollision(collision);
 		end
 	end

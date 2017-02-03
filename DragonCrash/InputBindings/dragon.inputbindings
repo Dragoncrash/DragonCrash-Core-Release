@@ -3,7 +3,7 @@
 		<Class name="InputEventBindings" field="Bindings" version="1" type="{14FFD4A8-AE46-4E23-B45B-6A7C4F787A91}">
 			<Class name="AZStd::vector" field="Input Event Groups" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
 				<Class name="InputEventGroup" field="element" version="1" type="{25143B7E-2FEC-4CC5-92FE-270B67E79734}">
-					<Class name="AZStd::string" field="Event Name" value="main yaw" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+					<Class name="AZStd::string" field="Event Name" value="main_yaw" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 					<Class name="AZStd::vector" field="Event Generators" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
 						<Class name="Analog" field="element" version="2" type="{806F21D9-11EA-47FC-8B89-FDB67AADE4FF}">
 							<Class name="SingleEventToAction" field="BaseClass1" version="2" type="{2C93824D-D011-459C-B12B-9F4A6148730C}">
@@ -26,7 +26,7 @@
 					</Class>
 				</Class>
 				<Class name="InputEventGroup" field="element" version="1" type="{25143B7E-2FEC-4CC5-92FE-270B67E79734}">
-					<Class name="AZStd::string" field="Event Name" value="main pitch" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+					<Class name="AZStd::string" field="Event Name" value="main_pitch" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 					<Class name="AZStd::vector" field="Event Generators" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
 						<Class name="Analog" field="element" version="2" type="{806F21D9-11EA-47FC-8B89-FDB67AADE4FF}">
 							<Class name="SingleEventToAction" field="BaseClass1" version="2" type="{2C93824D-D011-459C-B12B-9F4A6148730C}">
@@ -49,7 +49,7 @@
 					</Class>
 				</Class>
 				<Class name="InputEventGroup" field="element" version="1" type="{25143B7E-2FEC-4CC5-92FE-270B67E79734}">
-					<Class name="AZStd::string" field="Event Name" value="secondary yaw" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+					<Class name="AZStd::string" field="Event Name" value="secondary_yaw" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 					<Class name="AZStd::vector" field="Event Generators" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
 						<Class name="Analog" field="element" version="2" type="{806F21D9-11EA-47FC-8B89-FDB67AADE4FF}">
 							<Class name="SingleEventToAction" field="BaseClass1" version="2" type="{2C93824D-D011-459C-B12B-9F4A6148730C}">
@@ -85,7 +85,7 @@
 					</Class>
 				</Class>
 				<Class name="InputEventGroup" field="element" version="1" type="{25143B7E-2FEC-4CC5-92FE-270B67E79734}">
-					<Class name="AZStd::string" field="Event Name" value="secondary pitch" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+					<Class name="AZStd::string" field="Event Name" value="secondary_pitch" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 					<Class name="AZStd::vector" field="Event Generators" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
 						<Class name="Analog" field="element" version="2" type="{806F21D9-11EA-47FC-8B89-FDB67AADE4FF}">
 							<Class name="SingleEventToAction" field="BaseClass1" version="2" type="{2C93824D-D011-459C-B12B-9F4A6148730C}">
