@@ -12,7 +12,7 @@ properties = {
 
 
 function spawnpoint:OnActivate()
-Debug.Log("Spawn active");
+--Debug.Log("Spawn active");
 
 
  -- Register our tick bus handler
@@ -44,7 +44,7 @@ function spawnpoint:OnDeactivate()
         self.spawnerNotiBusHandler:Disconnect()
         self.spawnerNotiBusHandler = nil
     end
-Debug.Log("Spawn Deactive");
+--Debug.Log("Spawn Deactive");
 end
 
 
@@ -66,13 +66,13 @@ if self.timer >= self.spawnTimer then
             self:SpawnSlice()
             self.timer = 0
 	end
-  
-Debug.Log(self.timer);
+  --Debug.Log("ontick");
+--Debug.Log(self.timer);
   
 end
 
 function spawnpoint:OnEntitySpawned(sliceTicket,entityId)
     -- Let's give our spawned entity a bit of upward velocity, just so we can see that this is indeed working.
     PhysicsSender = PhysicsComponentRequestBusSender(entityId)
-    PhysicsSender:SetVelocity(Vector3(0.0,0.0,10.0))
+    PhysicsSender:SetVelocity(Vector3(0.0,-10.0,0.0))
 end
