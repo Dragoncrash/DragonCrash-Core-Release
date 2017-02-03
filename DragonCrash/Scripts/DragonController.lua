@@ -45,7 +45,7 @@ dragoncontroller =
 		IsDead = false,				-- if the dragon is currently dead
 		HealthCurrent = 0.0,		-- how much health the dragon has
 		RespawnTimer = 0.0,			-- how long the dragons been dead
-		-- TODO: add new state valuses here
+		-- TODO: add new state values here
 	},
 }
 
@@ -98,7 +98,7 @@ function dragoncontroller:HandleMovementTick(deltaTime)
 	elseif (self.StateValues.Pitch < -self.Properties.PitchAngleLimit) then
 		self.StateValues.Pitch = -self.Properties.PitchAngleLimit;
 	end
-	
+		
 	-- get transform
 	local transform = self.transformSender:GetWorldTM();
 		
@@ -110,10 +110,21 @@ function dragoncontroller:HandleMovementTick(deltaTime)
 						  * Quaternion.CreateRotationX(self.StateValues.Pitch) 
 						  * Quaternion.CreateRotationY(roll);
 						  
-	-- apply angular velocity to reach desired rotation
+	-- compute difference between current and desired
+	local difference = desiredRotation * currentRotation:GetInverseFast();
 	
+	-- convert difference to yaw pitch roll and form angular velocity
+	local angularVelocity = Vector3( 
+		  math.atan(2 * (difference.w * difference.x + difference.y * difference.z), 1 - 2 * (difference.x^2 + difference.y^2)) -- roll
+		, math.asin(2 * (difference.w * difference.y - difference.z * difference.x))											-- yaw
+		, math.atan(2 * (difference.w * difference.z + difference.x * difference.y), 1 - 2 * (difference.y^2 + difference.z^2)) -- pitch
+		);
+	angularVelocity = angularVelocity * 0.8 / deltaTime;
 	
-	-- apply forward velocity
+	-- apply angular impulse to reach desired rotation
+	self.physicsSender:SetAngularVelocity(angularVelocity);
+	
+	-- apply forward impulse
 	local forwardDirection = transform:GetColumn(1);
 	forwardDirection:Normalize();
 	self.physicsSender:SetVelocity(forwardDirection * self.Properties.FlightSpeed);

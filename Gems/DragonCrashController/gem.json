@@ -1,0 +1,11 @@
+{
+    "GemFormatVersion": 3,
+    "Uuid": "7662a13aee7e4f43a6cdf658973809c6",
+    "Name": "DragonCrashController",
+    "DisplayName": "DragonCrashController",
+    "Version": "0.1.0",
+    "LinkType": "Dynamic",
+    "Summary": "A short description of my Gem.",
+    "Tags": ["Untagged"],
+    "IconPath": "preview.png"
+}

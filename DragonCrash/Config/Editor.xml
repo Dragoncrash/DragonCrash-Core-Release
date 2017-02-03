@@ -48,6 +48,9 @@
 				<Class name="AZStd::string" field="dynamicLibraryPath" value="Gem.StartingPointMovement.73d8779dc28a4123b7c9ed76217464af.v0.1.0" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 			</Class>
 			<Class name="DynamicModuleDescriptor" field="element" type="{D2932FA3-9942-4FD2-A703-2E750F57C003}">
+				<Class name="AZStd::string" field="dynamicLibraryPath" value="Gem.DragonCrashController.7662a13aee7e4f43a6cdf658973809c6.v0.1.0" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+			</Class>
+			<Class name="DynamicModuleDescriptor" field="element" type="{D2932FA3-9942-4FD2-A703-2E750F57C003}">
 				<Class name="AZStd::string" field="dynamicLibraryPath" value="Gem.GameLift.76de765796504906b73be7365a9bff06.v2.0.0" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 			</Class>
 			<Class name="DynamicModuleDescriptor" field="element" type="{D2932FA3-9942-4FD2-A703-2E750F57C003}">

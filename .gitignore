@@ -14,8 +14,10 @@
 !/Code/DragonCrash/**
 
 # Add Custom Gems
+# Form: !/Gems/GEM_NAME/**
 !/Gems/DragonCrashCollectibles/**
 !/Gems/Environment_Tile_System_v2/**
+!/Gems/DragonCrashController/**
 
 # Remove Save Backups
 _savebackup

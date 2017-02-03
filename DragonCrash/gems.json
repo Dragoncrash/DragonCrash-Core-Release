@@ -74,6 +74,12 @@
             "_comment": "StartingPointMovement"
         },
         {
+            "Path": "Gems/DragonCrashController",
+            "Uuid": "7662a13aee7e4f43a6cdf658973809c6",
+            "Version": "0.1.0",
+            "_comment": "DragonCrashController"
+        },
+        {
             "Path": "Gems/GameLift",
             "Uuid": "76de765796504906b73be7365a9bff06",
             "Version": "2.0.0",
