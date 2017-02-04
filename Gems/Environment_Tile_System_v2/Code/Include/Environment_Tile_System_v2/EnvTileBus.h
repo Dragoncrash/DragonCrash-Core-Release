@@ -8,17 +8,6 @@
 
 namespace EnvTile
 {
-   /* class Environment_Tile_System_v2Requests
-        : public AZ::EBusTraits
-    {
-
-    public:
-        static const AZ::EBusHandlerPolicy HandlerPolicy = AZ::EBusHandlerPolicy::Single;
-        static const AZ::EBusAddressPolicy AddressPolicy = AZ::EBusAddressPolicy::Single;
-        // Public functions
-    };
-    using Environment_Tile_System_v2RequestBus = AZ::EBus<Environment_Tile_System_v2Requests>;
-	*/
 
 	class Env_GeneratorRequests : public AZ::ComponentBus
 	{
@@ -27,6 +16,7 @@ namespace EnvTile
 		// EBusTraits overrides
 		static const AZ::EBusHandlerPolicy HandlerPolicy = AZ::EBusHandlerPolicy::Single;
 		static const AZ::EBusAddressPolicy AddressPolicy = AZ::EBusAddressPolicy::ById;
+		using BusIdType = AZ::EntityId;
 		//////////////////////////////////////////////////////////////////////////
 		virtual ~Env_GeneratorRequests() {}
 

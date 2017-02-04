@@ -41,6 +41,8 @@ namespace DragonCrashCollectibles
 		void setHidden(bool) override;
 		void setEnabled(bool) override;
 		void setCrystalModel(AZ::Data::Asset<AZ::DynamicPrefabAsset>) override;
+
+		bool isCrystal() override { return true; }
         ////////////////////////////////////////////////////////////////////////
 
         ////////////////////////////////////////////////////////////////////////
@@ -51,8 +53,7 @@ namespace DragonCrashCollectibles
         ////////////////////////////////////////////////////////////////////////
 		bool enabled = false;
 		bool hidden = true;
-		bool forceLocalSlice = false;
-		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;//Replace in favor of regular spawner
+		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;
 		AZ::Data::Asset<AZ::DynamicPrefabAsset> staticModel;
 		
 	private:

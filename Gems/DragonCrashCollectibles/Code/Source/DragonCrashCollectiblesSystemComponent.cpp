@@ -34,7 +34,7 @@ namespace DragonCrashCollectibles
 				->Version(0)
 				->Field("Crystal-Enabled", &Crystal::enabled)
 				->Field("Crystal-Hidden", &Crystal::hidden)
-				->Field("Crystal-ForceLocalModel", &Crystal::forceLocalSlice)
+				//->Field("Crystal-ForceLocalModel", &Crystal::forceLocalSlice)
 				->Field("Crystal-Slice", &Crystal::crystalModel)
 				->Field("Crystal-Static Slice", &Crystal::staticModel)
 				;
@@ -49,8 +49,10 @@ namespace DragonCrashCollectibles
 					->ClassElement(GRP, "Crystal")
 					->DataElement(UI_D, &Crystal::enabled, "Enabled", "If enabled, this asset can function as the gem.")
 					->DataElement(UI_D, &Crystal::hidden, "Hidden in Mesh", "If true, the crystal will be hidden inside a destructible mesh. Else it will appear above the entity's position.")
-					->DataElement(UI_D, &Crystal::forceLocalSlice, "Force Local Slice", "If true, then this gem will use the specified slice as specified below.")
-					->DataElement(UI_D, &Crystal::crystalModel, "Crystal Slice","Slice to assign to this gem (Can be overwritten from the Environment Tile)")
+					//->DataElement(UI_D, &Crystal::forceLocalSlice, "Force Local Slice", "If true, then this gem will use the specified slice as specified below.")
+					->DataElement(UI_D, &Crystal::crystalModel, "Crystal Slice","Slice to assign to this Crystal if enabled ")
+					->DataElement(UI_D, &Crystal::staticModel, "Static Slice", "Slice to assign if the Crystal is not enabled or is hidden")
+
                     ;
             }
         }
@@ -82,7 +84,7 @@ namespace DragonCrashCollectibles
 
     void Crystal::Activate()
     {
-       CrystalRequestBus::Handler::BusConnect();
+       CrystalRequestBus::Handler::BusConnect(GetEntityId());
     }
 
     void Crystal::Deactivate()
@@ -137,7 +139,7 @@ namespace DragonCrashCollectibles
 		const AZ::PrefabComponent::EntityList& entities = sliceAddress.second->GetInstantiated()->m_entities;
 		for (AZ::Entity * currEntity : entities)
 		{
-			CryLog("Slice Instantiated");
+			CryLog("Crystal->Slice Instantiated");
 		}
 
 		//EBUS_EVENT_ID(GetEntityId(), Env_TileNotificationBus, OnSpawned, ticket, entityIds);

@@ -12,6 +12,7 @@
 #include <AzFramework/Entity/EntityContextBus.h>
 #include <AzFramework/Entity/GameEntityContextBus.h>
 #include <AzCore/Component/TransformBus.h>
+#include <DragonCrashCollectibles/DragonCrashCollectiblesBus.h>
 
 #include "EnvTile.h"
 
@@ -522,11 +523,12 @@ namespace EnvTile
 				}
 			}
 		}
+		//Get number of loop iterations based on spawnType setting (Also the number of Base Tiles)
+		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
+
 
 		//Spawn logic triggered on activation
 #pragma region Base
-		//Get number of loop iterations based on spawnType setting
-		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
 		AZ::Vector3 accumulatedOffset = AZ::Vector3::CreateZero();//Accumulates the offset used to determine grid position.
 
 		//Loop through the list and spawn after constructing proper transforms.
@@ -607,41 +609,39 @@ namespace EnvTile
 
 #pragma region Helper Functions
 	void Env_TileGenerator::PostActivate() {
-		
-		//CryLog("tilePosition Vector Length = %i", tilePositions.size()); //DEBUG->Worked
-		/*for (auto item : tilePositions) {
-			AZ::Vector3 start, dir;
-			float rayDistance = (float)(2*(xOffset+yOffset));
-			start = AZ::Vector3(item) + AZ::Vector3(0.0,0.0,(float)(xOffset+yOffset));
-			dir = AZ::Vector3(0.0, 0.0, -1.0);
+		//Crystals
+		int maxCrystals = advancedMode ? MAX_ADVANCED_CRYSTALS : MAX_CASUAL_CRYSTALS;
 
-			CryLog("Start RAY: [%f,%f,%f]", (float)(start.GetX()), (float)(start.GetY()), (float)(start.GetZ()));
-			CryLog("Direction RAY: [%f,%f,%f]", (float)(dir.GetX()), (float)(dir.GetY()), (float)(dir.GetZ()));
-			CryLog("Distance RAY: %f", rayDistance);
-			generateCrystals(start,dir,rayDistance);
-		}*/
+		//int p1, p2, p3, p4;//Advanced mode only
+		int r;
+		bool reserved = false;
+		AZStd::vector<int> reservedNumbers;
 
-	}
-
-	/*void Env_TileGenerator::generateCrystals(AZ::Vector3 start, AZ::Vector3 dir, float dist) {
-		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
-		if (spawnCrystals) {
-			if (!multipleCrystalsPerTile) {
-				srand((int)time(NULL));
-				int r = rand() % loopLength;
-				if (r >= loopLength/2 || true) {//Spawn Crystal
-					//TODO:HIDDEN CRYSTAL LOGIC
-					if (unhiddenSpawned < unhiddenGems) {
-						LmbrCentral::PhysicsSystemRequests::RayCastHit ray;
-						EBUS_EVENT_RESULT(ray, LmbrCentral::PhysicsSystemRequestBus, RayCast, start, dir, dist, 2,LmbrCentral::PhysicalEntityTypes::All);
-						
-						CryLog("CRYSTAL RAYCAST: Hit at postition: [%f,%f,%f]", (float)(ray.m_position.GetX()), (float)(ray.m_position.GetY()), (float)(ray.m_position.GetZ()));
-						CryLog("CRYSTAL RAYCAST: Distance of hit = %f", ray.m_distance);
-					}
+		while (crystalsSpawned < maxCrystals) {
+			reserved = false;
+			srand((int)time(NULL));
+			r = rand() % entityIds.size();
+			for (auto num : reservedNumbers) {
+				if (num == r) { reserved = true; break; }
+			}
+			if (reserved)continue;
+			else {
+				bool objIsCrystal = false;
+				EBUS_EVENT_ID_RESULT(objIsCrystal, entityIds[r], DragonCrashCollectibles::CrystalRequestBus, isCrystal);
+				//EBUS_EVENT_ID(entityIds[r], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+				if (objIsCrystal) {
+					CryLog("Object is a Crystal!! Index %i", r);
+					crystalsSpawned++;
 				}
+				else {
+					CryLog("Object is not a Crystal!! Index %i", r);
+					crystalsSpawned++;
+				}
+				//reservedNumbers.push_back(r);
+
 			}
 		}
-	}*/
+	}
 
 	void Env_TileGenerator::preloadTriggersAtTime(int tod) {
 		/*CryLog("Loading Triggers for Time: %i", tod);

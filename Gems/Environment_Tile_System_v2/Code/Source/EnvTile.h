@@ -141,7 +141,7 @@ namespace EnvTile
 
 		//Helper Functions
 		void PostActivate();
-		void generateCrystals(AZ::Vector3, AZ::Vector3, float);
+		//void generateCrystals(AZ::Vector3, AZ::Vector3, float);
 		//From Env_TileBus
 		void preloadTriggersAtTime(int tod) override;//[TODO]
 		WeatherUnit processNextTrigger() override;//[TODO]
