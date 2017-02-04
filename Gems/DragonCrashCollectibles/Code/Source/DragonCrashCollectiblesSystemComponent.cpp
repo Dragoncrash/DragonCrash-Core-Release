@@ -3,6 +3,14 @@
 
 #include <AzCore/Serialization/SerializeContext.h>
 #include <AzCore/Serialization/EditContext.h>
+#include <AzCore/Component/Entity.h>
+#include <ISystem.h>
+
+//Buses
+#include <AzCore/Component/ComponentApplicationBus.h>
+#include <AzFramework/Entity/EntityContextBus.h>
+#include <AzFramework/Entity/GameEntityContextBus.h>
+#include <AzCore/Component/TransformBus.h>
 
 #include "DragonCrashCollectiblesSystemComponent.h"
 
@@ -101,6 +109,62 @@ namespace DragonCrashCollectibles
 	void Crystal::setCrystalModel(AZ::Data::Asset<AZ::DynamicPrefabAsset> slice) {
 		crystalModel = slice;
 	}
+
+#pragma region Spawner
+	void Crystal::Spawn() {
+		if (enabled) {
+			if (hidden)Crystal_SpawnSlice(staticModel);
+			else Crystal_SpawnSlice(crystalModel);
+		}
+		else Crystal_SpawnSlice(staticModel);
+	}
+
+	AzFramework::SliceInstantiationTicket Crystal::Crystal_SpawnSlice(const AZ::Data::Asset<AZ::Data::AssetData>& slice) {
+		return SpawnSliceInternal(slice, AZ::Transform::Identity());
+	}
+
+	AzFramework::SliceInstantiationTicket Crystal::Crystal_SpawnSliceRelative(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative) {
+		return SpawnSliceInternal(slice, relative);
+	}
+
+	void Crystal::OnSliceInstantiated(const AZ::Data::AssetId& sliceAssetId, const AZ::PrefabComponent::PrefabInstanceAddress& sliceAddress) {
+		//Taken from SpawnerComponent: spawns all entities packaged in the slice.
+		const AzFramework::SliceInstantiationTicket& ticket = (*AzFramework::SliceInstantiationResultBus::GetCurrentBusId());
+
+		// Stop listening for this ticket (since it's done). We can have have multiple tickets in flight.
+		AzFramework::SliceInstantiationResultBus::MultiHandler::BusDisconnect(ticket);
+
+		const AZ::PrefabComponent::EntityList& entities = sliceAddress.second->GetInstantiated()->m_entities;
+		for (AZ::Entity * currEntity : entities)
+		{
+			CryLog("Slice Instantiated");
+		}
+
+		//EBUS_EVENT_ID(GetEntityId(), Env_TileNotificationBus, OnSpawned, ticket, entityIds);
+	}
+
+	void Crystal::OnSliceInstantiationFailed(const AZ::Data::AssetId& sliceAssetId) {
+		AzFramework::SliceInstantiationResultBus::MultiHandler::BusDisconnect(*AzFramework::SliceInstantiationResultBus::GetCurrentBusId());
+		AZ_Error("Env_TileGenerator", false, "Slice '%s' failed to instantiate", sliceAssetId.ToString<AZStd::string>().c_str());
+	}
+
+	AzFramework::SliceInstantiationTicket Crystal::SpawnSliceInternal(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative) {
+		//Taken from SpawnerComponent
+
+		AZ::Transform t = AZ::Transform::Identity();
+
+		EBUS_EVENT_ID_RESULT(t, GetEntityId(), AZ::TransformBus, GetWorldTM);
+
+		t *= relative;
+
+		AzFramework::SliceInstantiationTicket ticket;
+
+		EBUS_EVENT_RESULT(ticket, AzFramework::GameEntityContextRequestBus, InstantiateDynamicSlice, slice, t, nullptr);
+		AzFramework::SliceInstantiationResultBus::MultiHandler::BusConnect(ticket);
+
+		return ticket;
+	}
+#pragma endregion Spawner
 #pragma endregion DragonCrashCollectibleRequestBus
 
 #pragma endregion Crystal

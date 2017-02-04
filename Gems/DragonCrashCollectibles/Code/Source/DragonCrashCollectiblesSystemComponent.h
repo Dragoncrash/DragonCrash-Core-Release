@@ -3,14 +3,19 @@
 
 #include <AzCore/Component/Component.h>
 #include <AzCore/Prefab/PrefabAsset.h>
+#include <AzCore/Prefab/PrefabAsset.h>
+#include <AzCore/Math/Transform.h>
 
 #include <DragonCrashCollectibles/DragonCrashCollectiblesBus.h>
+#include <AzFramework/Entity/EntityContextBus.h>
+#include <AzCore/Component/ComponentBus.h>
 
 namespace DragonCrashCollectibles
 {
     class Crystal
         : public AZ::Component
         , protected CrystalRequestBus::Handler
+		, private AzFramework::SliceInstantiationResultBus::MultiHandler
     {
     public:
         AZ_COMPONENT(Crystal, "{8FD63DCF-BF41-4492-8CB9-08A900FBA063}");
@@ -22,6 +27,11 @@ namespace DragonCrashCollectibles
         static void GetRequiredServices(AZ::ComponentDescriptor::DependencyArrayType& required);
         static void GetDependentServices(AZ::ComponentDescriptor::DependencyArrayType& dependent);
 
+		AzFramework::SliceInstantiationTicket Crystal::Crystal_SpawnSlice(const AZ::Data::Asset<AZ::Data::AssetData>& slice) override;
+		AzFramework::SliceInstantiationTicket Crystal::Crystal_SpawnSliceRelative(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative) override;
+		void OnSliceInstantiated(const AZ::Data::AssetId& sliceAssetId, const AZ::PrefabComponent::PrefabInstanceAddress& sliceAddress) override;
+		void OnSliceInstantiationFailed(const AZ::Data::AssetId& sliceAssetId) override;
+		void Spawn() override;
     protected:
         ////////////////////////////////////////////////////////////////////////
         // DragonCrashCollectiblesRequestBus interface implementation
@@ -44,9 +54,9 @@ namespace DragonCrashCollectibles
 		bool forceLocalSlice = false;
 		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;//Replace in favor of regular spawner
 		AZ::Data::Asset<AZ::DynamicPrefabAsset> staticModel;
-		//Use Lua for more functionality
-
-		//Keep track of spawned Entity IDs
+		
+	private:
+		AzFramework::SliceInstantiationTicket SpawnSliceInternal(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative);
 
     };
 
