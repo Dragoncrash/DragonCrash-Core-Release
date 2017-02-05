@@ -19,9 +19,9 @@ namespace DragonCrashController
 	AZ::Vector3 QuatToYPR(AZ::Quaternion quat)
 	{
 		return AZ::Vector3(
-			atan2(2 * (float)(quat.GetW() * quat.GetX() + quat.GetY() * quat.GetZ()), 1 - 2 * (float)(quat.GetX() * quat.GetX() + quat.GetY() * quat.GetY())),
-			asin(2 * (float)(quat.GetW() * quat.GetY() - quat.GetZ() * quat.GetX())),
-			atan2(2 * (float)(quat.GetW() * quat.GetZ() + quat.GetX() * quat.GetY()), 1 - 2 * (float)(quat.GetY() * quat.GetY() + quat.GetZ() * quat.GetZ()))
+			atan2(2.0f * (float)(quat.GetW() * quat.GetX() + quat.GetY() * quat.GetZ()), 1.0f - 2.0f * (float)(quat.GetX() * quat.GetX() + quat.GetY() * quat.GetY())),
+			asin(2.0f * (float)(quat.GetW() * quat.GetY() - quat.GetZ() * quat.GetX())),
+			atan2(2.0f * (float)(quat.GetW() * quat.GetZ() + quat.GetX() * quat.GetY()), 1.0f - 2.0f * (float)(quat.GetY() * quat.GetY() + quat.GetZ() * quat.GetZ()))
 		);
 	}
 
@@ -87,35 +87,35 @@ namespace DragonCrashController
 	}
 
 	DragonCrashControllerComponent::DragonCrashControllerComponent()
-		: m_flightSpeed(100.0)
-		, m_yawTurnSpeed(180.0)
-		, m_pitchTurnSpeed(180.0)
-		, m_pitchTurnLimit(70.0)
-		, m_boostAcceleration(50.0)
-		, m_boostMaxSpeed(300.0)
-		, m_energyMax(8.0)
-		, m_energyRechargeTime(4.0)
-		, m_energyRechargeDelay(2.0)
-		, m_healthMax(100.0)
-		, m_respawnTime(4.0)
-		, m_inputMainYaw(0.0)
-		, m_inputMainPitch(0.0)
-		, m_inputSecondaryYaw(0.0)
-		, m_inputSecondaryPitch(0.0)
-		, m_inputAscend(0.0)
+		: m_flightSpeed(100.0f)
+		, m_yawTurnSpeed(180.0f)
+		, m_pitchTurnSpeed(180.0f)
+		, m_pitchTurnLimit(70.0f)
+		, m_boostAcceleration(50.0f)
+		, m_boostMaxSpeed(300.0f)
+		, m_energyMax(8.0f)
+		, m_energyRechargeTime(4.0f)
+		, m_energyRechargeDelay(2.0f)
+		, m_healthMax(100.0f)
+		, m_respawnTime(4.0f)
+		, m_inputMainYaw(0.0f)
+		, m_inputMainPitch(0.0f)
+		, m_inputSecondaryYaw(0.0f)
+		, m_inputSecondaryPitch(0.0f)
+		, m_inputAscend(0.0f)
 		, m_inputBoost(false)
 		, m_inputShield(false)
 		, m_inputAim(false)
 		, m_inputMainFire(false)
-		, m_yaw(0.0)
-		, m_pitch(0.0)
+		, m_yaw(0.0f)
+		, m_pitch(0.0f)
 		, m_isBoosting(false)
 		, m_isEnergyExhausted(false)
-		, m_energyRemaining(0.0)
-		, m_energyRechargeTimer(0.0)
+		, m_energyRemaining(0.0f)
+		, m_energyRechargeTimer(0.0f)
 		, m_isDead(false)
-		, m_healthCurrent(0.0)
-		, m_respawnTimer(0.0)
+		, m_healthCurrent(0.0f)
+		, m_respawnTimer(0.0f)
 	{
 	}
 
@@ -125,26 +125,32 @@ namespace DragonCrashController
 
 	void DragonCrashControllerComponent::OnSpawn()
 	{
-		AZ::Transform respawnTransform = AZ::Transform::CreateTranslation(AZ::Vector3(0,0,500));
+		// Get respawn transform
+		AZ::Transform respawnTransform = AZ::Transform::CreateTranslation(AZ::Vector3(0.0f,0.0f,500.0f));
 
+		// Apply respawn transform
 		EBUS_EVENT_ID(GetEntityId(), AZ::TransformBus, SetWorldTM, respawnTransform);
 
+		// Set yaw and pitch from angles of respawn transform
 		AZ::Quaternion rotationQuat = AZ::Quaternion::CreateFromTransform(respawnTransform);
 		AZ::Vector3 angles = QuatToYPR(rotationQuat);
 		m_yaw = angles.GetZ();
 		m_pitch = angles.GetY();
 
+		// Reset other state variables
 		m_isBoosting = false;
 		m_isEnergyExhausted = false;
 		m_energyRemaining = m_energyMax;
 		m_energyRechargeTimer = 0.0;
 		m_healthCurrent = m_healthMax;
 
+		// Change dead flag
 		m_isDead = false;
 	}
 
 	void DragonCrashControllerComponent::OnDeath()
 	{
+		// Change dead flag and reset respawn timer
 		m_isDead = true;
 		m_respawnTimer = 0.0;
 	}
@@ -154,7 +160,7 @@ namespace DragonCrashController
 		// Update rotation state
 		m_yaw -= m_inputMainYaw * m_yawTurnSpeed * deltaTime;
 		m_pitch -= m_inputMainPitch * m_pitchTurnSpeed * deltaTime;
-		float roll = 0.0;
+		float roll = 0.0f;
 
 		// Constrain pitch
 		if (m_pitch > m_pitchTurnLimit)
@@ -166,6 +172,7 @@ namespace DragonCrashController
 		AZ::Transform transform;
 		EBUS_EVENT_ID_RESULT(transform, GetEntityId(), AZ::TransformBus, GetWorldTM);
 
+		// Get difference between current rotation and desired rotation
 		AZ::Quaternion currentRotation = AZ::Quaternion::CreateFromTransform(transform);
 		AZ::Quaternion desiredRotation =
 			AZ::Quaternion::CreateRotationZ(m_yaw) *
@@ -173,16 +180,31 @@ namespace DragonCrashController
 			AZ::Quaternion::CreateRotationZ(roll);
 		AZ::Quaternion difference = desiredRotation * currentRotation.GetInverseFast();
 
-		AZ::Vector3 angularVelocity = QuatToYPR(difference) * 0.8 / deltaTime;
+		// Calculate angular velocity to reach desired rotation
+		AZ::Vector3 angularVelocity = QuatToYPR(difference) * 0.8f / deltaTime;
 
-		AZ::Vector3 forwardVelocity = transform.GetBasisY();
-		forwardVelocity *= m_flightSpeed;
+		// Get current velocity
+		AZ::Vector3 velocity;
+		EBUS_EVENT_ID_RESULT(velocity, GetEntityId(), LmbrCentral::PhysicsComponentRequestBus, GetVelocity);
+		CryLog("Velocity: %f", (float)velocity.GetLengthExact());
 
-		pe_action_set_velocity action;
-		action.v = AZVec3ToLYVec3(forwardVelocity);
-		action.w = AZVec3ToLYVec3(angularVelocity);
+		// Apply angular velocity physics action
+		pe_action_set_velocity velocityAction;
+		velocityAction.w = AZVec3ToLYVec3(angularVelocity);
+		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, velocityAction, false);
+		
+		// Get dragon mass
+		float mass = 1.0f;
+		EBUS_EVENT_ID_RESULT(mass, GetEntityId(), LmbrCentral::PhysicsComponentRequestBus, GetMass);
 
-		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, action, false);
+		// Calculate impulse in forward direction
+		AZ::Vector3 impulse = transform.GetBasisY() * m_flightSpeed * mass;
+
+		// Apply impulse physics action
+		pe_action_impulse impulseAction;
+		impulseAction.impulse = AZVec3ToLYVec3(impulse);
+		impulseAction.iApplyTime = 0;
+		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, impulseAction, false);
 	}
 
 	void DragonCrashControllerComponent::HandleDragonCrashTick(float deltaTime)
@@ -202,11 +224,13 @@ namespace DragonCrashController
 
 	void DragonCrashControllerComponent::HandleDeadTick(float deltaTime)
 	{
+		// Stop movement
 		pe_action_set_velocity action;
-		action.v = AZVec3ToLYVec3(AZ::Vector3(0,0,0));
-		action.w = AZVec3ToLYVec3(AZ::Vector3(0,0,0));
+		action.v = AZVec3ToLYVec3(AZ::Vector3::CreateZero());
+		action.w = AZVec3ToLYVec3(AZ::Vector3::CreateZero());
 		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, action, false);
 
+		// Increment and check respawn timer
 		m_respawnTimer += deltaTime;
 		if (m_respawnTimer >= m_respawnTime) 
 			OnSpawn();
@@ -278,7 +302,7 @@ namespace DragonCrashController
 
 	void DragonCrashControllerComponent::OnTick(float deltaTime, AZ::ScriptTimePoint time)
 	{
-		if (!m_isDead && m_healthCurrent <= 0.0)
+		if (!m_isDead && m_healthCurrent <= 0.0f)
 			OnDeath();
 
 		if (!m_isDead)
