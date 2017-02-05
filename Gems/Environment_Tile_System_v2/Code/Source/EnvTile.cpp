@@ -612,7 +612,7 @@ namespace EnvTile
 		//Crystals
 		int maxCrystals = advancedMode ? MAX_ADVANCED_CRYSTALS : MAX_CASUAL_CRYSTALS;
 		CryLog("Max Crystals: %i", maxCrystals);
-		int p1, p2, p3, p4;//Advanced mode only
+		int p1 = 0, p2 = 0, p3 = 0, p4 = 0;//Advanced mode only
 		
 		AZStd::vector<int> indices;
 		for (int i = 0; i < entityIds.size(); i++)indices.push_back(i);
@@ -626,7 +626,7 @@ namespace EnvTile
 			if (objIsCrystal) {
 				CryLog("Object is a Crystal!");
 				if (advancedMode) {
-					srand(time(NULL));
+					srand((int)time(NULL));
 					int r = rand() % 4;
 					bool validPlayerChosen = true;
 
