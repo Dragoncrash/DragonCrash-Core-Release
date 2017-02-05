@@ -611,21 +611,182 @@ namespace EnvTile
 	void Env_TileGenerator::PostActivate() {
 		//Crystals
 		int maxCrystals = advancedMode ? MAX_ADVANCED_CRYSTALS : MAX_CASUAL_CRYSTALS;
+		CryLog("Max Crystals: %i", maxCrystals);
+		int p1, p2, p3, p4;//Advanced mode only
+		
+		AZStd::vector<int> indices;
+		for (int i = 0; i < entityIds.size(); i++)indices.push_back(i);
+		std::random_shuffle(indices.begin(), indices.end());
+		
+		if (entityIds.size() < maxCrystals)CryLog("WARNING: Number of entities spawned is less than the number of Crystals requested! Capping Crystal Count to %i.", entityIds.size());
 
-		//int p1, p2, p3, p4;//Advanced mode only
-		int r;
-		bool reserved = false;
-		AZStd::vector<int> reservedNumbers;
+		for (int i = 0; i < min(maxCrystals, (int)entityIds.size()); i++) {
+			bool objIsCrystal = false;
+			EBUS_EVENT_ID_RESULT(objIsCrystal, entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, isCrystal);
+			if (objIsCrystal) {
+				CryLog("Object is a Crystal!");
+				if (advancedMode) {
+					srand(time(NULL));
+					int r = rand() % 4;
+					bool validPlayerChosen = true;
 
-		while (crystalsSpawned < maxCrystals) {
+					//Randomly pick which player's gem will spawn
+					switch (r) {
+					case 0:
+						p1++;
+						if (p1 > 4) {
+							validPlayerChosen = false;
+						}
+						else {
+							if (crystalModels.size() >= 1) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[0]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						break;
+					case 1:
+						p2++;
+						if (p2 > 4) {
+							validPlayerChosen = false;
+						}
+						else {
+							if (crystalModels.size() >= 2) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[1]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						break;
+					case 2:
+						p3++;
+						if (p3 > 4) {
+							validPlayerChosen = false;
+						}
+						else {
+							if (crystalModels.size() >= 3) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[2]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						break;
+					case 3:
+						p4++;
+						if (p4 > 4) {
+							validPlayerChosen = false;
+						}
+						else {
+							if (crystalModels.size() >= 4) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[3]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						break;
+					}
+
+					//If the random method didn't work, give up and go in order
+					if (!validPlayerChosen) {
+						if (p1 < 4) {
+							if (crystalModels.size() >= 1) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[0]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						else if (p2 < 4) {
+							if (crystalModels.size() >= 2) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[1]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						else if (p3 < 4) {
+							if (crystalModels.size() >= 3) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[2]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						else if (p4 < 4) {
+							if (crystalModels.size() >= 4) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[3]);
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+								if (unhiddenGems > 0) {
+									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+									unhiddenGems--;
+								}
+								else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+							}
+							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
+						}
+						else CryLog("If this message is printed, there is a problem in Env_TileGenerator::PostActivate.");
+					}
+
+					//Spawning should be fine I think. Not sure what happens if no slice is specified
+					EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, Spawn);
+				}
+				else {
+
+				}
+				crystalsSpawned++;
+			}
+			else {
+				CryLog("Object is not a Crystal!");
+			}
+			
+		}
+
+		/*while (crystalsSpawned < maxCrystals) {
 			reserved = false;
 			srand((int)time(NULL));
 			r = rand() % entityIds.size();
 			for (auto num : reservedNumbers) {
 				if (num == r) { reserved = true; break; }
 			}
-			if (reserved)continue;
+			if (reserved) {
+				CryLog("Reserved Number Picked");
+				crystalsSpawned++;
+				continue;
+			}
 			else {
+				reservedNumbers.push_back(r);
 				bool objIsCrystal = false;
 				EBUS_EVENT_ID_RESULT(objIsCrystal, entityIds[r], DragonCrashCollectibles::CrystalRequestBus, isCrystal);
 				//EBUS_EVENT_ID(entityIds[r], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
@@ -640,7 +801,7 @@ namespace EnvTile
 				//reservedNumbers.push_back(r);
 
 			}
-		}
+		}*/
 	}
 
 	void Env_TileGenerator::preloadTriggersAtTime(int tod) {
