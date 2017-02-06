@@ -54,9 +54,9 @@ LyShineLua.ShowMouseCursor(true);
 self.GameEntitySender=GameEntityContextRequestBusSender(self.entityId);
 
 self.lifespan=0;
-self.endlife=5;
+self.endlife=3;
 
-Debug.Log("test");
+Debug.Log("test projectile");
 
 --Debug.Log(self.lifespan);
 end

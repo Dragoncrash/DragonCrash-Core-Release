@@ -97,8 +97,9 @@ namespace EnvTile
 				->Field("Multi-Crystal Placement", &Env_TileGenerator::multipleCrystalsPerTile)
 				->Field("Advanced Mode", &Env_TileGenerator::advancedMode)
 				->Field("Free Floating Gems", &Env_TileGenerator::unhiddenGems)
-				->Field("Crystal Slices", &Env_TileGenerator::crystalModels)
-				/*->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenCrystalModels)
+				->Field("Advanced Mode Crystal Slices", &Env_TileGenerator::AdvancedCrystalModels)
+				->Field("Default Crystal Slice", &Env_TileGenerator::DefaultCrystalModel)
+				/*->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenAdvancedCrystalModels)
 				->Field("Maximum Crystals", &Env_TileGenerator::maxCrystals)				
 				*/
 				;
@@ -234,13 +235,14 @@ namespace EnvTile
 						->DataElement(UI_D, &Env_TileGenerator::multipleCrystalsPerTile, "Multi-Crystal Placement", "If true, then multiple gems can be spawned on the same tile.")
 						->DataElement(UI_D, &Env_TileGenerator::advancedMode, "Advanced Mode", "If advanced mode, each player gets maxCrystals amount of Crystals in their color. Else maxCrystals is the total number of crystals for all players.")
 						->DataElement(UI_D, &Env_TileGenerator::unhiddenGems, "Free Floating Crystals", "Number of Crystals to spawn out in the open dynamically.")
-						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
+						->DataElement(UI_D, &Env_TileGenerator::DefaultCrystalModel, "Casual Crystal", "Slice used for the Casual Mode Crystal")
+						->DataElement(UI_D, &Env_TileGenerator::AdvancedCrystalModels, "Advanced Crystals", "Slices used for Crystals (Max:4)")
 					/*	
 						->DataElement(UI_D, &Env_TileGenerator::maxCrystals,"Max Crystals","Maximum number of crystals to spawn per player.")
 						->Attribute(AZ::Edit::Attributes::Min, 0)
 						
 						->Attribute(AZ::Edit::Attributes::Min, 0)
-						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
+						->DataElement(UI_D, &Env_TileGenerator::AdvancedCrystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
 						*/
 					;
 
@@ -618,7 +620,10 @@ namespace EnvTile
 		for (int i = 0; i < entityIds.size(); i++)indices.push_back(i);
 		std::random_shuffle(indices.begin(), indices.end());
 		
-		if (entityIds.size() < maxCrystals)CryLog("WARNING: Number of entities spawned is less than the number of Crystals requested! Capping Crystal Count to %i.", entityIds.size());
+		if (entityIds.size() < maxCrystals){
+			CryLog("WARNING: Number of entities spawned is less than the number of Crystals requested! Capping Crystal Count to %i.", entityIds.size());
+			maxCrystals = entityIds.size();
+		}
 
 		for (int i = 0; i < min(maxCrystals, (int)entityIds.size()); i++) {
 			bool objIsCrystal = false;
@@ -638,8 +643,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 1) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[0]);
+							if (AdvancedCrystalModels.size() >= 1) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[0]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -656,8 +661,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 2) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[1]);
+							if (AdvancedCrystalModels.size() >= 2) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[1]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -674,8 +679,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 3) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[2]);
+							if (AdvancedCrystalModels.size() >= 3) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[2]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -692,8 +697,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 4) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[3]);
+							if (AdvancedCrystalModels.size() >= 4) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[3]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -709,8 +714,8 @@ namespace EnvTile
 					//If the random method didn't work, give up and go in order
 					if (!validPlayerChosen) {
 						if (p1 < 4) {
-							if (crystalModels.size() >= 1) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[0]);
+							if (AdvancedCrystalModels.size() >= 1) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[0]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -721,8 +726,8 @@ namespace EnvTile
 							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
 						}
 						else if (p2 < 4) {
-							if (crystalModels.size() >= 2) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[1]);
+							if (AdvancedCrystalModels.size() >= 2) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[1]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -733,8 +738,8 @@ namespace EnvTile
 							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
 						}
 						else if (p3 < 4) {
-							if (crystalModels.size() >= 3) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[2]);
+							if (AdvancedCrystalModels.size() >= 3) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[2]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -745,8 +750,8 @@ namespace EnvTile
 							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
 						}
 						else if (p4 < 4) {
-							if (crystalModels.size() >= 4) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[3]);
+							if (AdvancedCrystalModels.size() >= 4) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[3]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -763,6 +768,15 @@ namespace EnvTile
 					EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, Spawn);
 				}
 				else {
+					//Basic Mode: Just spawn gems anywhere. Any player can get any gem.
+					for (int i = 0; i < maxCrystals; i++){
+						EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, DefaultCrystalModel);
+						EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+						if (unhiddenGems > 0){
+							EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+						}
+						else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+					}
 
 				}
 				crystalsSpawned++;

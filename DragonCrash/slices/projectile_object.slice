@@ -1,9 +1,9 @@
 <ObjectStream version="1">
 	<Class name="AZ::Entity" version="2" type="{75651658-8663-478D-9090-2432DFCAFA44}">
 		<Class name="EntityId" field="Id" version="1" type="{6383F1D3-BB27-4E6B-A49A-6409B2059EAA}">
-			<Class name="AZ::u64" field="id" value="16974688534633869163" type="{D6597933-47CD-4FC8-B911-63F3E2B0993A}"/>
+			<Class name="AZ::u64" field="id" value="16995969994506334059" type="{D6597933-47CD-4FC8-B911-63F3E2B0993A}"/>
 		</Class>
-		<Class name="AZStd::string" field="Name" value="16974688534633869163" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+		<Class name="AZStd::string" field="Name" value="16995969994506334059" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 		<Class name="bool" field="IsDependencyReady" value="false" type="{A0CA880C-AFE4-43CB-926C-59AC48496112}"/>
 		<Class name="AZStd::vector" field="Components" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
 			<Class name="PrefabComponent" field="element" version="1" type="{AFD304E4-1773-47C8-855A-8B622398934F}">
@@ -15,7 +15,7 @@
 						<Class name="EntityId" field="Id" version="1" type="{6383F1D3-BB27-4E6B-A49A-6409B2059EAA}">
 							<Class name="AZ::u64" field="id" value="16943192783538057067" type="{D6597933-47CD-4FC8-B911-63F3E2B0993A}"/>
 						</Class>
-						<Class name="AZStd::string" field="Name" value="Entity3" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+						<Class name="AZStd::string" field="Name" value="projectile_object" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 						<Class name="bool" field="IsDependencyReady" value="true" type="{A0CA880C-AFE4-43CB-926C-59AC48496112}"/>
 						<Class name="AZStd::vector" field="Components" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
 							<Class name="EditorVisibilityComponent" field="element" type="{88E08E78-5C2F-4943-9F73-C115E6FFAB43}">
