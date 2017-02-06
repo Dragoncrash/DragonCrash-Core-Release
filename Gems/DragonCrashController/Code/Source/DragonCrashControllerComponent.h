@@ -36,18 +36,18 @@ namespace DragonCrashController
 		void OnGameplayEventFailed() override;
 
 	private:
-		void OnSpawn();
-		void OnDeath();
+		void Spawn();
+		void Kill();
 
-		void HandleMovementTick(float deltaTime);
-		void HandleDragonCrashTick(float deltaTime);
-		void HandleShieldTick(float deltaTime);
-		void HandleAttackTick(float deltaTime);
-		void HandleDeadTick(float deltaTime);
+		void TickMovement(float deltaTime);
+		void TickDragonCrash(float deltaTime);
+		void TickShield(float deltaTime);
+		void TickAttack(float deltaTime);
+		void TickDead(float deltaTime);
 
-		void HandleDragonCollision(Collision collision);
-		void HandleAttackCollision(Collision collision);
-		void HandleOtherCollision(Collision collision);
+		void CollisionDragon(Collision collision);
+		void CollisionAttack(Collision collision);
+		void CollisionOther(Collision collision);
 
 		// Editor-exposed settings
 		float m_flightSpeed;
