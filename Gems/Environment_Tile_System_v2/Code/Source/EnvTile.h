@@ -226,8 +226,8 @@ namespace EnvTile
 		bool multipleCrystalsPerTile = false;
 		bool advancedMode = false;
 		int unhiddenGems;
-		AZStd::fixed_vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>, 4> crystalModels;//Slices that contain the Crystal component
-
+		AZStd::fixed_vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>, 4> AdvancedCrystalModels;//Slices that contain the Crystal component
+		AZ::Data::Asset<AZ::DynamicPrefabAsset> DefaultCrystalModel;
 		//Feedback
 		int crystalsSpawned;
 
