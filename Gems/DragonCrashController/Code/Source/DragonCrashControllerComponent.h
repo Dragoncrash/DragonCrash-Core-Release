@@ -47,10 +47,15 @@ namespace DragonCrashController
 
 		void CollisionDragon(Collision collision);
 		void CollisionAttack(Collision collision);
+		void CollisionCrystal(Collision collision);
 		void CollisionOther(Collision collision);
 
 		// Editor-exposed settings
-		float m_flightSpeed;
+		float m_flightAcceleration;
+		float m_flightMaxSpeed;
+		float m_flightAscendAngle;
+		float m_hoverSpeed;
+		float m_hoverVerticalSpeed;
 		float m_yawTurnSpeed;
 		float m_pitchTurnSpeed;
 		float m_pitchTurnLimit;
@@ -74,14 +79,20 @@ namespace DragonCrashController
 		bool m_inputMainFire;
 
 		// State values
+		enum States { dead, flight, hover, hover_zoom };
+		int m_currentState;
 		float m_yaw;
 		float m_pitch;
 		bool m_isBoosting;
 		bool m_isEnergyExhausted;
 		float m_energyRemaining;
 		float m_energyRechargeTimer;
-		bool m_isDead;
 		float m_healthCurrent;
 		float m_respawnTimer;
+
+		// UI values
+		AZ::EntityId m_uiCanvasId;
+		AZ::EntityId m_uiStatusId;
+		AZ::EntityId m_uiInfoId;
 	};
 }

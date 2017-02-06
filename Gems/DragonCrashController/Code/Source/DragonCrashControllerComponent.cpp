@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 
+#include <sstream>
 #include <AzCore/Math/Crc.h>
 #include <AzCore/EBus/EBus.h>
 #include <AzCore/Component/TransformBus.h>
@@ -11,6 +12,9 @@
 #include <IPhysics.h>
 #include <MathConversion.h>
 #include <LmbrCentral/Scripting/TagComponentBus.h>
+#include <LyShine/Bus/World/UiCanvasRefBus.h>
+#include <LyShine/Bus/UiCanvasBus.h>
+#include <LyShine/Bus/UiTextBus.h>
 
 #include "DragonCrashControllerComponent.h"
 
@@ -32,7 +36,11 @@ namespace DragonCrashController
 		{
 			serialize->Class<DragonCrashControllerComponent, AZ::Component>()
 				->Version(1)
-				->Field("FlightSpeed", &DragonCrashControllerComponent::m_flightSpeed)
+				->Field("FlightAcceleration", &DragonCrashControllerComponent::m_flightAcceleration)
+				->Field("FlightMaxSpeed", &DragonCrashControllerComponent::m_flightMaxSpeed)
+				->Field("FlightAscendAngle", &DragonCrashControllerComponent::m_flightAscendAngle)
+				->Field("HoverSpeed", &DragonCrashControllerComponent::m_hoverSpeed)
+				->Field("HoverVerticalSpeed", &DragonCrashControllerComponent::m_hoverVerticalSpeed)
 				->Field("YawTurnSpeed", &DragonCrashControllerComponent::m_yawTurnSpeed)
 				->Field("PitchTurnSpeed", &DragonCrashControllerComponent::m_pitchTurnSpeed)
 				->Field("PitchTurnLimit", &DragonCrashControllerComponent::m_pitchTurnLimit)
@@ -52,15 +60,18 @@ namespace DragonCrashController
 				->Field("InputShield", &DragonCrashControllerComponent::m_inputShield)
 				->Field("InputAim", &DragonCrashControllerComponent::m_inputAim)
 				->Field("InputMainFire", &DragonCrashControllerComponent::m_inputMainFire)
+				->Field("CurrentState", &DragonCrashControllerComponent::m_currentState)
 				->Field("Yaw", &DragonCrashControllerComponent::m_yaw)
 				->Field("Pitch", &DragonCrashControllerComponent::m_pitch)
 				->Field("IsBoosting", &DragonCrashControllerComponent::m_isBoosting)
 				->Field("IsEnergyExhausted", &DragonCrashControllerComponent::m_isEnergyExhausted)
 				->Field("EnergyRemaining", &DragonCrashControllerComponent::m_energyRemaining)
 				->Field("EnergyRechargeTimer", &DragonCrashControllerComponent::m_energyRechargeTimer)
-				->Field("IsDead", &DragonCrashControllerComponent::m_isDead)
 				->Field("HealthCurrent", &DragonCrashControllerComponent::m_healthCurrent)
 				->Field("RespawnTimer", &DragonCrashControllerComponent::m_respawnTimer)
+				->Field("UiCanvusId", &DragonCrashControllerComponent::m_uiCanvasId)
+				->Field("UiStatusId", &DragonCrashControllerComponent::m_uiStatusId)
+				->Field("UiInfoId", &DragonCrashControllerComponent::m_uiInfoId)
 				;
 
 			AZ::EditContext* edit = serialize->GetEditContext();
@@ -70,11 +81,15 @@ namespace DragonCrashController
 					->Attribute(AZ::Edit::Attributes::Category, "DragonCrashController")
 					->Attribute(AZ::Edit::Attributes::AutoExpand, true)
 					->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("Game"))
-					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_flightSpeed, "Flight Speed", "How fast the dragon flies in meters/second.")
+					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_flightAcceleration, "Flight Acceleration", "How fast the dragon accelerates during flight mode in meters/second^2.")
+					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_flightMaxSpeed, "Flight Speed", "How fast the dragon can fly during flight mode in meters/second.")
+					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_flightAscendAngle, "Flight Ascend Angle", "How much ascending and descending affects direction during flight mode in degrees.")
+					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_hoverSpeed, "Hover Speed", "How fast the dragon can fly during hover mode in meters/second.")
+					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_hoverVerticalSpeed, "Hover Vertical Speed", "How fast the dragon can ascend and descend during hover mode in meters/second.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_yawTurnSpeed, "Yaw Speed", "How fast the dragon turns on the yaw axis in degrees/second.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_pitchTurnSpeed, "Pitch Speed", "How fast the dragon turns on the pitch axis in degrees/second.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_pitchTurnLimit, "Pitch Limit", "How far the dragon can turn on the pitch axis in degrees.")
-					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_boostAcceleration, "Boost Acceleration", "How fast the dragon accelerates while boosting in meters^2/second.")
+					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_boostAcceleration, "Boost Acceleration", "How fast the dragon accelerates while boosting in meters/second^2.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_boostMaxSpeed, "Boost Max Speed", "How fast the dragon can fly while boosting in meters/second.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_energyMax, "Energy Max", "How long the dragon can boost at max energy in seconds.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_energyRechargeTime, "Boost Recharge Time", "How long the dragon takes to recover its max energy in seconds.")
@@ -87,7 +102,11 @@ namespace DragonCrashController
 	}
 
 	DragonCrashControllerComponent::DragonCrashControllerComponent()
-		: m_flightSpeed(100.0f)
+		: m_flightAcceleration(30.0f)
+		, m_flightMaxSpeed(100.0f)
+		, m_flightAscendAngle(30.0f)
+		, m_hoverSpeed(40.0f)
+		, m_hoverVerticalSpeed(30.0f)
 		, m_yawTurnSpeed(180.0f)
 		, m_pitchTurnSpeed(180.0f)
 		, m_pitchTurnLimit(70.0f)
@@ -107,13 +126,13 @@ namespace DragonCrashController
 		, m_inputShield(false)
 		, m_inputAim(false)
 		, m_inputMainFire(false)
+		, m_currentState(States::dead)
 		, m_yaw(0.0f)
 		, m_pitch(0.0f)
 		, m_isBoosting(false)
 		, m_isEnergyExhausted(false)
 		, m_energyRemaining(0.0f)
 		, m_energyRechargeTimer(0.0f)
-		, m_isDead(true)
 		, m_healthCurrent(0.0f)
 		, m_respawnTimer(0.0f)
 	{
@@ -137,6 +156,12 @@ namespace DragonCrashController
 		m_yaw = angles.GetZ();
 		m_pitch = angles.GetX();
 
+		// Zero out velocities
+		pe_action_set_velocity action;
+		action.v = AZVec3ToLYVec3(AZ::Vector3(0.0f, 0.0f, 0.0f));
+		action.w = AZVec3ToLYVec3(AZ::Vector3(0.0f, 0.0f, 0.0f));
+		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, action, false);
+
 		// Reset other state variables
 		m_isBoosting = false;
 		m_isEnergyExhausted = false;
@@ -144,23 +169,30 @@ namespace DragonCrashController
 		m_energyRechargeTimer = 0.0;
 		m_healthCurrent = m_healthMax;
 
-		// Change dead flag
-		m_isDead = false;
+		// Start in flight mode until hover mode is finished
+		m_currentState = States::hover;
 	}
 
 	void DragonCrashControllerComponent::Kill()
 	{
 		// Change dead flag and reset respawn timer
-		m_isDead = true;
+		m_currentState = States::dead;
 		m_respawnTimer = 0.0;
 	}
 
 	void DragonCrashControllerComponent::TickMovement(float deltaTime)
 	{
+		// Set physics system max speed to 1000 if lower
+		// Note: Putting this in Activate insta-crashes the editor
+		//TODO: Move this somewhere else where its only called once but doesn't cause crashes
+		ICVar *maxVelocity = gEnv->pSystem->GetIConsole()->GetCVar("p_max_velocity");
+		//if (maxVelocity->GetFVal() < 1000.0f)
+			//maxVelocity->Set(1000.0f);
+
 		// Update rotation state
 		m_yaw -= m_inputMainYaw * m_yawTurnSpeed * deltaTime;
 		m_pitch -= m_inputMainPitch * m_pitchTurnSpeed * deltaTime;
-		float roll = 0.0f;
+		float roll = 0.0f; //TODO: implement roll
 
 		// Constrain pitch
 		if (m_pitch > m_pitchTurnLimit)
@@ -180,22 +212,6 @@ namespace DragonCrashController
 		AZ::Vector3 currentVelocity = LYVec3ToAZVec3(dynamicStatus.v);
 		float mass = dynamicStatus.mass;
 
-		// Print information
-		if (mass > 0.0f)
-		{
-			CryLog("Velocity: %f", (float)currentVelocity.GetLengthExact());
-		}
-
-		// Calculate impulse in forward direction
-		AZ::Vector3 impulse = currentVelocity * mass + forwardDirection * m_flightSpeed * mass;
-
-		// Print information
-		if (mass > 0.0f)
-		{
-			CryLog("Velocity: %f", (float)currentVelocity.GetLengthExact());
-			CryLog("Impulse: %f", (float)impulse.GetLengthExact());
-		}
-
 		// Get difference between current rotation and desired rotation
 		AZ::Quaternion desiredRotation =
 			AZ::Quaternion::CreateRotationZ(m_yaw) *
@@ -203,18 +219,114 @@ namespace DragonCrashController
 			AZ::Quaternion::CreateRotationZ(roll);
 		AZ::Quaternion difference = desiredRotation * currentRotation.GetInverseFast();
 
-		// Calculate angular velocity to reach desired rotation
+		// Calculate angular velocity to reach desired rotation with damping factor
 		AZ::Vector3 angularVelocity = QuatToYPR(difference) * 0.8f / deltaTime;
 
-		// Apply angular velocity physics action
+		// Apply set angular velocity physics action
 		pe_action_set_velocity velocityAction;
 		velocityAction.w = AZVec3ToLYVec3(angularVelocity);
-		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, velocityAction, false);
+		//EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, velocityAction, false);
+		
+		// Energy recharge logic
+		if (m_energyRechargeTimer >= m_energyRechargeDelay)
+		{
+			// Dragon has waited long enough to recharge energy
+			m_energyRemaining += m_energyMax / m_energyRechargeTime * deltaTime;
+		}
+		else
+		{
+			// Dragon must wait longer to recharge energy
+			m_energyRechargeTimer += deltaTime;
+		}
 
-		// Apply impulse physics action
-		pe_action_impulse impulseAction;
-		impulseAction.impulse = AZVec3ToLYVec3(impulse);
-		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, impulseAction, false);
+		// Update state ui
+		std::stringstream stateString;
+		switch (m_currentState)
+		{
+		case States::dead:
+			stateString << "Dead";
+			break;
+
+		case States::flight:
+			stateString << "Flying";
+			break;
+
+		case States::hover:
+			stateString << "Hovering";
+			break;
+
+		case States::hover_zoom:
+			stateString << "Hovering w/ Zoom";
+			break;
+		}
+		EBUS_EVENT_ID(m_uiStatusId, UiTextBus, SetText, stateString.str().c_str());
+
+		// Handle flight mode logic
+		if (m_currentState == States::flight)
+		{
+			// Boost logic
+			m_isBoosting = false;
+			if (m_inputBoost) // Check for boost input
+			{
+				if (m_isEnergyExhausted) // Check if energy is exhausted
+				{
+					if (m_energyRemaining >= m_energyMax * 0.8f) // Reset exhaustion if energy has been restored
+						m_isEnergyExhausted = false;
+				}
+				else // Energy is not exhausted
+				{
+					if (m_energyRemaining > 0.0f) // Dragon has energy remaining
+					{
+						m_isBoosting = true;
+						m_energyRemaining -= deltaTime;
+						m_energyRechargeTimer = 0.0f;
+					}
+					else // Energy has been exhausted
+					{
+						m_isEnergyExhausted = true;
+					}
+				}
+			}
+
+			// Get acceleration and max speed based on boosting state
+			float acceleration = m_flightAcceleration;
+			float maxSpeed = m_flightMaxSpeed;
+			if (m_isBoosting)
+			{
+				acceleration += m_boostAcceleration;
+				maxSpeed = m_boostMaxSpeed;
+			}
+
+			// Add ascend/descend input to forward direction to get flight direction
+			AZ::Vector3 flightDirection = AZ::Quaternion::CreateRotationX(m_inputAscend * m_flightAscendAngle) * forwardDirection;
+
+			// Calculate and cap new velocity
+			AZ::Vector3 newVelocity = currentVelocity + forwardDirection * acceleration * deltaTime;
+			if (newVelocity.GetLengthExact() > maxSpeed)
+				newVelocity.SetLengthExact(maxSpeed);
+
+			// Multiply new velocity by mass to get impulse
+			AZ::Vector3 newImpulse = newVelocity * mass;
+
+			// Apply impulse physics action
+			pe_action_impulse impulseAction;
+			impulseAction.impulse = AZVec3ToLYVec3(newImpulse);
+			//EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, impulseAction, false);
+
+			// Update info ui
+			std::stringstream infoString;
+			if (m_isBoosting)
+				infoString << "Boosting: true\n";
+			else
+				infoString << "Boosting: false\n";
+			infoString << "Velocity: " << (float)newVelocity.GetLengthExact() << "\n";
+			EBUS_EVENT_ID(m_uiInfoId, UiTextBus, SetText, infoString.str().c_str());
+		}
+		// Handle hover mode logic
+		else if (m_currentState == States::hover || m_currentState == States::hover_zoom)
+		{
+			//TODO: Implement hover mode
+		}
 	}
 
 	void DragonCrashControllerComponent::TickDragonCrash(float deltaTime)
@@ -248,17 +360,22 @@ namespace DragonCrashController
 
 	void DragonCrashControllerComponent::CollisionDragon(Collision collision)
 	{
-
+		//TODO: Handle collisions with other dragons here
 	}
 
 	void DragonCrashControllerComponent::CollisionAttack(Collision collision)
 	{
+		//TODO: Handle collisions with attacks here
+	}
 
+	void DragonCrashControllerComponent::CollisionCrystal(Collision collision)
+	{
+		//TODO: Handle collisions with crystals here
 	}
 
 	void DragonCrashControllerComponent::CollisionOther(Collision collision)
 	{
-
+		//TODO: Handle any other collisions here (terrain, trees, etc.)
 	}
 
 	void DragonCrashControllerComponent::Init()
@@ -268,60 +385,70 @@ namespace DragonCrashController
 	void DragonCrashControllerComponent::Activate()
 	{
 		// Convert degree measures to radians
+		m_flightAscendAngle = AZ::DegToRad(m_flightAscendAngle);
 		m_yawTurnSpeed = AZ::DegToRad(m_yawTurnSpeed);
 		m_pitchTurnSpeed = AZ::DegToRad(m_pitchTurnSpeed);
 		m_pitchTurnLimit = AZ::DegToRad(m_pitchTurnLimit);
 
-		// Set max speed to 1000
-		gEnv->pSystem->GetIConsole()->GetCVar("p_max_velocity")->Set(1000.0f);
-
+		// Connect to Tick Bus
 		AZ::TickBus::Handler::BusConnect();
 
+		// Connect to notification buses to handle input
 		AZ::GameplayNotificationId mainYawEventID(GetEntityId(), "main_yaw");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(mainYawEventID);
-
 		AZ::GameplayNotificationId mainPitchEventId(GetEntityId(), "main_pitch");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(mainPitchEventId);
-
 		AZ::GameplayNotificationId secondaryYawEventID(GetEntityId(), "secondary_yaw");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(secondaryYawEventID);
-
 		AZ::GameplayNotificationId secondaryPitchEventId(GetEntityId(), "secondary_pitch");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(secondaryPitchEventId);
-
 		AZ::GameplayNotificationId ascendEventId(GetEntityId(), "ascend");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(ascendEventId);
-
 		AZ::GameplayNotificationId boostEventId(GetEntityId(), "boost");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(boostEventId);
-
 		AZ::GameplayNotificationId shieldEventId(GetEntityId(), "shield");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(shieldEventId);
-
 		AZ::GameplayNotificationId aimEventId(GetEntityId(), "aim");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(aimEventId);
-
 		AZ::GameplayNotificationId mainFireId(GetEntityId(), "main_fire");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(mainFireId);
+		
+		// Get ui canvas
+		AZ::EntityId tempId;
+		EBUS_EVENT_ID_RESULT(tempId, GetEntityId(), UiCanvasRefBus, GetCanvas);
+		m_uiCanvasId = tempId;
+		
+		// Get ui elements
+		AZ::Entity *uiStatusEntity;
+		EBUS_EVENT_ID_RESULT(uiStatusEntity, tempId, UiCanvasBus, FindElementById, 2);
+		m_uiStatusId = uiStatusEntity->GetId();
+		AZ::Entity *uiInfoEntity;
+		EBUS_EVENT_ID_RESULT(uiInfoEntity, tempId, UiCanvasBus, FindElementById, 3);
+		m_uiInfoId = uiInfoEntity->GetId();
 
+		// Spawn dragon
+		//TODO: Handle spawning of dragons in the game manager
 		Spawn();
 	}
 
 	void DragonCrashControllerComponent::Deactivate()
 	{
+		// Disconnect from buses
 		AZ::TickBus::Handler::BusDisconnect();
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusDisconnect();
 	}
 
 	void DragonCrashControllerComponent::OnTick(float deltaTime, AZ::ScriptTimePoint time)
 	{
-		if (!m_isDead && m_healthCurrent <= 0.0f)
+		// Kill dragon if out of health
+		if (m_healthCurrent <= 0.0f && m_currentState != States::dead)
 		{
 			Kill();
 		}
 
-		if (!m_isDead)
+		if (m_currentState != States::dead)
 		{
+			// Living dragon logic
 			TickMovement(deltaTime);
 			TickDragonCrash(deltaTime);
 			TickShield(deltaTime);
@@ -329,19 +456,24 @@ namespace DragonCrashController
 		}
 		else
 		{
+			// Dead dragon logic
 			TickDead(deltaTime);
 		}
 	}
 
 	void DragonCrashControllerComponent::OnCollision(const Collision& collision)
 	{
+		// Get tags of collided with entity
 		LmbrCentral::Tags collidedTags;
-		EBUS_EVENT_ID_RESULT(collidedTags, GetEntityId(), LmbrCentral::TagComponentRequestBus, GetTags);
+		EBUS_EVENT_ID_RESULT(collidedTags, collision.m_entity, LmbrCentral::TagComponentRequestBus, GetTags);
 
+		// Check for tags and offload logic to helper functions
 		if (collidedTags.find(AZ_CRC("dragon")) != collidedTags.end())
 			CollisionDragon(collision);
 		if (collidedTags.find(AZ_CRC("attack")) != collidedTags.end())
 			CollisionAttack(collision);
+		if (collidedTags.find(AZ_CRC("crystal")) != collidedTags.end())
+			CollisionCrystal(collision);
 		else
 			CollisionOther(collision);
 	}
