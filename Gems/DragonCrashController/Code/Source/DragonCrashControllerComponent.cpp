@@ -11,6 +11,7 @@
 #include <IPhysics.h>
 #include <MathConversion.h>
 #include <LmbrCentral/Scripting/TagComponentBus.h>
+#include <DragonCrashCollectiblesBus.h>
 
 #include "DragonCrashControllerComponent.h"
 
@@ -224,7 +225,11 @@ namespace DragonCrashController
 
 	void DragonCrashControllerComponent::HandleOtherCollision(Collision collision)
 	{
-
+		//Crystals
+		bool is_crystal = false;
+		EBUS_EVENT_ID_RESULT(is_crystal, collision.m_entity, DragonCrashCollectibles::CrystalRequestBus, isCrystal);
+		if (is_crystal) EBUS_EVENT_ID(collision.m_entity, DragonCrashCollectibles::CrystalRequestBus, Despawn);
+		m_crystalsCollected++;
 	}
 
 	void DragonCrashControllerComponent::Init()

@@ -32,6 +32,7 @@ namespace DragonCrashCollectibles
         {
 			serialize->Class<Crystal, AZ::Component>()
 				->Version(0)
+				->Field("Crystal-IsSpawner", &Crystal::isSpawner)
 				->Field("Crystal-Enabled", &Crystal::enabled)
 				->Field("Crystal-Hidden", &Crystal::hidden)
 				//->Field("Crystal-ForceLocalModel", &Crystal::forceLocalSlice)
@@ -40,13 +41,14 @@ namespace DragonCrashCollectibles
 				;
             if (AZ::EditContext* ec = serialize->GetEditContext())
             {
-                ec->Class<Crystal>("Crystal", "A collectible crystal")
-                    ->ClassElement(AZ::Edit::ClassElements::EditorData, "")
-                        ->Attribute(AZ::Edit::Attributes::Category, "DragonCrash-Collectibles")
-                        ->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("Game"))
-                        ->Attribute(AZ::Edit::Attributes::AutoExpand, true)
+				ec->Class<Crystal>("Crystal", "A collectible crystal")
+					->ClassElement(AZ::Edit::ClassElements::EditorData, "")
+					->Attribute(AZ::Edit::Attributes::Category, "DragonCrash-Collectibles")
+					->Attribute(AZ::Edit::Attributes::AppearsInAddComponentMenu, AZ_CRC("Game"))
+					->Attribute(AZ::Edit::Attributes::AutoExpand, true)
 
 					->ClassElement(GRP, "Crystal")
+					->DataElement(UI_D, &Crystal::isSpawner, "Spawner", "If enabled this is the crystal spawner. Else it is a spawned crystal")
 					->DataElement(UI_D, &Crystal::enabled, "Enabled", "If enabled, this asset can function as the gem.")
 					->DataElement(UI_D, &Crystal::hidden, "Hidden in Mesh", "If true, the crystal will be hidden inside a destructible mesh. Else it will appear above the entity's position.")
 					//->DataElement(UI_D, &Crystal::forceLocalSlice, "Force Local Slice", "If true, then this gem will use the specified slice as specified below.")
@@ -121,6 +123,26 @@ namespace DragonCrashCollectibles
 		else Crystal_SpawnSlice(staticModel);
 	}
 
+	void Crystal::Despawn() {
+		if (!isSpawner) {
+			AZ::EntityId tmp_spawnLink = spawnLink;
+
+			bool success = false;
+			EBUS_EVENT_RESULT(success, AzFramework::GameEntityContextRequestBus, DestroySliceByEntity, GetEntityId());
+
+			if (success) EBUS_EVENT_ID(tmp_spawnLink, DragonCrashCollectibles::CrystalRequestBus, setSpawnLinkValid, false);
+		}
+		
+		//Consider just adding a game context static mesh component instead...
+		/*bool success = false;
+		if (enabled) {
+			if (hidden) EBUS_EVENT_RESULT(success, AzFramework::GameEntityContextRequestBus, DestroySliceByEntity, staticSlice);
+			else EBUS_EVENT_RESULT(success, AzFramework::GameEntityContextRequestBus, DestroySliceByEntity, crystalSlice);
+		}
+		else EBUS_EVENT_RESULT(success, AzFramework::GameEntityContextRequestBus, DestroySliceByEntity, staticSlice);
+		*/
+	}
+
 	AzFramework::SliceInstantiationTicket Crystal::Crystal_SpawnSlice(const AZ::Data::Asset<AZ::Data::AssetData>& slice) {
 		return SpawnSliceInternal(slice, AZ::Transform::Identity());
 	}
@@ -137,9 +159,27 @@ namespace DragonCrashCollectibles
 		AzFramework::SliceInstantiationResultBus::MultiHandler::BusDisconnect(ticket);
 
 		const AZ::PrefabComponent::EntityList& entities = sliceAddress.second->GetInstantiated()->m_entities;
+		
+		//Crystal slices should only consist of a single entity
+		if (entities.size() > 1)CryLog("Warning: Crystal Slice is made up of multiple entities!");
+
 		for (AZ::Entity * currEntity : entities)
 		{
 			CryLog("Crystal->Slice Instantiated");
+			if (enabled) {
+				if (hidden)staticSlice = currEntity->GetId();
+				else crystalSlice = currEntity->GetId();
+			}
+			else staticSlice = currEntity->GetId();
+
+			bool is_crystal = false;
+			EBUS_EVENT_ID_RESULT(is_crystal, currEntity->GetId(), CrystalRequestBus, isCrystal);
+			
+			if (is_crystal) {
+				EBUS_EVENT_ID(currEntity->GetId(), CrystalRequestBus, setSpawnLink, GetEntityId());
+				EBUS_EVENT_ID(currEntity->GetId(), CrystalRequestBus, setSpawnLinkValid, true);
+			}
+			else CryLog("Warning: Slice Spawned by Crystal Spawner is not a Crystal!");
 		}
 
 		//EBUS_EVENT_ID(GetEntityId(), Env_TileNotificationBus, OnSpawned, ticket, entityIds);
@@ -147,7 +187,7 @@ namespace DragonCrashCollectibles
 
 	void Crystal::OnSliceInstantiationFailed(const AZ::Data::AssetId& sliceAssetId) {
 		AzFramework::SliceInstantiationResultBus::MultiHandler::BusDisconnect(*AzFramework::SliceInstantiationResultBus::GetCurrentBusId());
-		AZ_Error("Env_TileGenerator", false, "Slice '%s' failed to instantiate", sliceAssetId.ToString<AZStd::string>().c_str());
+		AZ_Error("Crystal", false, "Slice '%s' failed to instantiate", sliceAssetId.ToString<AZStd::string>().c_str());
 	}
 
 	AzFramework::SliceInstantiationTicket Crystal::SpawnSliceInternal(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative) {

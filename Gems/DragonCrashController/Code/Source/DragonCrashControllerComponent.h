@@ -83,5 +83,7 @@ namespace DragonCrashController
 		bool m_isDead;
 		float m_healthCurrent;
 		float m_respawnTimer;
+		int m_crystalsCollected;
+
 	};
 }
