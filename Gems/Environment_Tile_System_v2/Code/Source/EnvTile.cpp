@@ -102,6 +102,12 @@ namespace EnvTile
 				/*->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenAdvancedCrystalModels)
 				->Field("Maximum Crystals", &Env_TileGenerator::maxCrystals)				
 				*/
+
+				//Landing Zone
+				->Field("Landing Zone-Enable", &Env_TileGenerator::enableLZ)
+				->Field("Landing Zone-Base Tile", &Env_TileGenerator::LandingZoneBaseSlice)
+				->Field("Landing Zone-Deco Layer", &Env_TileGenerator::LandingZoneDecoSlices)
+				->Field("Landing Zone-Override Index", &Env_TileGenerator::lz_tile_index_override)
 				;
 
 			if (AZ::EditContext* ec = serialize->GetEditContext())
@@ -237,7 +243,14 @@ namespace EnvTile
 						->DataElement(UI_D, &Env_TileGenerator::unhiddenGems, "Free Floating Crystals", "Number of Crystals to spawn out in the open dynamically.")
 						->DataElement(UI_D, &Env_TileGenerator::DefaultCrystalModel, "Casual Crystal", "Slice used for the Casual Mode Crystal")
 						->DataElement(UI_D, &Env_TileGenerator::AdvancedCrystalModels, "Advanced Crystals", "Slices used for Crystals (Max:4)")
-					/*	
+					
+					//Landing Zone
+					->ClassElement(GRP, "Landing Zone")
+						->DataElement(UI_D, &Env_TileGenerator::enableLZ, "Enable LZ", "If true then the Landing Zone Settings are applied and a base tile is overriden with the Landing Zone.")
+						->DataElement(UI_D, &Env_TileGenerator::LandingZoneBaseSlice, "Base Slice", "The slice to use as the base tile slice for the landing zone tile.")
+						->DataElement(UI_D, &Env_TileGenerator::LandingZoneDecoSlices, "Deco Slices", "The slices to spawn as a decorative layer for the landing zone tile.")
+						->DataElement(UI_D, &Env_TileGenerator::lz_tile_index_override, "Tile Index Override", "The index of the tile which will be overridden by the landing zone slices.")
+						/*	
 						->DataElement(UI_D, &Env_TileGenerator::maxCrystals,"Max Crystals","Maximum number of crystals to spawn per player.")
 						->Attribute(AZ::Edit::Attributes::Min, 0)
 						
@@ -494,7 +507,7 @@ namespace EnvTile
 		}
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
 		//int crystalCount = advancedMode ? maxCrystals*numPlayers : maxCrystals;
-		if (tmp_spawned == loopLength+decoLayerObjectCount)PostActivate();//Base Tiles have spawned and it is safe to iterate.
+		if (tmp_spawned == loopLength+decoLayerObjectCount+1+LandingZoneDecoSlices.size())PostActivate();//Objects have spawned and it is safe to iterate.
 
 		EBUS_EVENT_ID(GetEntityId(), Env_TileNotificationBus, OnSpawned, ticket, entityIds);
 	}
@@ -528,6 +541,9 @@ namespace EnvTile
 		//Get number of loop iterations based on spawnType setting (Also the number of Base Tiles)
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
 
+		//Adjust LZ tile index to be within bounds
+		if (lz_tile_index_override > loopLength)lz_tile_index_override = loopLength;
+		else if (lz_tile_index_override < 0)lz_tile_index_override = 0;
 
 		//Spawn logic triggered on activation
 #pragma region Base
@@ -535,11 +551,15 @@ namespace EnvTile
 
 		//Loop through the list and spawn after constructing proper transforms.
 		for (int i = 0; i < loopLength; i++) {
+
+			bool isLZ = (i == lz_tile_index_override) && enableLZ ? true : false;
+
 			AZ::Data::Asset<AZ::DynamicPrefabAsset> sliceToSpawn;
 			AZ::Transform sliceTransform = AZ::Transform::Identity();
 
 			//Select Slice
-			if (sp_Method == spawnMethod::Randomized) {
+			if (isLZ) sliceToSpawn = LandingZoneBaseSlice;
+			else if (sp_Method == spawnMethod::Randomized) {
 				CryLog("DEBUG: Generating Random Int");
 				srand((int)time(NULL));
 				int rand_index = rand() % sliceList.size();
@@ -577,7 +597,9 @@ namespace EnvTile
 			//Spawn Slice
 			Gen_SpawnSliceRelative(sliceToSpawn, sliceTransform);
 			tilePositions.push_back(sliceTransform.GetPosition());
-			CryLog("Spawned Base Slice: %i", i);
+			
+			if(isLZ) CryLog("Spawned LZ Slice: %i", i);
+			else CryLog("Spawned Base Slice: %i", i);
 #pragma endregion Base
 
 #pragma region Deco
@@ -587,11 +609,20 @@ namespace EnvTile
 			int tmp_sub_obj_count = 0;
 
 			if (decoLayer.size() > 0 && decoLayer[i%sliceList.size()].size() > 0) {
-				for (auto item : decoLayer[i%sliceList.size()]) {
-					//Spawn at Tile Location (NOTE: BUILD SLICES ACCORDINGLY)
-					Gen_SpawnSliceRelative(item, sliceTransform);
-					CryLog("Base Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
-					tmp_sub_obj_count++;
+				if (isLZ) {
+					for (auto item : decoLayer[i%sliceList.size()]) {
+						//Spawn at Tile Location (NOTE: BUILD SLICES ACCORDINGLY)
+						Gen_SpawnSliceRelative(item, sliceTransform);
+						CryLog("Base Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
+						tmp_sub_obj_count++;
+					}
+				}
+				else {
+					for (auto item : LandingZoneDecoSlices) {
+						Gen_SpawnSliceRelative(item, sliceTransform);
+						CryLog("LZ Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
+						tmp_sub_obj_count++;
+					}
 				}
 			}
 #pragma endregion Deco

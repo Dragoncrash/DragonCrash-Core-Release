@@ -166,7 +166,7 @@ namespace EnvTile
 		//LAYER->Slice List
 		AZStd::vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>> sliceList;
 		AZStd::vector<AZ::Vector3> tilePositions;
-		int slice_layerID = 0, max_slice_layerID = 0;//For UI
+		//int slice_layerID = 0, max_slice_layerID = 0;//For UI [REMOVE]
 
 		//Editor UI access to Lists
 		int listIndex = 0;
@@ -231,6 +231,11 @@ namespace EnvTile
 		//Feedback
 		int crystalsSpawned;
 
+		//Landing Zone
+		bool enableLZ = true;
+		AZ::Data::Asset<AZ::DynamicPrefabAsset> LandingZoneBaseSlice;
+		AZStd::vector<AZ::Data::Asset<AZ::DynamicPrefabAsset>> LandingZoneDecoSlices;
+		int lz_tile_index_override = 0;
 		/*bool spawnCrystals;
 
 		
