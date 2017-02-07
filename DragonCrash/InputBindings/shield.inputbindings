@@ -1,0 +1,25 @@
+<ObjectStream version="1">
+	<Class name="InputEventBindingsAsset" type="{25971C7A-26E2-4D08-A146-2EFCC1C36B0C}">
+		<Class name="InputEventBindings" field="Bindings" version="1" type="{14FFD4A8-AE46-4E23-B45B-6A7C4F787A91}">
+			<Class name="AZStd::vector" field="Input Event Groups" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
+				<Class name="InputEventGroup" field="element" version="1" type="{25143B7E-2FEC-4CC5-92FE-270B67E79734}">
+					<Class name="AZStd::string" field="Event Name" value="IShield" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+					<Class name="AZStd::vector" field="Event Generators" type="{2BADE35A-6F1B-4698-B2BC-3373D010020C}">
+						<Class name="Held" field="element" version="2" type="{A3F1D51B-3473-49D6-9131-98D1FBA9003A}">
+							<Class name="SingleEventToAction" field="BaseClass1" version="2" type="{2C93824D-D011-459C-B12B-9F4A6148730C}">
+								<Class name="AZStd::string" field="Input Device Type" value="keyboard" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+								<Class name="AZStd::string" field="Input Name" value="t" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
+								<Class name="float" field="Event Value Multiplier" value="4.0000000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
+								<Class name="float" field="Dead Zone" value="0.2000000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
+							</Class>
+							<Class name="float" field="Duration To Hold" value="0.0100000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
+							<Class name="float" field="Success Pulse Interval" value="0.0100000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
+							<Class name="int" field="Invoke Type" value="0" type="{72039442-EB38-4D42-A1AD-CB68F7E0EEF6}"/>
+						</Class>
+					</Class>
+				</Class>
+			</Class>
+		</Class>
+	</Class>
+</ObjectStream>
+

@@ -7,7 +7,7 @@ shieldcontroller =
 	
 	InputValues = 
 	{
-		IShield = true,
+		IShield = false,
 	},
 	
 	StateValues = 
@@ -17,21 +17,37 @@ shieldcontroller =
 }
 
 
+function shieldcontroller:OnActivate()
 
-function shieldcontrolller:HandleSpawn()
-	Debug.Log("shield is livin");
-
-	-- get respawn transform
-	local respawnTranform = Transform.CreateTranslation(Vector3(0,0,500));
+	self.tickHandler = TickBusHandler(self, 0);
 	
-	-- move to respawn transform
-	self.transformSender:SetWorldTM(respawnTranform);
+	self.transformSender = TransformBusSender(self.entityId);
+	
+		Debug.Log("shield is on");
+
+	
+	activateScaling = Transform.CreateScale(Vector3(80,80,40));
+	deactivateScaling = Transform.CreateScale(Vector3(0.01,0.01,0.01));
+	self.transformSender:SetLocalTM(activateScaling);
+
 end
+
+function shieldcontroller:OnDeactivate()
+	self.tickHandler:Disconnect();
+end
+
+
 
 function shieldcontroller:OnTick(deltaTime)
 	-- TODO: add shielding logic
-	Debug.Log("shield is on");
-	-- move to respawn transform
-	self.physicsSender:SetVelocity(Vector3(5,0,0));
-	self.physicsSender:SetAngularVelocity(Vector3(0,0,0));
+	
+	if(self.StateValues.Shield) then
+		
+	end
+	
+	if (not self.InputValues.IShield) then
+		self.transformSender:SetLocalTM(deactivateScaling);
+	end
+
+
 end
