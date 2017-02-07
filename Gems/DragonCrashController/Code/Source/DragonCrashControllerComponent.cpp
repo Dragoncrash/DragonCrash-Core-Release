@@ -170,7 +170,7 @@ namespace DragonCrashController
 		m_healthCurrent = m_healthMax;
 
 		// Start in flight mode until hover mode is finished
-		m_currentState = States::hover;
+		m_currentState = States::flight;
 	}
 
 	void DragonCrashControllerComponent::Kill()
@@ -186,8 +186,8 @@ namespace DragonCrashController
 		// Note: Putting this in Activate insta-crashes the editor
 		//TODO: Move this somewhere else where its only called once but doesn't cause crashes
 		ICVar *maxVelocity = gEnv->pSystem->GetIConsole()->GetCVar("p_max_velocity");
-		//if (maxVelocity->GetFVal() < 1000.0f)
-			//maxVelocity->Set(1000.0f);
+		if (maxVelocity->GetFVal() < 1000.0f)
+			maxVelocity->Set(1000.0f);
 
 		// Update rotation state
 		m_yaw -= m_inputMainYaw * m_yawTurnSpeed * deltaTime;
@@ -212,6 +212,13 @@ namespace DragonCrashController
 		AZ::Vector3 currentVelocity = LYVec3ToAZVec3(dynamicStatus.v);
 		float mass = dynamicStatus.mass;
 
+		// Update info ui
+		std::stringstream infoString;
+		infoString << "Boosting: " << m_isBoosting << "\n";
+		infoString << "Direction: " << (float)forwardDirection.GetX() << " " << (float)forwardDirection.GetY() << " " << (float)forwardDirection.GetZ() << "\n";
+		infoString << "Velocity: " << (float)currentVelocity.GetX() << " " << (float)currentVelocity.GetY() << " " << (float)currentVelocity.GetZ() << "\n";
+		EBUS_EVENT_ID(m_uiInfoId, UiTextBus, SetText, infoString.str().c_str());
+
 		// Get difference between current rotation and desired rotation
 		AZ::Quaternion desiredRotation =
 			AZ::Quaternion::CreateRotationZ(m_yaw) *
@@ -225,7 +232,7 @@ namespace DragonCrashController
 		// Apply set angular velocity physics action
 		pe_action_set_velocity velocityAction;
 		velocityAction.w = AZVec3ToLYVec3(angularVelocity);
-		//EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, velocityAction, false);
+		EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, velocityAction, false);
 		
 		// Energy recharge logic
 		if (m_energyRechargeTimer >= m_energyRechargeDelay)
@@ -239,31 +246,11 @@ namespace DragonCrashController
 			m_energyRechargeTimer += deltaTime;
 		}
 
-		// Update state ui
-		std::stringstream stateString;
-		switch (m_currentState)
-		{
-		case States::dead:
-			stateString << "Dead";
-			break;
-
-		case States::flight:
-			stateString << "Flying";
-			break;
-
-		case States::hover:
-			stateString << "Hovering";
-			break;
-
-		case States::hover_zoom:
-			stateString << "Hovering w/ Zoom";
-			break;
-		}
-		EBUS_EVENT_ID(m_uiStatusId, UiTextBus, SetText, stateString.str().c_str());
-
 		// Handle flight mode logic
 		if (m_currentState == States::flight)
 		{
+			EBUS_EVENT_ID(m_uiStatusId, UiTextBus, SetText, "flight mode");
+
 			// Boost logic
 			m_isBoosting = false;
 			if (m_inputBoost) // Check for boost input
@@ -297,6 +284,8 @@ namespace DragonCrashController
 				maxSpeed = m_boostMaxSpeed;
 			}
 
+
+
 			// Add ascend/descend input to forward direction to get flight direction
 			AZ::Vector3 flightDirection = AZ::Quaternion::CreateRotationX(m_inputAscend * m_flightAscendAngle) * forwardDirection;
 
@@ -311,20 +300,12 @@ namespace DragonCrashController
 			// Apply impulse physics action
 			pe_action_impulse impulseAction;
 			impulseAction.impulse = AZVec3ToLYVec3(newImpulse);
-			//EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, impulseAction, false);
-
-			// Update info ui
-			std::stringstream infoString;
-			if (m_isBoosting)
-				infoString << "Boosting: true\n";
-			else
-				infoString << "Boosting: false\n";
-			infoString << "Velocity: " << (float)newVelocity.GetLengthExact() << "\n";
-			EBUS_EVENT_ID(m_uiInfoId, UiTextBus, SetText, infoString.str().c_str());
+			EBUS_EVENT_ID(GetEntityId(), LmbrCentral::CryPhysicsComponentRequestBus, ApplyPhysicsAction, impulseAction, false);
 		}
 		// Handle hover mode logic
 		else if (m_currentState == States::hover || m_currentState == States::hover_zoom)
 		{
+			EBUS_EVENT_ID(m_uiStatusId, UiTextBus, SetText, "hover mode");
 			//TODO: Implement hover mode
 		}
 	}
@@ -346,6 +327,8 @@ namespace DragonCrashController
 
 	void DragonCrashControllerComponent::TickDead(float deltaTime)
 	{
+		EBUS_EVENT_ID(m_uiStatusId, UiTextBus, SetText, "is kill");
+
 		// Stop movement
 		pe_action_set_velocity action;
 		action.v = AZVec3ToLYVec3(AZ::Vector3(0.0f, 0.0f, 0.0f));

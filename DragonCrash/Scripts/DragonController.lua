@@ -217,6 +217,7 @@ function dragoncontroller:OnActivate()
 	
 	-- entity senders
 	self.transformSender = TransformBusSender(self.entityId);
+	self.transformSender:SetWorldTM();
 	self.physicsSender = PhysicsComponentRequestBusSender(self.entityId);
 	
 	-- call spawn event
