@@ -608,8 +608,15 @@ namespace EnvTile
 			//	REPEAT THE SLICES IN THE BASE SLICE LIST
 			int tmp_sub_obj_count = 0;
 
-			if (decoLayer.size() > 0 && decoLayer[i%sliceList.size()].size() > 0) {
-				if (isLZ) {
+			if (isLZ) {
+				for (auto item : LandingZoneDecoSlices) {
+					Gen_SpawnSliceRelative(item, sliceTransform);
+					CryLog("LZ Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
+					tmp_sub_obj_count++;
+				}
+			}
+			else {
+				if (decoLayer.size() > 0 && decoLayer[i%sliceList.size()].size() > 0) {
 					for (auto item : decoLayer[i%sliceList.size()]) {
 						//Spawn at Tile Location (NOTE: BUILD SLICES ACCORDINGLY)
 						Gen_SpawnSliceRelative(item, sliceTransform);
@@ -617,14 +624,8 @@ namespace EnvTile
 						tmp_sub_obj_count++;
 					}
 				}
-				else {
-					for (auto item : LandingZoneDecoSlices) {
-						Gen_SpawnSliceRelative(item, sliceTransform);
-						CryLog("LZ Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
-						tmp_sub_obj_count++;
-					}
-				}
 			}
+			
 #pragma endregion Deco
 		}
 

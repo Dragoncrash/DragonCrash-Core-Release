@@ -1,0 +1,13 @@
+<Material MtlFlags="524544" vertModifType="0">
+ <SubMaterials>
+  <Material Name="mountainCube" MtlFlags="524416" Shader="Illum" GenMask="81004000" StringGenMask="%DISPLACEMENT_MAPPING%NORMAL_MAP%SUBSURFACE_SCATTERING" SurfaceType="" Diffuse="1,1,1" Specular="0,0,0" Opacity="1" Shininess="10" vertModifType="0" LayerAct="1">
+   <Textures>
+    <Texture Map="Diffuse" File="textures/custom/processed/cliff.dds"/>
+    <Texture Map="Bumpmap" File="textures/custom/processed/cliff_ddn.dds"/>
+    <Texture Map="Heightmap" File="textures/custom/processed/cliff_displ.dds"/>
+   </Textures>
+   <PublicParams TessellationFaceCull="0.75" EmittanceMapGamma="1" TessellationFactor="1" TessellationDispBias="0.5" TessellationHeightScale="1" SSSIndex="0" TessellationFactorMax="32" TessellationFactorMin="1" IndirectColor="0.25,0.25,0.25"/>
+  </Material>
+ </SubMaterials>
+ <PublicParams EmittanceMapGamma="1" SSSIndex="0" IndirectColor="0.25,0.25,0.25"/>
+</Material>
