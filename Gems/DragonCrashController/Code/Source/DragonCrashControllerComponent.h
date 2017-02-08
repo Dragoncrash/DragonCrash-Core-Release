@@ -79,6 +79,9 @@ namespace DragonCrashController
 			float m_energyRechargeTime;
 			float m_energyRechargeDelay;
 
+			//Spawn Transforms
+			AZ::Vector3 m_spawnLocation = AZ::Vector3::CreateZero();
+
 		// Inputs
 		float m_inputMainYaw;
 		float m_inputMainPitch;

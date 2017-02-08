@@ -80,6 +80,8 @@ namespace DragonCrashController
 				->Field("UiCanvusId", &DragonCrashControllerComponent::m_uiCanvasId)
 				->Field("UiStatusId", &DragonCrashControllerComponent::m_uiStatusId)
 				->Field("UiInfoId", &DragonCrashControllerComponent::m_uiInfoId)
+				
+				->Field("SpawnLocation", &DragonCrashControllerComponent::m_spawnLocation)
 				;
 
 			AZ::EditContext* edit = serialize->GetEditContext();
@@ -107,6 +109,7 @@ namespace DragonCrashController
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_energyRechargeDelay, "Boost Recharge Delay", "How long the dragon must wait after boosting to recharge energy in seconds.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_healthMax, "Health Max", "How many health points the dragon has.")
 					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_respawnTime, "Respawn Time", "How long the dragon must wait to respawn after dying.")
+					->DataElement(AZ::Edit::UIHandlers::Default, &DragonCrashControllerComponent::m_spawnLocation, "Spawn Location", "The location to use for spawning and respawning.")
 					;
 			}
 		}
@@ -163,7 +166,7 @@ namespace DragonCrashController
 	void DragonCrashControllerComponent::Spawn()
 	{
 		// Get respawn transform
-		AZ::Transform respawnTransform = AZ::Transform::CreateTranslation(AZ::Vector3(0.0f,0.0f,500.0f));
+		AZ::Transform respawnTransform = AZ::Transform::CreateTranslation(m_spawnLocation);//(AZ::Vector3(0.0f,0.0f,500.0f));
 
 		// Apply respawn transform
 		EBUS_EVENT_ID(GetEntityId(), AZ::TransformBus, SetWorldTM, respawnTransform);
