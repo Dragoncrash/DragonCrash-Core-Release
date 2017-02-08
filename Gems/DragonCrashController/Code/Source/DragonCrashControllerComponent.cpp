@@ -507,6 +507,9 @@ namespace DragonCrashController
 		EBUS_EVENT_ID_RESULT(uiInfoEntity, tempId, UiCanvasBus, FindElementById, 3);
 		m_uiInfoId = uiInfoEntity->GetId();
 
+		//Attach to Controller Bus
+		DragonCrashRequestBus::Handler::BusConnect(GetEntityId());
+
 		// Spawn dragon
 		//TODO: Handle spawning of dragons in the game manager
 		Spawn();

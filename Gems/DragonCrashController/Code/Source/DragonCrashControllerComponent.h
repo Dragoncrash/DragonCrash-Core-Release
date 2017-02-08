@@ -4,11 +4,13 @@
 #include <AzCore/Component/TickBus.h>
 #include <GameplayEventBus.h>
 #include <LmbrCentral/Physics/PhysicsComponentBus.h>
+#include <DragonCrashController/DragonCrashControllerBus.h>
 
 namespace DragonCrashController
 {
 	class DragonCrashControllerComponent
 		: public AZ::Component
+		, protected DragonCrashRequestBus::Handler
 		, public AZ::TickBus::Handler
 		, public LmbrCentral::PhysicsComponentNotificationBus::Handler
 		, public AZ::GameplayNotificationBus<float>::MultiHandler
@@ -96,7 +98,6 @@ namespace DragonCrashController
 		bool m_inputSecondaryFire;
 
 		// State values
-		enum States { dead, flight, hover, hover_zoom };
 		int m_currentState;
 		float m_healthCurrent;
 		float m_respawnTimer;

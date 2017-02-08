@@ -7,6 +7,7 @@
     },
     "auto": {
         "Include": [
+			"Include/DragonCrashController/DragonCrashControllerBus.h"
         ],
         "Source": [
             "Source/DragonCrashControllerModule.cpp",
