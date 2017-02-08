@@ -32,6 +32,7 @@ namespace DragonCrashCollectibles
 		void OnSliceInstantiated(const AZ::Data::AssetId& sliceAssetId, const AZ::PrefabComponent::PrefabInstanceAddress& sliceAddress) override;
 		void OnSliceInstantiationFailed(const AZ::Data::AssetId& sliceAssetId) override;
 		void Spawn() override;
+		void Despawn() override;
     protected:
         ////////////////////////////////////////////////////////////////////////
         // DragonCrashCollectiblesRequestBus interface implementation
@@ -41,6 +42,8 @@ namespace DragonCrashCollectibles
 		void setHidden(bool) override;
 		void setEnabled(bool) override;
 		void setCrystalModel(AZ::Data::Asset<AZ::DynamicPrefabAsset>) override;
+		void setSpawnLink(AZ::EntityId eid) override { spawnLink = eid; }
+		void setSpawnLinkValid(bool b) override { spawnLinkValid = b; }
 
 		bool isCrystal() override { return true; }
         ////////////////////////////////////////////////////////////////////////
@@ -53,11 +56,18 @@ namespace DragonCrashCollectibles
         ////////////////////////////////////////////////////////////////////////
 		bool enabled = false;
 		bool hidden = true;
+		bool isSpawner = false;
 		AZ::Data::Asset<AZ::DynamicPrefabAsset> crystalModel;
 		AZ::Data::Asset<AZ::DynamicPrefabAsset> staticModel;
 		
 	private:
 		AzFramework::SliceInstantiationTicket SpawnSliceInternal(const AZ::Data::Asset<AZ::Data::AssetData>& slice, const AZ::Transform& relative);
+
+		//Internal
+		AZ::EntityId crystalSlice, staticSlice;//Keeps track of the spawned entity IDs for removal and respawn
+		
+		bool spawnLinkValid = false;
+		AZ::EntityId spawnLink;
 
     };
 

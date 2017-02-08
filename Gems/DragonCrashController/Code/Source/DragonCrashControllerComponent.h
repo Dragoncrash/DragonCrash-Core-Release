@@ -104,6 +104,7 @@ namespace DragonCrashController
 		bool m_isEnergyExhausted;
 		float m_energyRemaining;
 		float m_energyRechargeTimer;
+		int m_crystalsCollected;
 
 		// UI values
 		AZ::EntityId m_uiCanvasId;

@@ -6,5 +6,6 @@ def build(bld):
         includes    = [ bld.Path('Code/CryEngine/CryCommon')
 					  , bld.Path('Code/CryEngine/CryAction')
 					  , bld.Path('Code/CryEngine/CryNetwork')
-					  , bld.Path('Code/Engine/LmbrCentral/include')],
+					  , bld.Path('Code/Engine/LmbrCentral/include')
+					  , bld.Path('Gems\DragonCrashCollectibles\Code\Include\DragonCrashCollectibles')],
     )

@@ -97,10 +97,17 @@ namespace EnvTile
 				->Field("Multi-Crystal Placement", &Env_TileGenerator::multipleCrystalsPerTile)
 				->Field("Advanced Mode", &Env_TileGenerator::advancedMode)
 				->Field("Free Floating Gems", &Env_TileGenerator::unhiddenGems)
-				->Field("Crystal Slices", &Env_TileGenerator::crystalModels)
-				/*->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenCrystalModels)
+				->Field("Advanced Mode Crystal Slices", &Env_TileGenerator::AdvancedCrystalModels)
+				->Field("Default Crystal Slice", &Env_TileGenerator::DefaultCrystalModel)
+				/*->Field("Hidden Crystal Slices", &Env_TileGenerator::hiddenAdvancedCrystalModels)
 				->Field("Maximum Crystals", &Env_TileGenerator::maxCrystals)				
 				*/
+
+				//Landing Zone
+				->Field("Landing Zone-Enable", &Env_TileGenerator::enableLZ)
+				->Field("Landing Zone-Base Tile", &Env_TileGenerator::LandingZoneBaseSlice)
+				->Field("Landing Zone-Deco Layer", &Env_TileGenerator::LandingZoneDecoSlices)
+				->Field("Landing Zone-Override Index", &Env_TileGenerator::lz_tile_index_override)
 				;
 
 			if (AZ::EditContext* ec = serialize->GetEditContext())
@@ -234,13 +241,21 @@ namespace EnvTile
 						->DataElement(UI_D, &Env_TileGenerator::multipleCrystalsPerTile, "Multi-Crystal Placement", "If true, then multiple gems can be spawned on the same tile.")
 						->DataElement(UI_D, &Env_TileGenerator::advancedMode, "Advanced Mode", "If advanced mode, each player gets maxCrystals amount of Crystals in their color. Else maxCrystals is the total number of crystals for all players.")
 						->DataElement(UI_D, &Env_TileGenerator::unhiddenGems, "Free Floating Crystals", "Number of Crystals to spawn out in the open dynamically.")
-						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
-					/*	
+						->DataElement(UI_D, &Env_TileGenerator::DefaultCrystalModel, "Casual Crystal", "Slice used for the Casual Mode Crystal")
+						->DataElement(UI_D, &Env_TileGenerator::AdvancedCrystalModels, "Advanced Crystals", "Slices used for Crystals (Max:4)")
+					
+					//Landing Zone
+					->ClassElement(GRP, "Landing Zone")
+						->DataElement(UI_D, &Env_TileGenerator::enableLZ, "Enable LZ", "If true then the Landing Zone Settings are applied and a base tile is overriden with the Landing Zone.")
+						->DataElement(UI_D, &Env_TileGenerator::LandingZoneBaseSlice, "Base Slice", "The slice to use as the base tile slice for the landing zone tile.")
+						->DataElement(UI_D, &Env_TileGenerator::LandingZoneDecoSlices, "Deco Slices", "The slices to spawn as a decorative layer for the landing zone tile.")
+						->DataElement(UI_D, &Env_TileGenerator::lz_tile_index_override, "Tile Index Override", "The index of the tile which will be overridden by the landing zone slices.")
+						/*	
 						->DataElement(UI_D, &Env_TileGenerator::maxCrystals,"Max Crystals","Maximum number of crystals to spawn per player.")
 						->Attribute(AZ::Edit::Attributes::Min, 0)
 						
 						->Attribute(AZ::Edit::Attributes::Min, 0)
-						->DataElement(UI_D, &Env_TileGenerator::crystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
+						->DataElement(UI_D, &Env_TileGenerator::AdvancedCrystalModels, "Crystal Slices", "Slices used for Crystals (Max:4)")
 						*/
 					;
 
@@ -492,7 +507,7 @@ namespace EnvTile
 		}
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
 		//int crystalCount = advancedMode ? maxCrystals*numPlayers : maxCrystals;
-		if (tmp_spawned == loopLength+decoLayerObjectCount)PostActivate();//Base Tiles have spawned and it is safe to iterate.
+		if (tmp_spawned == loopLength+decoLayerObjectCount+1+LandingZoneDecoSlices.size())PostActivate();//Objects have spawned and it is safe to iterate.
 
 		EBUS_EVENT_ID(GetEntityId(), Env_TileNotificationBus, OnSpawned, ticket, entityIds);
 	}
@@ -526,6 +541,9 @@ namespace EnvTile
 		//Get number of loop iterations based on spawnType setting (Also the number of Base Tiles)
 		int loopLength = sp_Type == spawnType::Once ? sliceList.size() : maxTiles;
 
+		//Adjust LZ tile index to be within bounds
+		if (lz_tile_index_override > loopLength)lz_tile_index_override = loopLength;
+		else if (lz_tile_index_override < 0)lz_tile_index_override = 0;
 
 		//Spawn logic triggered on activation
 #pragma region Base
@@ -533,11 +551,15 @@ namespace EnvTile
 
 		//Loop through the list and spawn after constructing proper transforms.
 		for (int i = 0; i < loopLength; i++) {
+
+			bool isLZ = (i == lz_tile_index_override) && enableLZ ? true : false;
+
 			AZ::Data::Asset<AZ::DynamicPrefabAsset> sliceToSpawn;
 			AZ::Transform sliceTransform = AZ::Transform::Identity();
 
 			//Select Slice
-			if (sp_Method == spawnMethod::Randomized) {
+			if (isLZ) sliceToSpawn = LandingZoneBaseSlice;
+			else if (sp_Method == spawnMethod::Randomized) {
 				CryLog("DEBUG: Generating Random Int");
 				srand((int)time(NULL));
 				int rand_index = rand() % sliceList.size();
@@ -575,7 +597,9 @@ namespace EnvTile
 			//Spawn Slice
 			Gen_SpawnSliceRelative(sliceToSpawn, sliceTransform);
 			tilePositions.push_back(sliceTransform.GetPosition());
-			CryLog("Spawned Base Slice: %i", i);
+			
+			if(isLZ) CryLog("Spawned LZ Slice: %i", i);
+			else CryLog("Spawned Base Slice: %i", i);
 #pragma endregion Base
 
 #pragma region Deco
@@ -584,14 +608,24 @@ namespace EnvTile
 			//	REPEAT THE SLICES IN THE BASE SLICE LIST
 			int tmp_sub_obj_count = 0;
 
-			if (decoLayer.size() > 0 && decoLayer[i%sliceList.size()].size() > 0) {
-				for (auto item : decoLayer[i%sliceList.size()]) {
-					//Spawn at Tile Location (NOTE: BUILD SLICES ACCORDINGLY)
+			if (isLZ) {
+				for (auto item : LandingZoneDecoSlices) {
 					Gen_SpawnSliceRelative(item, sliceTransform);
-					CryLog("Base Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
+					CryLog("LZ Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
 					tmp_sub_obj_count++;
 				}
 			}
+			else {
+				if (decoLayer.size() > 0 && decoLayer[i%sliceList.size()].size() > 0) {
+					for (auto item : decoLayer[i%sliceList.size()]) {
+						//Spawn at Tile Location (NOTE: BUILD SLICES ACCORDINGLY)
+						Gen_SpawnSliceRelative(item, sliceTransform);
+						CryLog("Base Tile %i: Spawned Sub Slice %i", i, tmp_sub_obj_count);
+						tmp_sub_obj_count++;
+					}
+				}
+			}
+			
 #pragma endregion Deco
 		}
 
@@ -618,7 +652,10 @@ namespace EnvTile
 		for (int i = 0; i < entityIds.size(); i++)indices.push_back(i);
 		std::random_shuffle(indices.begin(), indices.end());
 		
-		if (entityIds.size() < maxCrystals)CryLog("WARNING: Number of entities spawned is less than the number of Crystals requested! Capping Crystal Count to %i.", entityIds.size());
+		if (entityIds.size() < maxCrystals){
+			CryLog("WARNING: Number of entities spawned is less than the number of Crystals requested! Capping Crystal Count to %i.", entityIds.size());
+			maxCrystals = entityIds.size();
+		}
 
 		for (int i = 0; i < min(maxCrystals, (int)entityIds.size()); i++) {
 			bool objIsCrystal = false;
@@ -638,8 +675,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 1) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[0]);
+							if (AdvancedCrystalModels.size() >= 1) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[0]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -656,8 +693,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 2) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[1]);
+							if (AdvancedCrystalModels.size() >= 2) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[1]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -674,8 +711,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 3) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[2]);
+							if (AdvancedCrystalModels.size() >= 3) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[2]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -692,8 +729,8 @@ namespace EnvTile
 							validPlayerChosen = false;
 						}
 						else {
-							if (crystalModels.size() >= 4) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[3]);
+							if (AdvancedCrystalModels.size() >= 4) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[3]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -709,8 +746,8 @@ namespace EnvTile
 					//If the random method didn't work, give up and go in order
 					if (!validPlayerChosen) {
 						if (p1 < 4) {
-							if (crystalModels.size() >= 1) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[0]);
+							if (AdvancedCrystalModels.size() >= 1) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[0]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -721,8 +758,8 @@ namespace EnvTile
 							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
 						}
 						else if (p2 < 4) {
-							if (crystalModels.size() >= 2) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[1]);
+							if (AdvancedCrystalModels.size() >= 2) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[1]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -733,8 +770,8 @@ namespace EnvTile
 							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
 						}
 						else if (p3 < 4) {
-							if (crystalModels.size() >= 3) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[2]);
+							if (AdvancedCrystalModels.size() >= 3) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[2]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -745,8 +782,8 @@ namespace EnvTile
 							else CryLog("Warning: Not enough Crystal Slice Models Provided!");
 						}
 						else if (p4 < 4) {
-							if (crystalModels.size() >= 4) {
-								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, crystalModels[3]);
+							if (AdvancedCrystalModels.size() >= 4) {
+								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, AdvancedCrystalModels[3]);
 								EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
 								if (unhiddenGems > 0) {
 									EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
@@ -763,6 +800,15 @@ namespace EnvTile
 					EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, Spawn);
 				}
 				else {
+					//Basic Mode: Just spawn gems anywhere. Any player can get any gem.
+					for (int i = 0; i < maxCrystals; i++){
+						EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setCrystalModel, DefaultCrystalModel);
+						EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setEnabled, true);
+						if (unhiddenGems > 0){
+							EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, false);
+						}
+						else EBUS_EVENT_ID(entityIds[indices[i]], DragonCrashCollectibles::CrystalRequestBus, setHidden, true);
+					}
 
 				}
 				crystalsSpawned++;

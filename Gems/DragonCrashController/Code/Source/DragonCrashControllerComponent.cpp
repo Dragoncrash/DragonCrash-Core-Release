@@ -15,6 +15,7 @@
 #include <LyShine/Bus/World/UiCanvasRefBus.h>
 #include <LyShine/Bus/UiCanvasBus.h>
 #include <LyShine/Bus/UiTextBus.h>
+#include <DragonCrashCollectiblesBus.h>
 
 #include "DragonCrashControllerComponent.h"
 
@@ -75,6 +76,7 @@ namespace DragonCrashController
 				->Field("IsEnergyExhausted", &DragonCrashControllerComponent::m_isEnergyExhausted)
 				->Field("EnergyRemaining", &DragonCrashControllerComponent::m_energyRemaining)
 				->Field("EnergyRechargeTimer", &DragonCrashControllerComponent::m_energyRechargeTimer)
+				->Field("CrystalsCollected", &DragonCrashControllerComponent::m_crystalsCollected)
 				->Field("UiCanvusId", &DragonCrashControllerComponent::m_uiCanvasId)
 				->Field("UiStatusId", &DragonCrashControllerComponent::m_uiStatusId)
 				->Field("UiInfoId", &DragonCrashControllerComponent::m_uiInfoId)
@@ -150,6 +152,7 @@ namespace DragonCrashController
 		, m_isEnergyExhausted(false)
 		, m_energyRemaining(0.0f)
 		, m_energyRechargeTimer(0.0f)
+		, m_crystalsCollected(0)
 	{
 	}
 
@@ -183,6 +186,7 @@ namespace DragonCrashController
 		m_energyRemaining = m_energyMax;
 		m_energyRechargeTimer = 0.0;
 		m_healthCurrent = m_healthMax;
+		m_crystalsCollected = 0;
 
 		// Start in hover mode
 		m_currentState = States::hover;
@@ -418,7 +422,7 @@ namespace DragonCrashController
 
 		// Increment and check respawn timer
 		m_respawnTimer += deltaTime;
-		if (m_respawnTimer >= m_respawnTime) 
+		if (m_respawnTimer >= m_respawnTime)
 			Spawn();
 	}
 
@@ -434,7 +438,11 @@ namespace DragonCrashController
 
 	void DragonCrashControllerComponent::CollisionCrystal(Collision collision)
 	{
-		//TODO: Handle collisions with crystals here
+		bool is_crystal = false;
+		EBUS_EVENT_ID_RESULT(is_crystal, collision.m_entity, DragonCrashCollectibles::CrystalRequestBus, isCrystal);
+		if (is_crystal)
+			EBUS_EVENT_ID(collision.m_entity, DragonCrashCollectibles::CrystalRequestBus, Despawn);
+		m_crystalsCollected++;
 	}
 
 	void DragonCrashControllerComponent::CollisionOther(Collision collision)
@@ -512,9 +520,7 @@ namespace DragonCrashController
 	{
 		// Kill dragon if out of health
 		if (m_healthCurrent <= 0.0f && m_currentState != States::dead)
-		{
 			Kill();
-		}
 
 		std::stringstream debug;
 
