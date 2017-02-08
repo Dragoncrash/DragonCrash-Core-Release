@@ -1,9 +1,12 @@
 #pragma once
 
+#include <AzCore/Math/Transform.h>
+#include <AzCore/Math/Quaternion.h>
 #include <AzCore/Component/Component.h>
 #include <AzCore/Component/TickBus.h>
 #include <GameplayEventBus.h>
 #include <LmbrCentral/Physics/PhysicsComponentBus.h>
+#include <LmbrCentral/Scripting/SpawnerComponentBus.h>
 
 namespace DragonCrashController
 {
@@ -11,6 +14,7 @@ namespace DragonCrashController
 		: public AZ::Component
 		, public AZ::TickBus::Handler
 		, public LmbrCentral::PhysicsComponentNotificationBus::Handler
+		, public LmbrCentral::SpawnerComponentNotificationBus::Handler
 		, public AZ::GameplayNotificationBus<float>::MultiHandler
 	{
 	public:
@@ -31,14 +35,17 @@ namespace DragonCrashController
 		// PhysicsComponentNotificationBus
 		void OnCollision(const Collision& collision) override;
 
+		// SpawnerComponentNotificationBus
+		void OnEntitySpawned(const AzFramework::SliceInstantiationTicket& ticket, const AZ::EntityId& spawnedEntity) override;
+
 		// GameplayNotificationBus
 		void OnGameplayEventAction(const float& value) override;
 		void OnGameplayEventFailed() override;
 
-	private:
-		void Spawn();
+		void Spawn(AZ::Transform spawnTransform);
 		void Kill();
 
+	private:
 		void TickFlight(float deltaTime, std::stringstream &debug);
 		void TickHover(float deltaTime, std::stringstream &debug);
 		void TickMovement(float deltaTime, std::stringstream &debug);
@@ -79,6 +86,13 @@ namespace DragonCrashController
 			float m_energyRechargeTime;
 			float m_energyRechargeDelay;
 
+			// Projectile attacks
+			AZ::EntityId m_attackSpawnLocation;
+			AZ::Data::Asset<AZ::DynamicPrefabAsset> m_primaryAttackSlice;
+			AZ::Data::Asset<AZ::DynamicPrefabAsset> m_secondaryAttackSlice;
+			float m_primaryAttackCooldown;
+			float m_secondaryAttackCooldown;
+
 		// Inputs
 		float m_inputMainYaw;
 		float m_inputMainPitch;
@@ -96,6 +110,7 @@ namespace DragonCrashController
 		enum States { dead, flight, hover, hover_zoom };
 		int m_currentState;
 		float m_healthCurrent;
+		AZ::Transform m_respawnTransform;
 		float m_respawnTimer;
 		float m_modeSwitchTimer;
 		float m_yaw;
@@ -105,6 +120,8 @@ namespace DragonCrashController
 		float m_energyRemaining;
 		float m_energyRechargeTimer;
 		int m_crystalsCollected;
+		float m_primaryAttackTimer;
+		float m_secondaryAttackTimer;
 
 		// UI values
 		AZ::EntityId m_uiCanvasId;

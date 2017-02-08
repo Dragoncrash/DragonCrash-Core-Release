@@ -1,73 +1,54 @@
-
-
-
-
 projectile = {
 
-properties = {
+	properties = {
 
-}
-
-
+	}
 }
 
 function projectile:OnTick(deltaTime, timePoint)
+	local transform = self.TransformSender:GetWorldTM();
+	local forwardDirection = transform:GetColumn(1);
+	self.PhysicsSender:SetVelocity(forwardDirection * 100);
+	
+	self.lifespan= self.lifespan + deltaTime;
+	--Debug.Log(self.lifespan);
 
---self.PhysicsSender:OnCollision(self.collision);
+	--if 50 seconds pass then delete itself
 
-self.lifespan= self.lifespan + deltaTime;
---Debug.Log(self.lifespan);
-
-
-
-
---if 50 seconds pass then delete itself
-
-if ( self.lifespan>=self.endlife )  then
-Debug.Log("end");
-self.GameEntitySender:DestroyGameEntity(self.entityId);
-end
+	if ( self.lifespan>=self.endlife )  then
+		Debug.Log("end");
+		self.GameEntitySender:DestroyGameEntity(self.entityId);
+	end
 
 end
-
-
-
-
-
 
 function projectile:OnActivate()
+	--tick handler
+	self.tickBusHandler = TickBusHandler(self)
 
+	--Debug.Log("Projectile Activated");
+	
+	-- physics handler
+	self.physicsHandler = PhysicsComponentNotificationBusHandler(self, self.entityId);
 
---tick handler
-self.tickBusHandler = TickBusHandler(self)
+	self.TransformSender = TransformBusSender(self.entityId);
+	
+	 --Make a sender for sending events to the Physics component attached to this entity.
+	self.PhysicsSender = PhysicsComponentRequestBusSender(self.entityId);
+	
+	--GameEntity handler
+	self.GameEntitySender=GameEntityContextRequestBusSender(self.entityId);
+	
+	self.lifespan=0;
+	self.endlife=3;
 
---Debug.Log("Projectile Activated");
+	Debug.Log("test projectile");
 
-LyShineLua.ShowMouseCursor(true);
-
--- physics handler
- self.physicsHandler = PhysicsComponentNotificationBusHandler(self, self.entityId);
-
- --Make a sender for sending events to the Physics component attached to this entity.
-  self.PhysicsSender = PhysicsComponentRequestBusSender(self.entityId);
---GameEntity handler
-self.GameEntitySender=GameEntityContextRequestBusSender(self.entityId);
-
-self.lifespan=0;
-self.endlife=3;
-
-Debug.Log("test projectile");
-
---Debug.Log(self.lifespan);
+	--Debug.Log(self.lifespan);
 end
 
-
-
-
-
-
 function projectile:OnDeactivate()
-Debug.Log("Projectile Deactivated");
+	Debug.Log("Projectile Deactivated");
 
 -- Disconnect our tick notification bus handler
     if (self.tickBusHandler ~= nil) then
@@ -85,6 +66,6 @@ Debug.Log("Projectile Deactivated");
 end
 
 function projectile:OnCollision(collision)
-Debug.Log("collision");
-self.GameEntitySender:DestroyGameEntity(self.entityId);
+	Debug.Log("collision");
+	self.GameEntitySender:DestroyGameEntity(self.entityId);
 end
