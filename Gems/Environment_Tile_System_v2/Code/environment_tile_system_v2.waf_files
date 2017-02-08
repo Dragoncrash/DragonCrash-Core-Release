@@ -7,7 +7,8 @@
     },
     "auto": {
         "Include": [
-            "Include/Environment_Tile_System_v2/EnvTileBus.h"
+            "Include/Environment_Tile_System_v2/EnvTileBus.h",
+			"Include/Environment_Tile_System_v2/WeatherStructs.h"
         ],
         "Source": [
             "Source/EnvTileModule.cpp",

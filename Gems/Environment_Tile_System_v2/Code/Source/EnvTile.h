@@ -5,12 +5,13 @@
 #include <AzCore/Prefab/PrefabAsset.h>
 #include <AzCore/Math/Transform.h>
 #include <algorithm>
-#include <Environment_Tile_System_v2/WeatherStructs.h>
 
-#include <Environment_Tile_System_v2/EnvTileBus.h>
+//#include <Environment_Tile_System_v2/EnvTileBus.h>
+#include "../Include/Environment_Tile_System_v2/EnvTileBus.h"
+
 #include <AzFramework/Entity/EntityContextBus.h>
 #include <AzCore/Component/ComponentBus.h>
-#include <LmbrCentral/Physics/PhysicsSystemComponentBus.h>//May not be necessary here
+//#include <LmbrCentral/Physics/PhysicsSystemComponentBus.h>//May not be necessary here
 
 #define MAX_ADVANCED_CRYSTALS 16
 #define MAX_CASUAL_CRYSTALS 3

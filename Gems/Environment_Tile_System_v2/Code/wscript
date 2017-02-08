@@ -5,5 +5,5 @@ def build(bld):
         # Add custom build options here
         includes    = [bld.Path('Code/CryEngine/CryAction'),
 		  bld.Path('Code/Engine/LmbrCentral/include'),
-		  bld.Path('Gems\DragonCrashCollectibles\Code\Include')],
+		  bld.Path('Gems/DragonCrashCollectibles/Code/Include')],
     )

@@ -46,6 +46,9 @@ namespace DragonCrashController
 		void OnGameplayEventAction(const float& value) override;
 		void OnGameplayEventFailed() override;
 
+		// Controller Bus
+		int getState() override { return m_currentState; }
+
 		void Spawn(AZ::Transform spawnTransform);
 		void Kill();
 
