@@ -81,7 +81,7 @@
 													<Class name="AZStd::string" field="AssetPath" value="fonts/vera.font" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 												</Class>
 											</Class>
-											<Class name="float" field="FontSize" value="40.0000000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
+											<Class name="float" field="FontSize" value="32.0000000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
 											<Class name="unsigned int" field="EffectIndex" value="0" type="{43DA906B-7DEF-4CA8-9790-854106D3F983}"/>
 											<Class name="int" field="TextHAlignment" value="0" type="{72039442-EB38-4D42-A1AD-CB68F7E0EEF6}"/>
 											<Class name="int" field="TextVAlignment" value="0" type="{72039442-EB38-4D42-A1AD-CB68F7E0EEF6}"/>
@@ -147,7 +147,7 @@
 													<Class name="AZStd::string" field="AssetPath" value="fonts/vera.font" type="{EF8FF807-DDEE-4EB0-B678-4CA3A2C490A4}"/>
 												</Class>
 											</Class>
-											<Class name="float" field="FontSize" value="30.0000000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
+											<Class name="float" field="FontSize" value="20.0000000" type="{EA2C3E90-AFBE-44D4-A90D-FAAF79BAF93D}"/>
 											<Class name="unsigned int" field="EffectIndex" value="0" type="{43DA906B-7DEF-4CA8-9790-854106D3F983}"/>
 											<Class name="int" field="TextHAlignment" value="0" type="{72039442-EB38-4D42-A1AD-CB68F7E0EEF6}"/>
 											<Class name="int" field="TextVAlignment" value="0" type="{72039442-EB38-4D42-A1AD-CB68F7E0EEF6}"/>

@@ -39,11 +39,13 @@ namespace DragonCrashController
 		void Spawn();
 		void Kill();
 
-		void TickMovement(float deltaTime);
-		void TickDragonCrash(float deltaTime);
-		void TickShield(float deltaTime);
-		void TickAttack(float deltaTime);
-		void TickDead(float deltaTime);
+		void TickFlight(float deltaTime, std::stringstream &debug);
+		void TickHover(float deltaTime, std::stringstream &debug);
+		void TickMovement(float deltaTime, std::stringstream &debug);
+		void TickDragonCrash(float deltaTime, std::stringstream &debug);
+		void TickShield(float deltaTime, std::stringstream &debug);
+		void TickAttack(float deltaTime, std::stringstream &debug);
+		void TickDead(float deltaTime, std::stringstream &debug);
 
 		void CollisionDragon(Collision collision);
 		void CollisionAttack(Collision collision);
@@ -51,21 +53,31 @@ namespace DragonCrashController
 		void CollisionOther(Collision collision);
 
 		// Editor-exposed settings
-		float m_flightAcceleration;
-		float m_flightMaxSpeed;
-		float m_flightAscendAngle;
-		float m_hoverSpeed;
-		float m_hoverVerticalSpeed;
-		float m_yawTurnSpeed;
-		float m_pitchTurnSpeed;
-		float m_pitchTurnLimit;
-		float m_boostAcceleration;
-		float m_boostMaxSpeed;
-		float m_energyMax;
-		float m_energyRechargeTime;
-		float m_energyRechargeDelay;
-		float m_healthMax;
-		float m_respawnTime;
+			// General
+			float m_healthMax;
+			float m_respawnTime;
+			float m_pitchTurnLimit;
+
+			// Flight mode
+			float m_flightAcceleration;
+			float m_flightMaxSpeed;
+			float m_flightAscendAngle;
+			float m_flightYawTurnSpeed;
+			float m_flightPitchTurnSpeed;
+
+			// Hover mode
+			float m_hoverSpeed;
+			float m_hoverAscendSpeed;
+			float m_hoverYawTurnSpeed;
+			float m_hoverPitchTurnSpeed;
+		
+			// Boosting and energy
+			float m_boostAcceleration;
+			float m_boostMaxSpeed;
+			float m_boostTurnFactor;
+			float m_energyMax;
+			float m_energyRechargeTime;
+			float m_energyRechargeDelay;
 
 		// Inputs
 		float m_inputMainYaw;
@@ -73,22 +85,25 @@ namespace DragonCrashController
 		float m_inputSecondaryYaw;
 		float m_inputSecondaryPitch;
 		float m_inputAscend;
+		bool m_inputModeSwitch;
 		bool m_inputBoost;
 		bool m_inputShield;
 		bool m_inputAim;
 		bool m_inputMainFire;
+		bool m_inputSecondaryFire;
 
 		// State values
 		enum States { dead, flight, hover, hover_zoom };
 		int m_currentState;
+		float m_healthCurrent;
+		float m_respawnTimer;
+		float m_modeSwitchTimer;
 		float m_yaw;
 		float m_pitch;
 		bool m_isBoosting;
 		bool m_isEnergyExhausted;
 		float m_energyRemaining;
 		float m_energyRechargeTimer;
-		float m_healthCurrent;
-		float m_respawnTimer;
 
 		// UI values
 		AZ::EntityId m_uiCanvasId;
