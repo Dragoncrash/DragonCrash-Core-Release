@@ -18,6 +18,7 @@
 !/Gems/DragonCrashCollectibles/**
 !/Gems/Environment_Tile_System_v2/**
 !/Gems/DragonCrashController/**
+!/Gems/DragonCrashGameManager/**
 
 # Remove Save Backups
 _savebackup

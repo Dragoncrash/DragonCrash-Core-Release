@@ -1,0 +1,18 @@
+{
+    "none": {
+        "Source": [
+            "Source/StdAfx.cpp",
+            "Source/StdAfx.h"
+        ]
+    },
+    "auto": {
+        "Include": [
+            "Include/DragonCrashGameManager/DragonCrashGameManagerBus.h"
+        ],
+        "Source": [
+            "Source/DragonCrashGameManagerModule.cpp",
+            "Source/DragonCrashGameManagerSystemComponent.cpp",
+            "Source/DragonCrashGameManagerSystemComponent.h"
+        ]
+    }
+}
