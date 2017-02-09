@@ -542,7 +542,7 @@ namespace DragonCrashController
 		m_uiInfoId = uiInfoEntity->GetId();
 
 		//Attach to Controller Bus
-		DragonCrashRequestBus::Handler::BusConnect(GetEntityId());
+		//DragonCrashControllerRequestBus::Handler::BusConnect(GetEntityId());
 
 		// Set respawn transform to current transform
 		EBUS_EVENT_ID_RESULT(m_respawnTransform, GetEntityId(), AZ::TransformBus, GetWorldTM);

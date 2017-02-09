@@ -15,7 +15,7 @@ namespace DragonCrashController
 		//Primary Bus function for controller is to pass state
 		enum States { dead, flight, hover, hover_zoom };//Expose the state enum for use with manager
 
-		virtual int getState() = 0;
+		//virtual int getState() = 0;
 	};
-	using DragonCrashRequestBus = AZ::EBus<DragonCrashControllerRequests>;
+	using DragonCrashControllerRequestBus = AZ::EBus<DragonCrashControllerRequests>;
 }

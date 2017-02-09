@@ -26,12 +26,6 @@
             "_comment": "DragonCrashCollectibles"
         },
         {
-            "Path": "Gems/DragonCrashGameManager",
-            "Uuid": "4033e814e7914a12890b51838ead3cf9",
-            "Version": "0.1.0",
-            "_comment": "DragonCrashGameManager"
-        },
-        {
             "Path": "Gems/StaticData",
             "Uuid": "4a4bf593603c4f329c76c2a10779311b",
             "Version": "1.0.0",

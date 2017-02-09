@@ -15,7 +15,7 @@ namespace DragonCrashController
 {
 	class DragonCrashControllerComponent
 		: public AZ::Component
-		, protected DragonCrashRequestBus::Handler
+		, protected DragonCrashControllerRequestBus::Handler
 		, public AZ::TickBus::Handler
 		, public LmbrCentral::PhysicsComponentNotificationBus::Handler
 		, public LmbrCentral::SpawnerComponentNotificationBus::Handler
@@ -47,7 +47,7 @@ namespace DragonCrashController
 		void OnGameplayEventFailed() override;
 
 		// Controller Bus
-		int getState() override { return m_currentState; }
+		//int getState() override { return m_currentState; }
 
 		void Spawn(AZ::Transform spawnTransform);
 		void Kill();
