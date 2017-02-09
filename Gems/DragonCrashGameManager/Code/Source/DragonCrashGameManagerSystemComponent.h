@@ -2,13 +2,20 @@
 #pragma once
 
 #include <AzCore/Component/Component.h>
-#include <EnvTile.h>
+/*#include <EnvTile.h>
 #include <DragonCrashControllerComponent.h>
-
+*/
 #include <DragonCrashGameManager/DragonCrashGameManagerBus.h>
-#include <DragonCrashCollectiblesBus.h>
+/*#include <DragonCrashCollectiblesBus.h>
 #include <DragonCrashCollectiblesSystemComponent.h>
-#include <EnvTileBus.h>
+#include <EnvTileBus.h>*/
+
+/*,
+						bld.Path('Gems\Environment_Tile_System_v2\Code\Include\Environment_Tile_System_v2'),
+						bld.Path('Gems\Environment_Tile_System_v2\Code\Source'),
+						bld.Path('Gems\DragonCrashCollectibles\Code\Include\DragonCrashCollectibles'),
+						bld.Path('Gems\DragonCrashCollectibles\Code\Source'),
+						bld.Path('Gems\DragonCrashController\Code\Source')*/
 
 namespace DragonCrashGameManager
 {
