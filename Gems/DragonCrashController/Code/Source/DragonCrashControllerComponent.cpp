@@ -504,6 +504,9 @@ namespace DragonCrashController
 		// Connect to spawner bus
 		LmbrCentral::SpawnerComponentNotificationBus::Handler::BusConnect(GetEntityId());
 
+		//Attach to Controller Bus
+		DragonCrashControllerRequestBus::Handler::BusConnect(GetEntityId());
+
 		// Connect to notification buses to handle input
 		AZ::GameplayNotificationId mainYawEventID(GetEntityId(), "main_yaw");
 		AZ::GameplayNotificationBus<float>::MultiHandler::BusConnect(mainYawEventID);
@@ -540,9 +543,6 @@ namespace DragonCrashController
 		AZ::Entity *uiInfoEntity;
 		EBUS_EVENT_ID_RESULT(uiInfoEntity, tempId, UiCanvasBus, FindElementById, 3);
 		m_uiInfoId = uiInfoEntity->GetId();
-
-		//Attach to Controller Bus
-		//DragonCrashControllerRequestBus::Handler::BusConnect(GetEntityId());
 
 		// Set respawn transform to current transform
 		EBUS_EVENT_ID_RESULT(m_respawnTransform, GetEntityId(), AZ::TransformBus, GetWorldTM);
