@@ -11,7 +11,8 @@ namespace DragonCrashGameManager
 
     public:
         static const AZ::EBusHandlerPolicy HandlerPolicy = AZ::EBusHandlerPolicy::Single;
-        static const AZ::EBusAddressPolicy AddressPolicy = AZ::EBusAddressPolicy::Single;
+        static const AZ::EBusAddressPolicy AddressPolicy = AZ::EBusAddressPolicy::ById;
+		using BusIdType = AZ::EntityId;
         // Public functions
     };
     using DragonCrashGameManagerRequestBus = AZ::EBus<DragonCrashGameManagerRequests>;

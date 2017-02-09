@@ -54,7 +54,7 @@ namespace DragonCrashGameManager
 
     void DragonCrashGameManagerSystemComponent::Activate()
     {
-        DragonCrashGameManagerRequestBus::Handler::BusConnect();
+        DragonCrashGameManagerRequestBus::Handler::BusConnect(GetEntityId());
     }
 
     void DragonCrashGameManagerSystemComponent::Deactivate()
