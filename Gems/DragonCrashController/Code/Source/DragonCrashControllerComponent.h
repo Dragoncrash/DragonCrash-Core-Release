@@ -133,5 +133,8 @@ namespace DragonCrashController
 		AZ::EntityId m_uiCanvasId;
 		AZ::EntityId m_uiStatusId;
 		AZ::EntityId m_uiInfoId;
+
+		//GameManagerId
+		AZ::EntityId GM_Id;
 	};
 }

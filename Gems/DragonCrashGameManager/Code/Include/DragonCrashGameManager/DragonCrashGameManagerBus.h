@@ -2,6 +2,7 @@
 #pragma once
 
 #include <AzCore/EBus/EBus.h>
+#include <AzFramework/Entity/EntityContextBus.h>
 
 namespace DragonCrashGameManager
 {
