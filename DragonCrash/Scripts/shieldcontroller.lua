@@ -42,11 +42,11 @@ end
 function shieldcontroller:OnTick(deltaTime)
 	-- TODO: add shielding logic
 	
-	if(timer > 1000) then
+	if(timer > 2) then
 		self.StateValues.Shield = not self.StateValues.Shield;
 		timer = 0;
 	end
-	timer = timer + 1;
+	timer = timer + deltaTime;
 	
 	if(self.StateValues.Shield) then
 		Debug.Log("yes shield");

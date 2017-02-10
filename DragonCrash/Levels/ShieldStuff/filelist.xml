@@ -1,0 +1,6 @@
+<download name="ShieldStuff" type="Map">
+ <index src="filelist.xml" dest="filelist.xml"/>
+ <files>
+  <file src="level.pak" dest="level.pak" size="39866" md5="cac3fad481b08eac69caaea7c3e8d8cd"/>
+ </files>
+</download>
