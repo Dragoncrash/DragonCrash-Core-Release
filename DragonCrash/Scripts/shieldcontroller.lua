@@ -13,6 +13,10 @@ shieldcontroller =
 	StateValues = 
 	{
 		Shield = true,
+		timer = 0.0,
+		
+	activateScaling = Transform.CreateScale(Vector3(80,80,40)),
+	deactivateScaling = Transform.CreateScale(Vector3(0.01,0.01,0.01)),
 	},
 }
 
@@ -25,11 +29,12 @@ function shieldcontroller:OnActivate()
 	
 		Debug.Log("shield is on");
 
+	self.shieldEventId = GameplayNotificationId(self.entityId, "IShield");
+	self.shieldHandler = FloatGameplayNotificationBusHandler(self, self.shieldId);
+
 	
-	activateScaling = Transform.CreateScale(Vector3(80,80,40));
-	deactivateScaling = Transform.CreateScale(Vector3(0.01,0.01,0.01));
 	self.transformSender:SetLocalTM(activateScaling);
-	timer = 0.0;
+	
 
 end
 
@@ -42,21 +47,40 @@ end
 function shieldcontroller:OnTick(deltaTime)
 	-- TODO: add shielding logic
 	
-	if(timer > 2) then
+	
+	
+	
+	if(self.StateValues.timer > 2.0) then
 		self.StateValues.Shield = not self.StateValues.Shield;
-		timer = 0;
+		self.StateValues.timer = 0.0;
 	end
-	timer = timer + deltaTime;
+	
+	self.StateValues.timer = self.StateValues.timer + deltaTime;
 	
 	if(self.StateValues.Shield) then
 		Debug.Log("yes shield");
-		self.transformSender:SetLocalTM(activateScaling);
+		self.transformSender:SetLocalTM(self.StateValues.activateScaling);
 	end
 	
 	if (not self.StateValues.Shield) then
 		Debug.Log("no shield");
-		self.transformSender:SetLocalTM(deactivateScaling);
+		self.transformSender:SetLocalTM(self.StateValues.deactivateScaling);
 	end
 
 
+end
+
+function shieldcontroller:OnGameplayEventAction(value)
+    if (self.shieldHandler:GetCurrentBusId() == self.shieldId) then    
+        self.InputValues.IShield = value > 0;
+   
+	end
+end
+
+-- handle input events part 2
+function shieldcontroller:OnGameplayEventFailed()
+    if (self.shieldHandler:GetCurrentBusId() == self.shieldId) then    
+        self.InputValues.IShield = false;
+    
+	end
 end
